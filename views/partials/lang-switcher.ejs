@@ -1,0 +1,36 @@
+<div class="lang-switcher" data-lang-switcher>
+  <button
+    type="button"
+    class="lang-switcher__trigger"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-label="<%= ui.header.langAria %>"
+  >
+    <span class="lang-switcher__flag" aria-hidden="true"><%= currentLang.flag %></span>
+    <span class="lang-switcher__code"><%= currentLang.label %></span>
+    <span class="lang-switcher__chevron" aria-hidden="true">
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </button>
+  <ul class="lang-switcher__menu" role="listbox" aria-label="<%= ui.header.langLabel %>" hidden>
+    <% langs.forEach(function(item) { %>
+      <li role="none">
+        <a
+          href="<%= langSwitch(item.code) %>"
+          class="lang-switcher__option<%= item.code === lang ? ' is-active' : '' %>"
+          role="option"
+          aria-selected="<%= item.code === lang ? 'true' : 'false' %>"
+          data-lang="<%= item.code %>"
+          data-lang-link
+          lang="<%= item.code %>"
+        >
+          <span class="lang-switcher__option-flag" aria-hidden="true"><%= item.flag %></span>
+          <span class="lang-switcher__option-name"><%= item.name %></span>
+          <span class="lang-switcher__option-code"><%= item.label %></span>
+        </a>
+      </li>
+    <% }) %>
+  </ul>
+</div>

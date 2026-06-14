@@ -1,0 +1,10 @@
+<section class="section error-page">
+  <div class="section__inner">
+    <div class="error-page__content">
+      <span class="error-page__code"><%= pageId === 'error' ? '500' : '404' %></span>
+      <h1><%= pageId === 'error' ? ui.notFound.errorTitle : ui.notFound.title %></h1>
+      <p><%= typeof message !== 'undefined' ? message : ui.notFound.defaultMsg %></p>
+      <a href="/" class="btn btn--primary"><%= ui.notFound.homeBtn %></a>
+    </div>
+  </div>
+</section>

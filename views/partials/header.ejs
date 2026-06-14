@@ -1,0 +1,28 @@
+<header class="header" style="view-transition-name: site-header">
+  <a href="/" class="logo" aria-label="<%= ui.header.logoAria %>">
+    <%- include('./logo') %>
+  </a>
+
+  <nav class="nav" aria-label="<%= ui.header.navAria %>">
+    <% site.nav.forEach(function(item) { %>
+      <a
+        href="<%= item.href %>"
+        class="nav__link<%= pageId === item.id ? ' nav__link--active' : '' %>"
+      >
+        <%= item.label %>
+      </a>
+    <% }) %>
+  </nav>
+
+  <div class="header__actions">
+    <%- include('./lang-switcher') %>
+    <a href="/kontakt" class="btn btn--primary header__cta<%= pageId === 'contact' ? ' btn--active' : '' %>">
+      <%= ui.common.askQuote %>
+    </a>
+  </div>
+
+  <button class="menu-toggle" aria-label="<%= ui.header.menuOpen %>" aria-expanded="false">
+    <span></span>
+    <span></span>
+  </button>
+</header>

@@ -1,0 +1,38 @@
+<%-
+  include('../partials/page-hero', {
+    breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.services.breadcrumb }],
+    pageLabel: ui.services.pageLabel,
+    pageTitle: ui.services.pageTitle,
+    pageDesc: ui.services.pageDesc
+  })
+%>
+
+<section class="section">
+  <div class="section__inner">
+    <div class="services-grid">
+      <% services.forEach(function(service, i) { %>
+        <a href="/uslugi/<%= service.slug %>" class="service-card">
+          <div class="service-card__bg" style="background-image: url('<%= service.image %>')"></div>
+          <div class="service-card__content">
+            <span class="service-card__num"><%= service.num %></span>
+            <h3><%= service.title %></h3>
+            <p><%= service.shortDesc %></p>
+            <span class="card-link"><%= ui.services.detailsLink %></span>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="section__inner">
+    <div class="info-block">
+      <h2><%= ui.services.consultTitle %></h2>
+      <p><%= ui.services.consultDesc %></p>
+      <a href="/kontakt" class="btn btn--primary"><%= ui.services.consultBtn %></a>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/cta-banner') %>

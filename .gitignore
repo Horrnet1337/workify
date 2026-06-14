@@ -1,0 +1,8 @@
+node_modules/
+.tools/
+.env
+git.env
+*.log
+.DS_Store
+workify-deploy.zip
+workify.zip

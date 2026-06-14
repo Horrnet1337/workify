@@ -1,0 +1,33 @@
+<%-
+  include('../partials/page-hero', {
+    breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.faq.breadcrumb }],
+    pageLabel: ui.faq.pageLabel,
+    pageTitle: ui.faq.pageTitle,
+    pageDesc: ui.faq.pageDesc
+  })
+%>
+
+<section class="section">
+  <div class="section__inner">
+    <div class="faq-list">
+      <% faqItems.forEach(function(item, i) { %>
+        <details class="faq-item" <%= i === 0 ? 'open' : '' %>>
+          <summary><%= item.q %></summary>
+          <p><%= item.a %></p>
+        </details>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="section__inner">
+    <div class="info-block">
+      <h2><%= ui.faq.notFoundTitle %></h2>
+      <p><%= ui.faq.notFoundDesc %></p>
+      <a href="/kontakt" class="btn btn--primary"><%= ui.common.contactUs %></a>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/cta-banner') %>

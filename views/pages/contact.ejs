@@ -1,0 +1,109 @@
+<%-
+  include('../partials/page-hero', {
+    breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.contact.breadcrumb }],
+    pageLabel: ui.contact.pageLabel,
+    pageTitle: ui.contact.pageTitle,
+    pageDesc: ui.contact.pageDesc
+  })
+%>
+
+<section class="section">
+  <div class="section__inner">
+    <% if (sent) { %>
+      <div class="alert alert--success" role="status">
+        <%= ui.contact.success %>
+      </div>
+    <% } %>
+
+    <div class="contact">
+      <div class="contact__info">
+        <div class="contact__details">
+          <a href="mailto:<%= site.contact.email %>" class="contact__link">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M2 6l8 5 8-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <%= site.contact.email %>
+          </a>
+          <a href="tel:<%= site.contact.phone.replace(/\s/g, '') %>" class="contact__link">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 3h3l1.5 4-2 1.5a11 11 0 0 0 5 5L15 11.5 19 13v3a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <%= site.contact.phoneDisplay %>
+          </a>
+          <p class="contact__hours"><%= ui.contact.hours %> <%= site.contact.hours %></p>
+        </div>
+
+        <div class="contact__addresses">
+          <p><strong>🇵🇱 <%= ui.contact.poland %></strong> <%= site.contact.address.pl %></p>
+          <p><strong>🇩🇪 <%= ui.contact.germany %></strong> <%= site.contact.address.de %></p>
+        </div>
+      </div>
+
+      <form class="contact__form" id="contact-form" method="POST" action="/kontakt" novalidate>
+        <% if (errors.length) { %>
+          <div class="alert alert--error" role="alert">
+            <ul>
+              <% errors.forEach(function(err) { %>
+                <li><%= err.msg %></li>
+              <% }) %>
+            </ul>
+          </div>
+        <% } %>
+
+        <div class="form-row">
+          <label class="form-field">
+            <span><%= ui.contact.name %></span>
+            <input type="text" name="name" required placeholder="<%= ui.contact.namePlaceholder %>" value="<%= formData.name || '' %>">
+          </label>
+          <label class="form-field">
+            <span><%= ui.contact.company %></span>
+            <input type="text" name="company" required placeholder="<%= ui.contact.companyPlaceholder %>" value="<%= formData.company || '' %>">
+          </label>
+        </div>
+        <div class="form-row">
+          <label class="form-field">
+            <span><%= ui.contact.email %></span>
+            <input type="email" name="email" required placeholder="<%= ui.contact.emailPlaceholder %>" value="<%= formData.email || '' %>">
+          </label>
+          <label class="form-field">
+            <span><%= ui.contact.phone %></span>
+            <input type="tel" name="phone" placeholder="<%= ui.contact.phonePlaceholder %>" value="<%= formData.phone || '' %>">
+          </label>
+        </div>
+        <label class="form-field">
+          <span><%= ui.contact.service %></span>
+          <select name="service">
+            <option value=""><%= ui.contact.servicePlaceholder %></option>
+            <% services.forEach(function(s) { %>
+              <option value="<%= s.title %>" <%= (formData.service === s.title || (typeof query !== 'undefined' && query.service === s.title)) ? 'selected' : '' %>><%= s.title %></option>
+            <% }) %>
+          </select>
+        </label>
+        <label class="form-field">
+          <span><%= ui.contact.message %></span>
+          <textarea name="message" rows="4" required placeholder="<%= ui.contact.messagePlaceholder %>"><%= formData.message || '' %></textarea>
+        </label>
+        <button type="submit" class="btn btn--primary btn--full"><%= ui.contact.submit %></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var service = params.get('service');
+    if (service) {
+      var select = document.querySelector('select[name="service"]');
+      if (select) {
+        for (var i = 0; i < select.options.length; i++) {
+          if (select.options[i].value === service) {
+            select.selectedIndex = i;
+            break;
+          }
+        }
+      }
+    }
+  })();
+</script>

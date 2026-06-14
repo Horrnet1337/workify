@@ -1,0 +1,23 @@
+<section class="page-hero">
+  <div class="page-hero__inner">
+    <% if (typeof breadcrumbs !== 'undefined' && breadcrumbs.length) { %>
+      <nav class="breadcrumbs" aria-label="<%= ui.common.breadcrumbsAria %>">
+        <% breadcrumbs.forEach(function(crumb, i) { %>
+          <% if (i > 0) { %><span class="breadcrumbs__sep">/</span><% } %>
+          <% if (crumb.href) { %>
+            <a href="<%= crumb.href %>"><%= crumb.label %></a>
+          <% } else { %>
+            <span aria-current="page"><%= crumb.label %></span>
+          <% } %>
+        <% }) %>
+      </nav>
+    <% } %>
+    <% if (typeof pageLabel !== 'undefined') { %>
+      <span class="section__label"><%= pageLabel %></span>
+    <% } %>
+    <h1 class="page-hero__title"><%= pageTitle %></h1>
+    <% if (typeof pageDesc !== 'undefined') { %>
+      <p class="page-hero__desc"><%= pageDesc %></p>
+    <% } %>
+  </div>
+</section>

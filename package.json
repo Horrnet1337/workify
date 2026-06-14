@@ -1,0 +1,20 @@
+{
+  "name": "workify",
+  "version": "1.0.0",
+  "description": "Workify — agencja pracy tymczasowej. Strona dla klientów B2B.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "compression": "^1.8.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.0.0"
+  }
+}

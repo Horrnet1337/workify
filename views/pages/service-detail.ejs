@@ -1,0 +1,49 @@
+<%-
+  include('../partials/page-hero', {
+    breadcrumbs: [
+      { label: ui.common.home, href: '/' },
+      { label: ui.serviceDetail.breadcrumbServices, href: '/uslugi' },
+      { label: service.title }
+    ],
+    pageLabel: ui.serviceDetail.serviceLabel,
+    pageTitle: service.title,
+    pageDesc: service.shortDesc
+  })
+%>
+
+<section class="section">
+  <div class="section__inner detail-layout">
+    <div class="detail-main">
+      <% if (service.image) { %>
+        <div class="detail-visual detail-visual--photo" style="background-image: url('<%= service.image %>')"></div>
+      <% } %>
+      <p class="detail-lead"><%= service.desc %></p>
+
+      <h2><%= ui.serviceDetail.benefits %></h2>
+      <ul class="benefit-list">
+        <% service.benefits.forEach(function(benefit) { %>
+          <li><%= benefit %></li>
+        <% }) %>
+      </ul>
+
+      <div class="detail-actions">
+        <a href="/kontakt?service=<%= encodeURIComponent(service.title) %>" class="btn btn--primary"><%= ui.serviceDetail.askService %></a>
+        <a href="/jak-dzialamy" class="btn btn--ghost"><%= ui.serviceDetail.howCoop %></a>
+      </div>
+    </div>
+
+    <% if (related.length) { %>
+      <aside class="detail-sidebar">
+        <h3><%= ui.serviceDetail.otherServices %></h3>
+        <% related.forEach(function(item) { %>
+          <a href="/uslugi/<%= item.slug %>" class="sidebar-link">
+            <strong><%= item.title %></strong>
+            <span><%= item.shortDesc %></span>
+          </a>
+        <% }) %>
+      </aside>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/cta-banner') %>
