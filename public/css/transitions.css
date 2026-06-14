@@ -79,7 +79,8 @@ body.is-navigating .page-transition-overlay {
 [data-lang-stage] {
   position: relative;
   width: 100%;
-  overflow-x: clip;
+  max-width: 100%;
+  overflow-x: hidden;
   isolation: isolate;
   transform: translateZ(0);
 }
@@ -120,9 +121,15 @@ body.lang-switching main {
   top: 0;
   left: 0;
   width: 100%;
+  max-width: 100%;
   min-height: 100vh;
   z-index: 2;
   transform: translate3d(100%, 0, 0);
+  pointer-events: none;
+}
+
+body.lang-switching .page-slide--incoming {
+  pointer-events: auto;
 }
 
 .page-slide--outgoing {

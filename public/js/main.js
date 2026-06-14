@@ -5,12 +5,8 @@
   var SLIDE_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
   var langCache = window.__workifyLangCache || (window.__workifyLangCache = new Map());
 
-  function isMobileView() {
-    return window.matchMedia('(max-width: 900px)').matches;
-  }
-
   function slideDistance() {
-    return isMobileView() ? '100vw' : '100%';
+    return '100%';
   }
 
   function runCrossSlide(outgoing, incoming) {
