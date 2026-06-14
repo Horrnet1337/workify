@@ -1412,8 +1412,9 @@ img {
     width: auto;
     max-width: none;
     transform: none;
-    padding: 0 8px 0 12px;
+    padding: 0 6px 0 10px;
     z-index: 1001;
+    overflow: visible;
   }
 
   .nav-backdrop {
@@ -1489,8 +1490,9 @@ img {
     flex-direction: column;
     gap: 12px;
     margin-top: auto;
-    padding: 20px 20px 0;
+    padding: 20px 20px 8px;
     border-top: 1px solid var(--gray-100);
+    flex-shrink: 0;
   }
 
   .nav__drawer-label {
@@ -1504,7 +1506,7 @@ img {
 
   .nav__lang-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
   }
 
@@ -1514,8 +1516,9 @@ img {
     align-items: center;
     justify-content: center;
     gap: 4px;
+    min-width: 0;
     min-height: 56px;
-    padding: 8px 4px;
+    padding: 8px 2px;
     border-radius: 10px;
     border: 1px solid var(--gray-100);
     background: var(--gray-50);
@@ -1540,20 +1543,38 @@ img {
     line-height: 1;
   }
 
+  .nav__lang-btn-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .nav__drawer-cta {
     width: 100%;
     margin-top: 4px;
   }
 
   .header__lang-desktop {
-    display: none;
+    display: block;
+  }
+
+  .header__lang-desktop .lang-switcher__trigger {
+    height: 36px;
+    padding: 0 10px;
+    gap: 5px;
+  }
+
+  .header__lang-desktop .lang-switcher__code {
+    font-size: 0.75rem;
   }
 
   .header__actions {
     display: flex;
     margin-left: auto;
-    margin-right: 2px;
-    gap: 0;
+    margin-right: 0;
+    gap: 6px;
+    overflow: visible;
   }
 
   .header__cta {
@@ -1574,6 +1595,9 @@ img {
     right: 12px;
     bottom: max(12px, env(safe-area-inset-bottom));
     min-width: 0;
+    max-height: min(360px, 70vh);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     z-index: 1003;
     transform: translateY(12px) scale(0.98);
   }
@@ -1585,6 +1609,14 @@ img {
   .hero {
     min-height: 520px;
     padding-bottom: 48px;
+    overflow: visible;
+  }
+
+  .hero__container,
+  .hero__industries {
+    overflow: visible;
+    position: relative;
+    z-index: 5;
   }
 
   .hero__title {
@@ -1598,7 +1630,11 @@ img {
 
   .industry-picker {
     flex-direction: column;
-    overflow: hidden;
+    overflow: visible;
+  }
+
+  .industry-picker__field {
+    overflow: visible;
   }
 
   .industry-picker__field::after {
@@ -1614,10 +1650,18 @@ img {
     display: none;
   }
 
-  .industry-picker__menu {
-    left: -1px;
-    right: -1px;
-    max-height: min(280px, 50vh);
+  .industry-picker__dropdown.is-open .industry-picker__menu {
+    position: fixed;
+    top: auto;
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: auto;
+    max-height: min(320px, 55vh);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 1100;
+    box-shadow: 0 24px 64px rgba(12, 45, 74, 0.22);
   }
 
   .home-cta {
