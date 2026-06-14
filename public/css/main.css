@@ -1305,6 +1305,23 @@ img {
   margin: 0;
 }
 
+.footer__bottom-extra {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer__admin {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.footer__admin:hover {
+  color: var(--teal-light);
+}
+
 /* ── Powered by Kappa Studio ── */
 .powered-by {
   display: inline-flex;
@@ -1561,25 +1578,11 @@ img {
   }
 
   .header__lang-desktop {
-    display: block;
-  }
-
-  .header__lang-desktop .lang-switcher__trigger {
-    height: 36px;
-    padding: 0 10px;
-    gap: 5px;
-  }
-
-  .header__lang-desktop .lang-switcher__code {
-    font-size: 0.75rem;
+    display: none;
   }
 
   .header__actions {
-    display: flex;
-    margin-left: auto;
-    margin-right: 0;
-    gap: 6px;
-    overflow: visible;
+    display: none;
   }
 
   .header__cta {
@@ -1591,24 +1594,6 @@ img {
     z-index: 1002;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-  }
-
-  .lang-switcher__menu {
-    position: fixed;
-    top: auto;
-    left: 12px;
-    right: 12px;
-    bottom: max(12px, env(safe-area-inset-bottom));
-    min-width: 0;
-    max-height: min(360px, 70vh);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    z-index: 1003;
-    transform: translateY(12px) scale(0.98);
-  }
-
-  .lang-switcher.is-open .lang-switcher__menu {
-    transform: translateY(0) scale(1);
   }
 
   .hero {

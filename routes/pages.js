@@ -4,6 +4,7 @@ const { body, validationResult } = require('express-validator');
 const clients = require('../data/clients');
 const { codes } = require('../locales');
 const { setLangCookie } = require('../middleware/locale');
+const { addLead } = require('../lib/leadsStore');
 
 const router = express.Router();
 
@@ -179,7 +180,7 @@ router.post('/kontakt', (req, res, next) => {
   Promise.all(validators.map((v) => v.run(req)))
     .then(() => next())
     .catch(next);
-}, (req, res) => {
+}, async (req, res, next) => {
   const loc = req.loc;
   const errors = validationResult(req);
 
@@ -195,11 +196,20 @@ router.post('/kontakt', (req, res, next) => {
     });
   }
 
-  console.log('[Kontakt]', {
-    ...req.body,
-    lang: req.lang,
-    date: new Date().toISOString(),
-  });
+  try {
+    await addLead({
+      name: req.body.name,
+      company: req.body.company,
+      email: req.body.email,
+      phone: req.body.phone,
+      service: req.body.service,
+      message: req.body.message,
+      lang: req.lang,
+      ip: req.ip,
+    });
+  } catch (err) {
+    console.error('[Kontakt] save failed', err);
+  }
 
   res.redirect('/kontakt?sent=1');
 });

@@ -23,7 +23,11 @@
    - **Start Command:** `npm start`
 5. После деплоя в **Environment** добавьте:
    - `SITE_URL` = `https://ваш-сервис.onrender.com`
+   - `ADMIN_PASSWORD` = надёжный пароль для панели `/admin`
+   - `ADMIN_SECRET` — Render может сгенерировать сам (для cookie сессии)
 6. Получите ссылку вида `https://workify-xxxx.onrender.com`
+
+> **Панель заявок:** `/admin` (ссылка «Panel» в футере). Все отправки формы `/kontakt` сохраняются в `data/leads.json`. На бесплатном Render диск эфемерный — при redeploy данные могут сброситься.
 
 > На бесплатном тарифе сервис «засыпает» без посещений ~15 мин. Первый заход после паузы — 30–60 сек.
 

@@ -6,10 +6,13 @@ const helmet = require('helmet');
 const localsMiddleware = require('./middleware/locals');
 const errorHandler = require('./middleware/errorHandler');
 const pagesRouter = require('./routes/pages');
+const adminRouter = require('./routes/admin');
 const site = require('./config/site');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.set('trust proxy', 1);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -37,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(localsMiddleware);
 app.use(require('./middleware/locale'));
+app.use(adminRouter);
 app.use(pagesRouter);
 app.use(errorHandler);
 

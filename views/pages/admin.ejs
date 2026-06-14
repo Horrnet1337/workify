@@ -1,0 +1,83 @@
+<div class="admin-shell">
+  <header class="admin-bar">
+    <div class="admin-bar__brand">
+      <a href="/" class="admin-bar__logo">
+        <img src="/images/logo.png" alt="Workify" width="96" height="32">
+      </a>
+      <div>
+        <strong class="admin-bar__title">Panel zapytań</strong>
+        <span class="admin-bar__meta"><%= total %> <%= total === 1 ? 'zapytanie' : (total >= 2 && total <= 4 ? 'zapytania' : 'zapytań') %></span>
+      </div>
+    </div>
+    <div class="admin-bar__actions">
+      <a href="/kontakt" class="btn btn--ghost btn--sm" target="_blank" rel="noopener">Formularz</a>
+      <form method="POST" action="/admin/logout">
+        <button type="submit" class="btn btn--ghost btn--sm">Wyloguj</button>
+      </form>
+    </div>
+  </header>
+
+  <% if (deleted) { %>
+    <div class="admin-alert admin-alert--success" role="status">Zapytanie zostało usunięte.</div>
+  <% } %>
+
+  <main class="admin-main">
+    <% if (!leads.length) { %>
+      <div class="admin-empty">
+        <div class="admin-empty__icon" aria-hidden="true">📭</div>
+        <h2>Brak zapytań</h2>
+        <p>Gdy ktoś wyśle formularz kontaktowy, pojawi się tutaj automatycznie.</p>
+        <a href="/kontakt" class="btn btn--primary">Otwórz formularz</a>
+      </div>
+    <% } else { %>
+      <div class="admin-leads">
+        <% leads.forEach(function(lead) { %>
+          <article class="admin-lead">
+            <div class="admin-lead__head">
+              <div>
+                <h2 class="admin-lead__name"><%= lead.name %></h2>
+                <p class="admin-lead__company"><%= lead.company %></p>
+              </div>
+              <div class="admin-lead__meta">
+                <time datetime="<%= lead.createdAt %>"><%= new Date(lead.createdAt).toLocaleString('pl-PL') %></time>
+                <span class="admin-lead__lang"><%= lead.lang.toUpperCase() %></span>
+              </div>
+            </div>
+
+            <dl class="admin-lead__grid">
+              <div>
+                <dt>E-mail</dt>
+                <dd><a href="mailto:<%= lead.email %>"><%= lead.email %></a></dd>
+              </div>
+              <% if (lead.phone) { %>
+                <div>
+                  <dt>Telefon</dt>
+                  <dd><a href="tel:<%= lead.phone.replace(/\s/g, '') %>"><%= lead.phone %></a></dd>
+                </div>
+              <% } %>
+              <% if (lead.service) { %>
+                <div>
+                  <dt>Usługa</dt>
+                  <dd><%= lead.service %></dd>
+                </div>
+              <% } %>
+            </dl>
+
+            <div class="admin-lead__message">
+              <span class="admin-lead__message-label">Wiadomość</span>
+              <p><%= lead.message %></p>
+            </div>
+
+            <form class="admin-lead__delete" method="POST" action="/admin/leads/<%= lead.id %>/delete" onsubmit="return confirm('Usunąć to zapytanie?');">
+              <button type="submit" class="btn btn--ghost btn--sm admin-lead__delete-btn">Usuń</button>
+            </form>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
+
+  <footer class="admin-foot">
+    <p>Workify Admin · dane z formularza <a href="/kontakt">/kontakt</a></p>
+  </footer>
+</div>

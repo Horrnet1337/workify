@@ -30,6 +30,9 @@
   </div>
   <div class="footer__bottom">
     <p>&copy; <%= year %> <%= site.name %>. <%= ui.footer.rights %></p>
-    <%- include('./powered-by') %>
+    <div class="footer__bottom-extra">
+      <a href="/admin/login" class="footer__admin">Panel</a>
+      <%- include('./powered-by') %>
+    </div>
   </div>
 </footer>

@@ -6,3 +6,4 @@ git.env
 .DS_Store
 workify-deploy.zip
 workify.zip
+data/leads.json
