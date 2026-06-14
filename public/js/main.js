@@ -234,6 +234,13 @@
     });
   }
 
+  function syncHeaderFromDoc(doc) {
+    var currentHeader = document.querySelector('header.header');
+    var newHeader = doc.querySelector('header.header');
+    if (!currentHeader || !newHeader) return;
+    currentHeader.innerHTML = newHeader.innerHTML;
+  }
+
   async function switchLanguage(link) {
     if (window.__workifyLangBusy) return;
 
@@ -287,6 +294,8 @@
     document.documentElement.lang = payload.doc.documentElement.lang;
     document.title = payload.doc.title;
     document.body.className = payload.doc.body.className + ' lang-switching';
+
+    syncHeaderFromDoc(payload.doc);
 
     void incoming.offsetWidth;
 

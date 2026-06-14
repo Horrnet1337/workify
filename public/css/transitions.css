@@ -82,7 +82,6 @@ body.is-navigating .page-transition-overlay {
   max-width: 100%;
   overflow-x: hidden;
   isolation: isolate;
-  transform: translateZ(0);
 }
 
 .page-slide {
