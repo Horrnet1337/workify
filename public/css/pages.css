@@ -664,4 +664,25 @@ main {
   .form-row {
     grid-template-columns: 1fr;
   }
+
+  .page-hero {
+    padding-top: 100px;
+    padding-bottom: 40px;
+  }
+
+  .page-hero__title {
+    font-size: clamp(1.625rem, 6vw, 2rem);
+  }
+
+  .contact-form {
+    padding: 20px 16px;
+  }
+
+  .locations-map-wrap {
+    min-height: 280px;
+  }
+
+  #locations-map {
+    min-height: 280px;
+  }
 }

@@ -5,7 +5,16 @@
   var SLIDE_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
   var langCache = window.__workifyLangCache || (window.__workifyLangCache = new Map());
 
+  function isMobileView() {
+    return window.matchMedia('(max-width: 900px)').matches;
+  }
+
+  function slideDistance() {
+    return isMobileView() ? '100vw' : '100%';
+  }
+
   function runCrossSlide(outgoing, incoming) {
+    var dist = slideDistance();
     var opts = { duration: SLIDE_MS, easing: SLIDE_EASE, fill: 'forwards' };
 
     outgoing.style.willChange = 'transform';
@@ -14,14 +23,14 @@
     var outAnim = outgoing.animate(
       [
         { transform: 'translate3d(0, 0, 0)' },
-        { transform: 'translate3d(-100%, 0, 0)' },
+        { transform: 'translate3d(-' + dist + ', 0, 0)' },
       ],
       opts
     );
 
     var inAnim = incoming.animate(
       [
-        { transform: 'translate3d(100%, 0, 0)' },
+        { transform: 'translate3d(' + dist + ', 0, 0)' },
         { transform: 'translate3d(0, 0, 0)' },
       ],
       opts
@@ -62,28 +71,25 @@
     fetchLangPage(href).catch(function () { /* ignore */ });
   }
 
-  function initMobileMenu() {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('.nav');
+  function openMobileMenu() {
+    document.body.classList.add('menu-open');
+    var toggle = document.querySelector('.menu-toggle');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+  }
 
-    if (!menuToggle || !nav || menuToggle.dataset.bound === '1') return;
+  function closeMobileMenu() {
+    document.body.classList.remove('menu-open');
+    var toggle = document.querySelector('.menu-toggle');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
 
-    menuToggle.dataset.bound = '1';
-
-    menuToggle.addEventListener('click', function () {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', String(!expanded));
-      nav.classList.toggle('is-open');
-      document.body.style.overflow = expanded ? '' : 'hidden';
-    });
-
-    nav.querySelectorAll('.nav__link').forEach(function (link) {
-      link.addEventListener('click', function () {
-        menuToggle.setAttribute('aria-expanded', 'false');
-        nav.classList.remove('is-open');
-        document.body.style.overflow = '';
-      });
-    });
+  function toggleMobileMenu() {
+    if (document.body.classList.contains('menu-open')) {
+      closeMobileMenu();
+    } else {
+      closeLangSwitchers();
+      openMobileMenu();
+    }
   }
 
   function initIndustryPicker() {
@@ -251,6 +257,7 @@
       return;
     }
 
+    closeMobileMenu();
     closeLangSwitchers();
     window.__workifyLangBusy = true;
     document.body.classList.add('lang-switching');
@@ -301,18 +308,32 @@
     const url = new URL(payload.url, window.location.origin);
     window.history.replaceState({ lang: true }, '', url.pathname + url.search);
 
-    initMobileMenu();
     initIndustryPicker();
     document.dispatchEvent(new CustomEvent('workify:page-updated'));
 
     window.__workifyLangBusy = false;
   }
 
-  function initLangSwitchDelegation() {
-    if (window.__workifyLangDelegation) return;
-    window.__workifyLangDelegation = true;
+  function initUiDelegation() {
+    if (window.__workifyUiDelegation) return;
+    window.__workifyUiDelegation = true;
 
     document.addEventListener('click', function (e) {
+      if (e.target.closest('.menu-toggle')) {
+        e.preventDefault();
+        toggleMobileMenu();
+        return;
+      }
+
+      if (e.target.closest('[data-nav-close]')) {
+        closeMobileMenu();
+        return;
+      }
+
+      if (e.target.closest('.nav__link')) {
+        closeMobileMenu();
+      }
+
       const trigger = e.target.closest('.lang-switcher__trigger');
       if (trigger) {
         e.preventDefault();
@@ -345,7 +366,10 @@
     });
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeLangSwitchers();
+      if (e.key === 'Escape') {
+        closeLangSwitchers();
+        closeMobileMenu();
+      }
     });
 
     document.addEventListener('mouseover', function (e) {
@@ -353,9 +377,14 @@
       if (!link) return;
       prefetchLangPage(link.href);
     });
+
+    document.addEventListener('touchstart', function (e) {
+      const link = e.target.closest('[data-lang-link]');
+      if (!link) return;
+      prefetchLangPage(link.href);
+    }, { passive: true });
   }
 
-  initMobileMenu();
   initIndustryPicker();
-  initLangSwitchDelegation();
+  initUiDelegation();
 })();

@@ -33,10 +33,31 @@
       }
     });
 
+    var currentLangBtns = document.querySelectorAll('.nav__lang-btn');
+    var newLangBtns = doc.querySelectorAll('.nav__lang-btn');
+    currentLangBtns.forEach(function (btn, index) {
+      if (newLangBtns[index]) {
+        btn.className = newLangBtns[index].className;
+        btn.href = newLangBtns[index].href;
+      }
+    });
+
+    var currentSwitcher = document.querySelector('[data-lang-switcher]');
+    var newSwitcher = doc.querySelector('[data-lang-switcher]');
+    if (currentSwitcher && newSwitcher) {
+      currentSwitcher.innerHTML = newSwitcher.innerHTML;
+    }
+
     var currentCta = document.querySelector('.header__cta');
     var newCta = doc.querySelector('.header__cta');
     if (currentCta && newCta) {
       currentCta.className = newCta.className;
+    }
+
+    var drawerCta = document.querySelector('.nav__drawer-cta');
+    var newDrawerCta = doc.querySelector('.nav__drawer-cta');
+    if (drawerCta && newDrawerCta) {
+      drawerCta.className = newDrawerCta.className;
     }
   }
 
