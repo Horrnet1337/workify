@@ -1,74 +1,112 @@
-<header class="header liquid-glass" style="view-transition-name: site-header">
-  <div class="header__overlay lg-overlay-bg" aria-hidden="true"></div>
-
-  <div class="header__inner lg-content">
-    <a href="/" class="logo" aria-label="<%= ui.header.logoAria %>">
-      <%- include('./logo') %>
-    </a>
-
-    <nav class="nav" aria-label="<%= ui.header.navAria %>" id="site-nav">
-      <div class="nav__links">
-        <% site.nav.forEach(function(item) { %>
-          <a
-            href="<%= item.href %>"
-            class="nav__link<%= pageId === item.id ? ' nav__link--active' : '' %>"
-          >
-            <%= item.label %>
-          </a>
-        <% }) %>
-      </div>
-
-      <div class="nav__drawer-footer">
-        <p class="nav__drawer-label"><%= ui.header.langLabel %></p>
-        <div class="nav__lang-grid" role="list">
-          <% langs.forEach(function(item) { %>
-            <a
-              href="<%= langSwitch(item.code) %>"
-              class="nav__lang-btn<%= item.code === lang ? ' is-active' : '' %>"
-              data-lang-link
-              data-lang="<%= item.code %>"
-              lang="<%= item.code %>"
-              role="listitem"
-            >
-              <%- include('./lang-flag', { code: item.code, extraClass: 'nav__lang-btn-flag' }) %>
-              <span class="nav__lang-btn-label"><%= item.label %></span>
-            </a>
-          <% }) %>
-        </div>
-        <a href="/kontakt" class="btn btn--primary nav__drawer-cta<%= pageId === 'contact' ? ' btn--active' : '' %>">
-          <%= ui.common.askQuote %>
-        </a>
-      </div>
-    </nav>
-
-    <div class="header__actions">
-      <div class="header__lang-desktop">
-        <%- include('./lang-switcher') %>
-      </div>
-      <a href="/kontakt" class="btn btn--primary header__cta<%= pageId === 'contact' ? ' btn--active' : '' %>">
-        <%= ui.common.askQuote %>
-      </a>
-    </div>
-
-    <button type="button" class="menu-toggle" aria-label="<%= ui.header.menuOpen %>" aria-expanded="false" aria-controls="site-nav">
-      <span></span>
-      <span></span>
-    </button>
-
-    <div class="nav-backdrop" data-nav-close aria-hidden="true"></div>
-  </div>
-
-  <div class="lg-filter-layer" aria-hidden="true">
-    <div
-      id="liquid-glass"
-      class="header__glass glass-box glass-transparent"
-      data-blur="8"
-      data-cab="2"
-      data-depth="18"
-      data-strength="110"
-      data-saturate="1.7"
-      data-brightness="1.14"
-    ></div>
-  </div>
-</header>
-
+﻿<header class="header" style="view-transition-name: site-header">
+
+  <a href="/" class="logo" aria-label="<%= ui.header.logoAria %>">
+
+    <%- include('./logo') %>
+
+  </a>
+
+
+
+  <nav class="nav" aria-label="<%= ui.header.navAria %>" id="site-nav">
+
+    <div class="nav__links">
+
+      <% site.nav.forEach(function(item) { %>
+
+        <a
+
+          href="<%= item.href %>"
+
+          class="nav__link<%= pageId === item.id ? ' nav__link--active' : '' %>"
+
+        >
+
+          <%= item.label %>
+
+        </a>
+
+      <% }) %>
+
+    </div>
+
+
+
+    <div class="nav__drawer-footer">
+
+      <p class="nav__drawer-label"><%= ui.header.langLabel %></p>
+
+      <div class="nav__lang-grid" role="list">
+
+        <% langs.forEach(function(item) { %>
+
+          <a
+
+            href="<%= langSwitch(item.code) %>"
+
+            class="nav__lang-btn<%= item.code === lang ? ' is-active' : '' %>"
+
+            data-lang-link
+
+            data-lang="<%= item.code %>"
+
+            lang="<%= item.code %>"
+
+            role="listitem"
+
+          >
+
+            <%- include('./lang-flag', { code: item.code, extraClass: 'nav__lang-btn-flag' }) %>
+
+            <span class="nav__lang-btn-label"><%= item.label %></span>
+
+          </a>
+
+        <% }) %>
+
+      </div>
+
+      <a href="/kontakt" class="btn btn--primary nav__drawer-cta<%= pageId === 'contact' ? ' btn--active' : '' %>">
+
+        <%= ui.common.askQuote %>
+
+      </a>
+
+    </div>
+
+  </nav>
+
+
+
+  <div class="header__actions">
+
+    <div class="header__lang-desktop">
+
+      <%- include('./lang-switcher') %>
+
+    </div>
+
+    <a href="/kontakt" class="btn btn--primary header__cta<%= pageId === 'contact' ? ' btn--active' : '' %>">
+
+      <%= ui.common.askQuote %>
+
+    </a>
+
+  </div>
+
+
+
+  <button type="button" class="menu-toggle" aria-label="<%= ui.header.menuOpen %>" aria-expanded="false" aria-controls="site-nav">
+
+    <span></span>
+
+    <span></span>
+
+  </button>
+
+
+
+  <div class="nav-backdrop" data-nav-close aria-hidden="true"></div>
+
+</header>
+
