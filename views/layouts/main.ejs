@@ -1,26 +1,52 @@
-<!DOCTYPE html>
-<html lang="<%= lang %>">
-<head>
-  <%- include('../partials/head') %>
-</head>
-<body class="page-<%= pageId || 'default' %>">
-  <div class="page-transition-overlay" aria-hidden="true"></div>
-
-  <%- include('../partials/header') %>
-
-  <div class="lang-stage" data-lang-stage>
-    <div class="page-slide" data-lang-panel>
-      <main style="view-transition-name: main-content">
-        <%- include('../pages/' + bodyPartial) %>
-      </main>
-
-      <%- include('../partials/footer') %>
-    </div>
-  </div>
-  <script src="/js/transitions.js?v=8"></script>
-  <script src="/js/main.js?v=8"></script>
-  <% if (typeof extraScripts !== 'undefined') { extraScripts.forEach(function(src) { %>
-  <script src="<%= src %>"></script>
-  <% }) } %>
-</body>
-</html>
+<!DOCTYPE html>
+
+<html lang="<%= lang %>">
+
+<head>
+
+  <%- include('../partials/head') %>
+
+</head>
+
+<body class="page-<%= pageId || 'default' %>">
+
+  <div class="page-transition-overlay" aria-hidden="true"></div>
+
+
+
+  <%- include('../partials/header') %>
+
+
+
+  <div class="lang-stage" data-lang-stage>
+
+    <div class="page-slide" data-lang-panel>
+
+      <main style="view-transition-name: main-content">
+
+        <%- include('../pages/' + bodyPartial) %>
+
+      </main>
+
+
+
+      <%- include('../partials/footer') %>
+
+    </div>
+
+  </div>
+
+  <script src="/js/transitions.js?v=8"></script>
+
+  <script src="/js/main.js?v=9"></script>
+
+  <% if (typeof extraScripts !== 'undefined') { extraScripts.forEach(function(src) { %>
+
+  <script src="<%= src %>"></script>
+
+  <% }) } %>
+
+</body>
+
+</html>
+

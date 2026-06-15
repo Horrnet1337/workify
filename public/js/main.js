@@ -41,12 +41,30 @@
     });
   }
 
-  function fetchLangPage(href) {
-    if (langCache.has(href)) {
-      return Promise.resolve(langCache.get(href));
+  function langCacheKey(code) {
+    return window.location.pathname + '?lang=' + code;
+  }
+
+  function langFetchUrl(code) {
+    var params = new URLSearchParams(window.location.search);
+    params.set('lang', code);
+    return window.location.pathname + '?' + params.toString();
+  }
+
+  function cleanPageUrl() {
+    var url = new URL(window.location.href);
+    url.searchParams.delete('lang');
+    var qs = url.searchParams.toString();
+    return url.pathname + (qs ? '?' + qs : '');
+  }
+
+  function fetchLangPage(code) {
+    var key = langCacheKey(code);
+    if (langCache.has(key)) {
+      return Promise.resolve(langCache.get(key));
     }
 
-    return fetch(href, {
+    return fetch(langFetchUrl(code), {
       credentials: 'same-origin',
       headers: { Accept: 'text/html' },
     }).then(function (response) {
@@ -56,15 +74,15 @@
           doc: new DOMParser().parseFromString(html, 'text/html'),
           url: response.url,
         };
-        langCache.set(href, result);
+        langCache.set(key, result);
         return result;
       });
     });
   }
 
-  function prefetchLangPage(href) {
-    if (langCache.has(href)) return;
-    fetchLangPage(href).catch(function () { /* ignore */ });
+  function prefetchLangPage(code) {
+    if (!code || langCache.has(langCacheKey(code))) return;
+    fetchLangPage(code).catch(function () { /* ignore */ });
   }
 
   function openMobileMenu() {
@@ -230,7 +248,7 @@
 
   function prefetchAllLangs(switcher) {
     switcher.querySelectorAll('[data-lang-link]').forEach(function (link) {
-      prefetchLangPage(link.href);
+      prefetchLangPage(link.dataset.lang);
     });
   }
 
@@ -244,10 +262,11 @@
   async function switchLanguage(link) {
     if (window.__workifyLangBusy) return;
 
+    const code = link.dataset.lang;
     const href = link.href;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (reducedMotion) {
+    if (!code || reducedMotion) {
       window.location.href = href;
       return;
     }
@@ -268,7 +287,7 @@
     let payload;
 
     try {
-      payload = await fetchLangPage(href);
+      payload = await fetchLangPage(code);
     } catch (err) {
       window.__workifyLangBusy = false;
       document.body.classList.remove('lang-switching');
@@ -310,8 +329,7 @@
 
     document.body.classList.remove('lang-switching');
 
-    const url = new URL(payload.url, window.location.origin);
-    window.history.replaceState({ lang: true }, '', url.pathname + url.search);
+    window.history.replaceState({ lang: true }, '', cleanPageUrl());
 
     initIndustryPicker();
     document.dispatchEvent(new CustomEvent('workify:page-updated'));
@@ -380,13 +398,13 @@
     document.addEventListener('mouseover', function (e) {
       const link = e.target.closest('[data-lang-link]');
       if (!link) return;
-      prefetchLangPage(link.href);
+      prefetchLangPage(link.dataset.lang);
     });
 
     document.addEventListener('touchstart', function (e) {
       const link = e.target.closest('[data-lang-link]');
       if (!link) return;
-      prefetchLangPage(link.href);
+      prefetchLangPage(link.dataset.lang);
     }, { passive: true });
   }
 
