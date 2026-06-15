@@ -2,50 +2,72 @@
   'use strict';
 
   var FILTER_ID = 'workify-liquid-glass-filter';
-  var MAP_ID = 'workify-liquid-glass-map';
   var HEADER_SELECTOR = '.header';
-  var GLASS_SELECTOR = '.header__glass';
-  var MAP_SCALE = 0.75;
+  var MAP_SCALE = 1;
+  var CHANNEL_DEPTH = 127;
+  var SAMPLES = 127;
   var resizeTimer;
 
-  function smoothStep(edge0, edge1, x) {
-    var t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
-    return t * t * (3 - 2 * t);
+  function convexSquircle(x) {
+    return Math.pow(1 - Math.pow(1 - Math.max(0, Math.min(1, x)), 4), 0.25);
   }
 
-  function vecLength(x, y) {
-    return Math.sqrt(x * x + y * y);
+  function squirclePrime(x) {
+    var d = 0.001;
+    var x1 = Math.max(0, x - d);
+    var x2 = Math.min(1, x + d);
+    return (convexSquircle(x2) - convexSquircle(x1)) / (x2 - x1);
   }
 
-  function roundedRectSDF(x, y, halfW, halfH, radius) {
-    var qx = Math.abs(x) - halfW + radius;
-    var qy = Math.abs(y) - halfH + radius;
-    return Math.min(Math.max(qx, qy), 0) + vecLength(Math.max(qx, 0), Math.max(qy, 0)) - radius;
+  function buildDispLUT() {
+    var lut = new Float32Array(SAMPLES + 1);
+    var maxDisp = 0;
+
+    for (var i = 0; i <= SAMPLES; i++) {
+      var x = i / SAMPLES;
+      var slope = squirclePrime(x);
+      var d = slope / (1 + slope * slope);
+      lut[i] = d;
+      if (d > maxDisp) maxDisp = d;
+    }
+
+    for (var j = 0; j <= SAMPLES; j++) lut[j] /= maxDisp || 1;
+    return lut;
   }
 
-  function sampleFragment(uv, halfW, halfH, radius, bezel) {
-    var ix = uv.x - 0.5;
-    var iy = uv.y - 0.5;
-    var distanceToEdge = roundedRectSDF(ix, iy, halfW, halfH, radius);
-    var displacement = smoothStep(0.04, -bezel, distanceToEdge);
-    var scaled = smoothStep(0, 1, displacement);
-    var factor = 1 - scaled * 0.11;
-    return {
-      x: ix * factor + 0.5,
-      y: iy * factor + 0.5,
-    };
+  var DISP_LUT = buildDispLUT();
+
+  function sampleDispLUT(t) {
+    var idx = Math.min(SAMPLES, Math.max(0, Math.floor(t * SAMPLES)));
+    return DISP_LUT[idx];
   }
 
-  function HeaderLiquidGlass(header, glass) {
+  function sdfRoundedRect(px, py, w, h, r) {
+    var cx = w / 2;
+    var cy = h / 2;
+    var qx = Math.abs(px - cx) - cx + r;
+    var qy = Math.abs(py - cy) - cy + r;
+    var outside = Math.hypot(Math.max(qx, 0), Math.max(qy, 0));
+    var inside = Math.min(Math.max(qx, qy), 0);
+    return outside + inside - r;
+  }
+
+  function sdfGradient(px, py, w, h, r) {
+    var e = 0.75;
+    var dx = sdfRoundedRect(px + e, py, w, h, r) - sdfRoundedRect(px - e, py, w, h, r);
+    var dy = sdfRoundedRect(px, py + e, w, h, r) - sdfRoundedRect(px, py - e, w, h, r);
+    var mag = Math.hypot(dx, dy) || 1;
+    return { x: dx / mag, y: dy / mag };
+  }
+
+  function HeaderLiquidGlass(header) {
     this.header = header;
-    this.glass = glass;
     this.width = 0;
     this.height = 0;
-    this.canvas = document.createElement('canvas');
-    this.context = this.canvas.getContext('2d', { willReadFrequently: true });
-    this.svg = null;
-    this.feImage = null;
-    this.feDisplacementMap = null;
+    this.dispCanvas = document.createElement('canvas');
+    this.specCanvas = document.createElement('canvas');
+    this.dispCtx = this.dispCanvas.getContext('2d', { willReadFrequently: true });
+    this.specCtx = this.specCanvas.getContext('2d', { willReadFrequently: true });
     this.buildSvg();
   }
 
@@ -63,19 +85,29 @@
     filter.setAttribute('filterUnits', 'userSpaceOnUse');
     filter.setAttribute('color-interpolation-filters', 'sRGB');
 
-    this.feImage = document.createElementNS('http://www.w3.org/2000/svg', 'feImage');
-    this.feImage.setAttribute('id', MAP_ID);
-    this.feImage.setAttribute('result', 'displacement_map');
+    this.feImageDisp = document.createElementNS('http://www.w3.org/2000/svg', 'feImage');
+    this.feImageDisp.setAttribute('result', 'displacement_map');
+
+    this.feImageSpec = document.createElementNS('http://www.w3.org/2000/svg', 'feImage');
+    this.feImageSpec.setAttribute('result', 'specular_map');
 
     this.feDisplacementMap = document.createElementNS('http://www.w3.org/2000/svg', 'feDisplacementMap');
     this.feDisplacementMap.setAttribute('in', 'SourceGraphic');
     this.feDisplacementMap.setAttribute('in2', 'displacement_map');
     this.feDisplacementMap.setAttribute('xChannelSelector', 'R');
     this.feDisplacementMap.setAttribute('yChannelSelector', 'G');
+    this.feDisplacementMap.setAttribute('result', 'refracted');
+
+    this.feBlend = document.createElementNS('http://www.w3.org/2000/svg', 'feBlend');
+    this.feBlend.setAttribute('in', 'refracted');
+    this.feBlend.setAttribute('in2', 'specular_map');
+    this.feBlend.setAttribute('mode', 'screen');
 
     this.filter = filter;
-    filter.appendChild(this.feImage);
+    filter.appendChild(this.feImageDisp);
+    filter.appendChild(this.feImageSpec);
     filter.appendChild(this.feDisplacementMap);
+    filter.appendChild(this.feBlend);
     defs.appendChild(filter);
     svg.appendChild(defs);
     document.body.appendChild(svg);
@@ -92,87 +124,123 @@
     this.filter.setAttribute('width', String(this.width));
     this.filter.setAttribute('height', String(this.height));
 
-    this.feImage.setAttribute('width', String(this.width));
-    this.feImage.setAttribute('height', String(this.height));
+    this.feImageDisp.setAttribute('width', String(this.width));
+    this.feImageDisp.setAttribute('height', String(this.height));
+    this.feImageSpec.setAttribute('width', String(this.width));
+    this.feImageSpec.setAttribute('height', String(this.height));
   };
 
-  HeaderLiquidGlass.prototype.updateDisplacementMap = function () {
+  HeaderLiquidGlass.prototype.updateMaps = function () {
     if (!this.width || !this.height) return;
 
     var w = Math.max(1, Math.round(this.width * MAP_SCALE));
     var h = Math.max(1, Math.round(this.height * MAP_SCALE));
-    this.canvas.width = w;
-    this.canvas.height = h;
+    this.dispCanvas.width = w;
+    this.dispCanvas.height = h;
+    this.specCanvas.width = w;
+    this.specCanvas.height = h;
 
-    var halfW = 0.47;
-    var halfH = 0.44;
-    var radius = Math.min(halfW, halfH) * 0.92;
-    var bezel = 0.14;
+    var radius = Math.min(12, h / 2 - 1);
+    var bezel = Math.min(36, Math.max(22, Math.round(h * 0.42)));
+    var scale = bezel * 1.15;
 
-    var data = new Uint8ClampedArray(w * h * 4);
-    var rawValues = [];
-    var maxScale = 0;
+    var lightX = Math.cos(-Math.PI / 3);
+    var lightY = Math.sin(-Math.PI / 3);
 
-    for (var i = 0; i < data.length; i += 4) {
-      var x = (i / 4) % w;
-      var y = Math.floor(i / 4 / w);
-      var pos = sampleFragment({ x: x / w, y: y / h }, halfW, halfH, radius, bezel);
-      var dx = pos.x * w - x;
-      var dy = pos.y * h - y;
-      maxScale = Math.max(maxScale, Math.abs(dx), Math.abs(dy));
-      rawValues.push(dx, dy);
+    var dispData = new Uint8ClampedArray(w * h * 4);
+    var specData = new Uint8ClampedArray(w * h * 4);
+
+    for (var py = 0; py < h; py++) {
+      for (var px = 0; px < w; px++) {
+        var idx = (py * w + px) * 4;
+        var sdf = sdfRoundedRect(px + 0.5, py + 0.5, w, h, radius);
+        var dist = -sdf;
+
+        var r = 128;
+        var g = 128;
+        var sr = 0;
+        var sg = 0;
+        var sb = 0;
+        var sa = 0;
+
+        if (dist > 0 && dist < bezel) {
+          var t = dist / bezel;
+          var mag = sampleDispLUT(t);
+          var n = sdfGradient(px + 0.5, py + 0.5, w, h, radius);
+          var dx = -n.x * mag;
+          var dy = -n.y * mag;
+
+          r = Math.round(128 + dx * CHANNEL_DEPTH);
+          g = Math.round(128 + dy * CHANNEL_DEPTH);
+          r = Math.max(0, Math.min(255, r));
+          g = Math.max(0, Math.min(255, g));
+
+          var inNorm = { x: -n.x, y: -n.y };
+          var rim = Math.pow(1 - t, 1.6);
+          var spec = Math.max(0, inNorm.x * lightX + inNorm.y * lightY) * rim;
+          var edgeBoost = Math.pow(1 - t, 3) * 0.55;
+          var intensity = Math.min(1, spec * 0.92 + edgeBoost);
+          var v = Math.round(intensity * 255);
+          sr = v;
+          sg = v;
+          sb = v;
+          sa = Math.round(intensity * 200);
+        }
+
+        dispData[idx] = r;
+        dispData[idx + 1] = g;
+        dispData[idx + 2] = 128;
+        dispData[idx + 3] = 255;
+
+        specData[idx] = sr;
+        specData[idx + 1] = sg;
+        specData[idx + 2] = sb;
+        specData[idx + 3] = sa;
+      }
     }
 
-    maxScale = Math.max(maxScale * 0.55, 1);
-    var index = 0;
+    this.dispCtx.putImageData(new ImageData(dispData, w, h), 0, 0);
+    this.specCtx.putImageData(new ImageData(specData, w, h), 0, 0);
 
-    for (var j = 0; j < data.length; j += 4) {
-      var r = rawValues[index++] / maxScale + 0.5;
-      var g = rawValues[index++] / maxScale + 0.5;
-      data[j] = r * 255;
-      data[j + 1] = g * 255;
-      data[j + 2] = 128;
-      data[j + 3] = 255;
-    }
-
-    this.context.putImageData(new ImageData(data, w, h), 0, 0);
-    this.feImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', this.canvas.toDataURL('image/png'));
-    this.feDisplacementMap.setAttribute('scale', String(maxScale / MAP_SCALE));
+    this.feImageDisp.setAttributeNS(
+      'http://www.w3.org/1999/xlink',
+      'href',
+      this.dispCanvas.toDataURL('image/png')
+    );
+    this.feImageSpec.setAttributeNS(
+      'http://www.w3.org/1999/xlink',
+      'href',
+      this.specCanvas.toDataURL('image/png')
+    );
+    this.feDisplacementMap.setAttribute('scale', String(scale));
   };
 
   HeaderLiquidGlass.prototype.refresh = function () {
     this.measure();
-    this.updateDisplacementMap();
+    this.updateMaps();
     this.header.classList.add('liquid-glass-ready');
-  };
-
-  HeaderLiquidGlass.prototype.destroy = function () {
-    if (this.svg) this.svg.remove();
-    this.header.classList.remove('liquid-glass-ready');
   };
 
   function scheduleRefresh(instance) {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       instance.refresh();
-    }, 120);
+    }, 100);
   }
 
   function init() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var header = document.querySelector(HEADER_SELECTOR);
-    var glass = document.querySelector(GLASS_SELECTOR);
-    if (!header || !glass) return;
+    if (!header || !document.querySelector('.header__glass')) return;
 
-    var instance = new HeaderLiquidGlass(header, glass);
+    var instance = new HeaderLiquidGlass(header);
     instance.refresh();
 
     if (typeof ResizeObserver !== 'undefined') {
-      var observer = new ResizeObserver(function () {
+      new ResizeObserver(function () {
         scheduleRefresh(instance);
-      });
-      observer.observe(header);
+      }).observe(header);
     } else {
       window.addEventListener('resize', function () {
         scheduleRefresh(instance);
