@@ -219,8 +219,23 @@ img {
 }
 
 .lang-switcher__flag {
-  font-size: 1rem;
-  line-height: 1;
+  width: 18px;
+  height: 13px;
+}
+
+.lang-flag {
+  display: block;
+  width: 20px;
+  height: 15px;
+  border-radius: 2px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(12, 45, 74, 0.12);
+  flex-shrink: 0;
+}
+
+.lang-switcher__option-flag {
+  width: 22px;
+  height: 16px;
 }
 
 .lang-switcher__code {
@@ -283,11 +298,6 @@ img {
 .lang-switcher__option.is-active {
   background: linear-gradient(90deg, rgba(0, 184, 200, 0.14) 0%, rgba(26, 111, 212, 0.08) 100%);
   font-weight: 700;
-}
-
-.lang-switcher__option-flag {
-  font-size: 1.125rem;
-  line-height: 1;
 }
 
 .lang-switcher__option-name {
@@ -1561,8 +1571,8 @@ img {
   }
 
   .nav__lang-btn-flag {
-    font-size: 1.25rem;
-    line-height: 1;
+    width: 24px;
+    height: 18px;
   }
 
   .nav__lang-btn-label {
