@@ -1,7 +1,7 @@
-<header class="header" style="view-transition-name: site-header">
-  <div class="header__glass" aria-hidden="true"></div>
+<header class="header liquid-glass" style="view-transition-name: site-header">
+  <div class="header__overlay lg-overlay-bg" aria-hidden="true"></div>
 
-  <div class="header__inner">
+  <div class="header__inner lg-content">
     <a href="/" class="logo" aria-label="<%= ui.header.logoAria %>">
       <%- include('./logo') %>
     </a>
@@ -56,6 +56,19 @@
     </button>
 
     <div class="nav-backdrop" data-nav-close aria-hidden="true"></div>
+  </div>
+
+  <div class="lg-filter-layer" aria-hidden="true">
+    <div
+      id="liquid-glass"
+      class="header__glass glass-box glass-transparent"
+      data-blur="8"
+      data-cab="2"
+      data-depth="18"
+      data-strength="110"
+      data-saturate="1.7"
+      data-brightness="1.14"
+    ></div>
   </div>
 </header>
 
