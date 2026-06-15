@@ -89,7 +89,7 @@ img {
   padding: 0 24px;
 }
 
-/* ── Header (BISAR floating bar) ── */
+/* ── Header (liquid glass floating bar) ── */
 .header {
   position: fixed;
   top: 20px;
@@ -99,16 +99,57 @@ img {
   width: calc(100% - 48px);
   max-width: var(--container);
   height: var(--header-h);
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.header__glass {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--radius);
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  box-shadow:
+    0 10px 40px rgba(12, 45, 74, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+}
+
+.header.liquid-glass-ready .header__glass {
+  backdrop-filter: url(#workify-liquid-glass-filter) blur(12px) saturate(1.6) brightness(1.06) contrast(1.04);
+  -webkit-backdrop-filter: url(#workify-liquid-glass-filter) blur(12px) saturate(1.6) brightness(1.06) contrast(1.04);
+}
+
+.header__glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0.06) 38%,
+    rgba(255, 255, 255, 0) 55%
+  );
+  pointer-events: none;
+}
+
+.header__inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100%;
   padding: 0 12px 0 16px;
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .logo {
@@ -1444,9 +1485,13 @@ img {
     width: auto;
     max-width: none;
     transform: none;
-    padding: 0 6px 0 10px;
+    padding: 0;
     z-index: 1001;
     overflow: visible;
+  }
+
+  .header__inner {
+    padding: 0 6px 0 10px;
   }
 
   .nav-backdrop {
