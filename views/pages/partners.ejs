@@ -1,0 +1,46 @@
+<%- include('../partials/inner-hero', {
+  heroEyebrow: loc.partnersPage.eyebrow,
+  heroTitle: loc.partnersPage.title,
+  heroSub: loc.partnersPage.subtitle
+}) %>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="card-grid" data-reveal-children data-stagger="80">
+      <% loc.niches.forEach(function(n, i) { %>
+        <div class="card">
+          <span class="card__index"><%= String(i + 1).padStart(2, '0') %></span>
+          <span class="card__icon"><%- include('../partials/icon', { name: n.icon }) %></span>
+          <h3 class="card__title"><%= n.title %></h3>
+          <p class="card__desc"><%= n.desc %></p>
+          <% if (n.companies && n.companies.length) { %>
+            <div class="card__companies">
+              <% n.companies.forEach(function(c) { %>
+                <span class="card__company"><img src="/images/clients/<%= c %>.png" alt="<%= c %>" loading="lazy" decoding="async"></span>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section--tight">
+  <div class="container">
+    <div class="allpoland" data-reveal>
+      <div class="allpoland__text">
+        <p class="eyebrow"><%= loc.geography.eyebrow %></p>
+        <h2 class="section-title"><%= loc.partnersPage.allPolandTitle %></h2>
+        <p class="section-sub"><%= loc.partnersPage.allPolandText %></p>
+      </div>
+      <div class="allpoland__cities">
+        <% loc.cities.forEach(function(city) { %>
+          <span class="geo__city"><%- include('../partials/icon', { name: 'pin' }) %><%= city.name %></span>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/clients-marquee') %>

@@ -1,34 +1,17 @@
-<div class="lang-switcher" data-lang-switcher>
-  <button
-    type="button"
-    class="lang-switcher__trigger"
-    aria-haspopup="listbox"
-    aria-expanded="false"
-    aria-label="<%= ui.header.langAria %>"
-  >
-    <%- include('./lang-flag', { code: currentLang.code, extraClass: 'lang-switcher__flag' }) %>
-    <span class="lang-switcher__code"><%= currentLang.label %></span>
-    <span class="lang-switcher__chevron" aria-hidden="true">
-      <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
-        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+<div class="lang" data-lang-switcher>
+  <button type="button" class="lang__trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="<%= ui.langLabel %>">
+    <%- include('./icon', { name: 'globe', iconClass: 'lang__globe' }) %>
+    <span class="lang__current"><%= currentLang.label %></span>
+    <span class="lang__chevron" aria-hidden="true">
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </span>
   </button>
-  <ul class="lang-switcher__menu" role="listbox" aria-label="<%= ui.header.langLabel %>" hidden>
+  <ul class="lang__menu" role="listbox" aria-label="<%= ui.langLabel %>">
     <% langs.forEach(function(item) { %>
       <li role="none">
-        <a
-          href="<%= langSwitch(item.code) %>"
-          class="lang-switcher__option<%= item.code === lang ? ' is-active' : '' %>"
-          role="option"
-          aria-selected="<%= item.code === lang ? 'true' : 'false' %>"
-          data-lang="<%= item.code %>"
-          data-lang-link
-          lang="<%= item.code %>"
-        >
-          <%- include('./lang-flag', { code: item.code, extraClass: 'lang-switcher__option-flag' }) %>
-          <span class="lang-switcher__option-name"><%= item.name %></span>
-          <span class="lang-switcher__option-code"><%= item.label %></span>
+        <a href="<%= langSwitch(item.code) %>" class="lang__option<%= item.code === lang ? ' is-active' : '' %>" role="option" aria-selected="<%= item.code === lang ? 'true' : 'false' %>" data-lang="<%= item.code %>" data-lang-link lang="<%= item.code %>">
+          <span class="lang__option-code"><%= item.label %></span>
+          <span class="lang__option-name"><%= item.name %></span>
         </a>
       </li>
     <% }) %>

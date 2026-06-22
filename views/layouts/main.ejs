@@ -1,52 +1,31 @@
 <!DOCTYPE html>
-
 <html lang="<%= lang %>">
-
 <head>
-
   <%- include('../partials/head') %>
-
 </head>
-
-<body class="page-<%= pageId || 'default' %>">
-
+<body class="page-<%= pageId || 'default' %>" data-page="<%= pageId || 'default' %>">
+  <a class="skip-link" href="#main-content"><%= ui.skip %></a>
+  <div class="scroll-progress" aria-hidden="true"><span data-scroll-progress></span></div>
   <div class="page-transition-overlay" aria-hidden="true"></div>
-
-
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
 
   <%- include('../partials/header') %>
 
+  <main id="main-content" style="view-transition-name: main-content">
+    <%- include('../pages/' + bodyPartial) %>
+  </main>
 
+  <%- include('../partials/footer') %>
 
-  <div class="lang-stage" data-lang-stage>
+  <button type="button" class="to-top" data-to-top aria-label="<%= ui.backTop %>">
+    <%- include('../partials/icon', { name: 'arrowUp', iconClass: '' }) %>
+  </button>
 
-    <div class="page-slide" data-lang-panel>
-
-      <main style="view-transition-name: main-content">
-
-        <%- include('../pages/' + bodyPartial) %>
-
-      </main>
-
-
-
-      <%- include('../partials/footer') %>
-
-    </div>
-
-  </div>
-
-  <script src="/js/transitions.js?v=8"></script>
-
-  <script src="/js/main.js?v=9"></script>
-
+  <script src="/js/transitions.js?v=20"></script>
+  <script src="/js/main.js?v=20"></script>
   <% if (typeof extraScripts !== 'undefined') { extraScripts.forEach(function(src) { %>
-
   <script src="<%= src %>"></script>
-
   <% }) } %>
-
 </body>
-
 </html>
-
