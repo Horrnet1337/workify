@@ -1,7 +1,9 @@
 <% var hero = loc.hero; %>
+<% var accents = ['accent-gold','accent-amber','accent-ember','accent-bronze','accent-champagne']; %>
 <section class="hero">
   <div class="hero__orb hero__orb--1" data-parallax="0.06"></div>
   <div class="hero__orb hero__orb--2" data-parallax="0.04"></div>
+  <div class="hero__orb hero__orb--3" data-parallax="0.08"></div>
   <div class="container hero__inner">
     <p class="hero__badge" data-reveal>
       <span class="dot"></span><%= hero.eyebrow %>
@@ -40,7 +42,7 @@
 <%- include('../partials/clients-marquee') %>
 
 <!-- ABOUT -->
-<section class="section">
+<section class="section accent-champagne">
   <div class="container about__grid">
     <div data-reveal>
       <p class="eyebrow"><%= loc.about.eyebrow %></p>
@@ -62,20 +64,22 @@
 </section>
 
 <!-- DIVISIONS -->
-<section class="section section--tight">
+<section class="section section--tight section--warm accent-gold">
   <div class="container">
     <div class="section-head section-head--center" data-reveal>
       <p class="eyebrow"><%= loc.divisionsSection.eyebrow %></p>
       <h2 class="section-title"><%= loc.divisionsSection.title %></h2>
       <p class="section-sub"><%= loc.divisionsSection.subtitle %></p>
     </div>
-    <div class="card-grid" data-reveal-children data-stagger="90">
+    <div class="bento" data-reveal-children data-stagger="90">
       <% loc.divisions.forEach(function(d, i) { %>
-        <a href="<%= d.href %>" class="card">
+        <a href="<%= d.href %>" class="card <%= accents[i % accents.length] %>">
           <span class="card__index"><%= String(i + 1).padStart(2, '0') %></span>
           <span class="card__icon"><%- include('../partials/icon', { name: d.icon }) %></span>
-          <h3 class="card__title"><%= d.title %></h3>
-          <p class="card__desc"><%= d.desc %></p>
+          <div>
+            <h3 class="card__title"><%= d.title %></h3>
+            <p class="card__desc"><%= d.desc %></p>
+          </div>
           <ul class="card__points">
             <% d.points.forEach(function(p) { %>
               <li><%- include('../partials/icon', { name: 'check' }) %><%= p %></li>
@@ -88,7 +92,7 @@
 </section>
 
 <!-- GEOGRAPHY -->
-<section class="section">
+<section class="section section--line accent-amber">
   <div class="container geo__grid">
     <div data-reveal>
       <p class="eyebrow"><%= loc.geography.eyebrow %></p>
