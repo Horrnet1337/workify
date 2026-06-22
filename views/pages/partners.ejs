@@ -1,14 +1,16 @@
 <%- include('../partials/inner-hero', {
   heroEyebrow: loc.partnersPage.eyebrow,
   heroTitle: loc.partnersPage.title,
-  heroSub: loc.partnersPage.subtitle
+  heroSub: loc.partnersPage.subtitle,
+  heroAccent: 'accent-champagne'
 }) %>
 
 <section class="section section--tight">
   <div class="container">
+    <% var pAcc = ['accent-gold','accent-amber','accent-ember','accent-bronze','accent-champagne']; %>
     <div class="card-grid" data-reveal-children data-stagger="80">
       <% loc.niches.forEach(function(n, i) { %>
-        <div class="card">
+        <div class="card <%= pAcc[i % pAcc.length] %>">
           <span class="card__index"><%= String(i + 1).padStart(2, '0') %></span>
           <span class="card__icon"><%- include('../partials/icon', { name: n.icon }) %></span>
           <h3 class="card__title"><%= n.title %></h3>
@@ -26,7 +28,7 @@
   </div>
 </section>
 
-<section class="section--tight">
+<section class="section--tight accent-amber">
   <div class="container">
     <div class="allpoland" data-reveal>
       <div class="allpoland__text">

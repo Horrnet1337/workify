@@ -1,18 +1,22 @@
 <%- include('../partials/inner-hero', {
   heroEyebrow: loc.wholesalePage.eyebrow,
   heroTitle: loc.wholesalePage.title,
-  heroSub: loc.wholesalePage.subtitle
+  heroSub: loc.wholesalePage.subtitle,
+  heroAccent: 'accent-amber'
 }) %>
 
 <section class="section section--tight">
   <div class="container">
-    <div class="card-grid card-grid--3" data-reveal-children data-stagger="80">
+    <% var wAcc = ['accent-amber','accent-gold','accent-ember','accent-bronze','accent-champagne']; %>
+    <div class="spec-list" data-reveal-children data-stagger="70">
       <% loc.materials.forEach(function(m, i) { %>
-        <div class="card">
-          <span class="card__index"><%= String(i + 1).padStart(2, '0') %></span>
-          <span class="card__icon"><%- include('../partials/icon', { name: m.icon }) %></span>
-          <h3 class="card__title"><%= m.title %></h3>
-          <p class="card__desc"><%= m.desc %></p>
+        <div class="spec-row <%= wAcc[i % wAcc.length] %>">
+          <span class="spec-row__num"><%= String(i + 1).padStart(2, '0') %></span>
+          <div class="spec-row__main">
+            <h3><%= m.title %></h3>
+            <p><%= m.desc %></p>
+          </div>
+          <span class="spec-row__icon"><%- include('../partials/icon', { name: m.icon }) %></span>
         </div>
       <% }) %>
     </div>

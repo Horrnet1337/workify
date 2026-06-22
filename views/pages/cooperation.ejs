@@ -1,18 +1,22 @@
 <%- include('../partials/inner-hero', {
   heroEyebrow: loc.cooperationPage.eyebrow,
   heroTitle: loc.cooperationPage.title,
-  heroSub: loc.cooperationPage.subtitle
+  heroSub: loc.cooperationPage.subtitle,
+  heroAccent: 'accent-ember'
 }) %>
 
-<section class="section section--tight">
+<section class="section section--tight section--warm accent-ember">
   <div class="container">
-    <div class="card-grid card-grid--3" data-reveal-children data-stagger="80">
+    <% var cAcc = ['accent-ember','accent-amber','accent-gold','accent-bronze','accent-champagne']; %>
+    <div class="process" data-reveal-children data-stagger="90">
       <% loc.cooperation.forEach(function(c, i) { %>
-        <div class="card">
-          <span class="card__index"><%= String(i + 1).padStart(2, '0') %></span>
-          <span class="card__icon"><%- include('../partials/icon', { name: c.icon }) %></span>
-          <h3 class="card__title"><%= c.title %></h3>
-          <p class="card__desc"><%= c.desc %></p>
+        <div class="process__step <%= cAcc[i % cAcc.length] %>">
+          <span class="process__num"><%= String(i + 1).padStart(2, '0') %></span>
+          <div class="process__body">
+            <h3><%= c.title %></h3>
+            <p><%= c.desc %></p>
+            <span class="process__icon"><%- include('../partials/icon', { name: c.icon }) %></span>
+          </div>
         </div>
       <% }) %>
     </div>

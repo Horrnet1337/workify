@@ -1,15 +1,17 @@
 <%- include('../partials/inner-hero', {
   heroEyebrow: loc.servicesPage.eyebrow,
   heroTitle: loc.servicesPage.title,
-  heroSub: loc.servicesPage.subtitle
+  heroSub: loc.servicesPage.subtitle,
+  heroAccent: 'accent-gold'
 }) %>
 
-<section class="section section--tight">
+<section class="section section--tight section--warm">
   <div class="container">
     <% var staffing = loc.divisions.filter(function(d){ return ['agency','temporary','recruitment','outsourcing'].indexOf(d.id) > -1; }); %>
+    <% var sAcc = ['accent-gold','accent-amber','accent-ember','accent-bronze']; %>
     <div class="card-grid card-grid--2" data-reveal-children data-stagger="90">
       <% staffing.forEach(function(d, i) { %>
-        <div class="card card--tall">
+        <div class="card card--tall <%= sAcc[i % sAcc.length] %>">
           <span class="card__index"><%= String(i + 1).padStart(2, '0') %></span>
           <span class="card__icon"><%- include('../partials/icon', { name: d.icon }) %></span>
           <h3 class="card__title"><%= d.title %></h3>

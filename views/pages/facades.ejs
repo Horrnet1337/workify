@@ -1,14 +1,16 @@
 <%- include('../partials/inner-hero', {
   heroEyebrow: loc.facadesPage.eyebrow,
   heroTitle: loc.facadesPage.title,
-  heroSub: loc.facadesPage.subtitle
+  heroSub: loc.facadesPage.subtitle,
+  heroAccent: 'accent-bronze'
 }) %>
 
-<section class="section section--tight">
+<section class="section section--tight section--warm accent-bronze">
   <div class="container">
+    <% var fAcc = ['accent-bronze','accent-gold','accent-amber','accent-champagne']; %>
     <div class="card-grid" data-reveal-children data-stagger="70">
       <% loc.facades.forEach(function(f, i) { %>
-        <div class="card">
+        <div class="card <%= fAcc[i % fAcc.length] %>">
           <span class="card__index"><%= String(i + 1).padStart(2, '0') %></span>
           <span class="card__icon"><%- include('../partials/icon', { name: f.icon }) %></span>
           <h3 class="card__title"><%= f.title %></h3>
