@@ -1,5 +1,6 @@
 const buildLocale = require('./merge');
 const ui = require('./pl-ui');
+const group = require('./content/group-pl');
 const services = require('../data/services');
 const industries = require('../data/industries');
 const faq = require('../data/faq');
@@ -60,18 +61,36 @@ module.exports = buildLocale({
       description:
         'Skontaktuj się z Workify — przygotujemy ofertę dopasowaną do Twoich potrzeb kadrowych.',
     },
+    facades: {
+      title: 'Fasady — Workify',
+      description:
+        'Kompleksowe rozwiązania elewacyjne grupy Workify — projekt, wykonanie i serwis fasad w Polsce i Niemczech.',
+    },
+    wholesale: {
+      title: 'Hurtownia — Workify',
+      description:
+        'Hurtownia materiałów budowlanych i elewacyjnych Workify — dostawy w Polsce i Niemczech.',
+    },
+    cooperation: {
+      title: 'Współpraca — Workify',
+      description:
+        'Modele współpracy B2B i outsourcing procesów w grupie Workify.',
+    },
     notFound: {
       title: 'Nie znaleziono — Workify',
       description: 'Strona, której szukasz, nie istnieje.',
     },
   },
   site: {
-    tagline: 'Agencja pracy tymczasowej dla firm',
+    tagline: 'Grupa spółek — kadry, fasady i materiały dla firm',
     description:
-      'Workify dostarcza wykwalifikowany personel na magazyny, fabryki, budowy i roboty drogowe w Polsce i Niemczech.',
+      'Workify to grupa spółek działająca w Polsce i Niemczech: agencja pracy, rekrutacja, outsourcing, fasady i hurtownia materiałów.',
     nav: [
       { label: 'O nas', href: '/o-nas', id: 'about' },
       { label: 'Usługi', href: '/uslugi', id: 'services' },
+      { label: 'Fasady', href: '/fasady', id: 'facades' },
+      { label: 'Hurtownia', href: '/hurtownia', id: 'wholesale' },
+      { label: 'Współpraca', href: '/wspolpraca', id: 'cooperation' },
       { label: 'Branże', href: '/branze', id: 'industries' },
       { label: 'Lokalizacje', href: '/lokalizacje', id: 'locations' },
     ],
@@ -103,4 +122,8 @@ module.exports = buildLocale({
     pl: pick([locations.pl], ['name', 'desc', 'address'])[0],
     de: pick([locations.de], ['name', 'desc', 'address'])[0],
   },
+  divisions: group.divisions,
+  facades: group.facades,
+  wholesale: group.wholesale,
+  cooperation: group.cooperation,
 });

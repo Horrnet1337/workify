@@ -1,0 +1,141 @@
+<div class="crm-shell">
+  <aside class="crm-sidebar">
+    <a href="/" class="crm-sidebar__logo">
+      <img src="/images/logo.png" alt="Workify" width="96" height="32">
+    </a>
+    <nav class="crm-sidebar__nav">
+      <a href="/admin" class="crm-sidebar__link crm-sidebar__link--active">
+        <span class="crm-sidebar__icon" aria-hidden="true">◫</span>
+        <%= crm.dashboard %>
+      </a>
+    </nav>
+    <form method="POST" action="/admin/logout" class="crm-sidebar__logout">
+      <button type="submit" class="btn btn--ghost btn--sm btn--full"><%= crm.logout %></button>
+    </form>
+  </aside>
+
+  <div class="crm-main crm-main--detail">
+    <header class="crm-topbar">
+      <div>
+        <a href="/admin" class="crm-back">← <%= crm.back %></a>
+        <h1 class="crm-topbar__title"><%= lead.name %></h1>
+        <p class="crm-topbar__sub"><%= lead.company %></p>
+      </div>
+      <span class="crm-badge crm-badge--<%= lead.status %> crm-badge--lg"><%= statusLabels[lead.status] %></span>
+    </header>
+
+    <% if (saved) { %>
+      <div class="admin-alert admin-alert--success" role="status">Zapisano zmiany.</div>
+    <% } %>
+
+    <div class="crm-detail-grid">
+      <div class="crm-detail-main">
+        <section class="crm-panel">
+          <h2>Kontakt</h2>
+          <dl class="crm-dl">
+            <div>
+              <dt>E-mail</dt>
+              <dd><a href="mailto:<%= lead.email %>"><%= lead.email %></a></dd>
+            </div>
+            <% if (lead.phone) { %>
+              <div>
+                <dt>Telefon</dt>
+                <dd><a href="tel:<%= lead.phone.replace(/\s/g, '') %>"><%= lead.phone %></a></dd>
+              </div>
+            <% } %>
+            <div>
+              <dt><%= crm.filterDivision %></dt>
+              <dd><%= divisionLabels[lead.division] %></dd>
+            </div>
+            <% if (lead.service) { %>
+              <div>
+                <dt>Usługa</dt>
+                <dd><%= lead.service %></dd>
+              </div>
+            <% } %>
+            <div>
+              <dt>Język</dt>
+              <dd><%= lead.lang.toUpperCase() %></dd>
+            </div>
+            <div>
+              <dt>Utworzono</dt>
+              <dd><%= new Date(lead.createdAt).toLocaleString('pl-PL') %></dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="crm-panel">
+          <h2>Wiadomość</h2>
+          <p class="crm-message"><%= lead.message %></p>
+        </section>
+
+        <section class="crm-panel">
+          <h2><%= crm.notes %></h2>
+          <% if (!lead.notes || !lead.notes.length) { %>
+            <p class="crm-muted">Brak notatek.</p>
+          <% } else { %>
+            <ul class="crm-notes">
+              <% lead.notes.forEach(function(note) { %>
+                <li>
+                  <time datetime="<%= note.createdAt %>"><%= new Date(note.createdAt).toLocaleString('pl-PL') %></time>
+                  <p><%= note.text %></p>
+                </li>
+              <% }) %>
+            </ul>
+          <% } %>
+          <form method="POST" action="/admin/leads/<%= lead.id %>/note" class="crm-note-form">
+            <textarea name="note" rows="3" placeholder="<%= crm.addNote %>..." required></textarea>
+            <button type="submit" class="btn btn--primary btn--sm"><%= crm.addNote %></button>
+          </form>
+        </section>
+
+        <section class="crm-panel">
+          <h2><%= crm.history %></h2>
+          <ul class="crm-history">
+            <% (lead.history || []).forEach(function(item) { %>
+              <li class="crm-history__item crm-history__item--<%= item.type %>">
+                <time datetime="<%= item.createdAt %>"><%= new Date(item.createdAt).toLocaleString('pl-PL') %></time>
+                <% if (item.type === 'status') { %>
+                  <p>Status: <strong><%= statusLabels[item.from] %></strong> → <strong><%= statusLabels[item.to] %></strong></p>
+                <% } else if (item.type === 'division') { %>
+                  <p>Kierunek: <strong><%= divisionLabels[item.from] %></strong> → <strong><%= divisionLabels[item.to] %></strong></p>
+                <% } else { %>
+                  <p><%= item.message %></p>
+                <% } %>
+              </li>
+            <% }) %>
+          </ul>
+        </section>
+      </div>
+
+      <aside class="crm-detail-side">
+        <section class="crm-panel">
+          <h2>Edycja</h2>
+          <form method="POST" action="/admin/leads/<%= lead.id %>/update" class="crm-edit-form">
+            <label class="admin-field">
+              <span>Status</span>
+              <select name="status">
+                <% statuses.forEach(function(s) { %>
+                  <option value="<%= s %>" <%= lead.status === s ? 'selected' : '' %>><%= statusLabels[s] %></option>
+                <% }) %>
+              </select>
+            </label>
+            <label class="admin-field">
+              <span>Kierunek</span>
+              <select name="division">
+                <% divisions.forEach(function(d) { %>
+                  <option value="<%= d %>" <%= lead.division === d ? 'selected' : '' %>><%= divisionLabels[d] %></option>
+                <% }) %>
+              </select>
+            </label>
+            <button type="submit" class="btn btn--primary btn--full"><%= crm.save %></button>
+          </form>
+        </section>
+
+        <form method="POST" action="/admin/leads/<%= lead.id %>/delete" onsubmit="return confirm('Usunąć ten lead?');">
+          <button type="submit" class="btn btn--ghost btn--full crm-delete-btn"><%= crm.delete %></button>
+        </form>
+      </aside>
+    </div>
+  </div>
+</div>

@@ -7,4 +7,5 @@ git.env
 workify-deploy.zip
 workify.zip
 data/leads.json
+data/crm.json
 cookies.txt

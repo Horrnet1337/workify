@@ -1748,3 +1748,134 @@ img {
     padding-right: 0;
   }
 }
+
+/* Group divisions */
+.divisions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.division-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.division-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.division-card__visual {
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+}
+
+.division-card__body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.division-card__num {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--teal);
+}
+
+.division-card h3 {
+  font-size: 1.0625rem;
+  color: var(--navy);
+}
+
+.division-card p {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* Catalog (wholesale / cooperation) */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.catalog-card {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.catalog-card__num {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+
+.catalog-card h3 {
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.catalog-card__lead {
+  color: var(--blue-deep);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.catalog-card p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-size: 0.9375rem;
+}
+
+.catalog-card__clients {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-100);
+}
+
+.catalog-card__clients strong {
+  display: block;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 8px;
+}
+
+.catalog-card__clients ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.catalog-card__clients li {
+  font-size: 0.8125rem;
+  padding: 4px 10px;
+  background: rgba(0, 184, 200, 0.1);
+  color: var(--blue-deep);
+  border-radius: var(--radius-pill);
+}
+
+.catalog-card--coop {
+  border-top: 3px solid var(--teal);
+}

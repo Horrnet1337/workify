@@ -1,4 +1,5 @@
 const buildLocale = require('./merge');
+const group = require('./content/group-ua');
 
 module.exports = buildLocale({
   code: 'ua',
@@ -36,6 +37,9 @@ module.exports = buildLocale({
       process: 'Як ми працюємо',
       faq: 'FAQ',
       services: 'Послуги',
+      facades: 'Фасади',
+      wholesale: 'Оптовий склад',
+      cooperation: 'Співпраця',
       industries: 'Галузі',
       locations: 'Локації',
       contactForm: 'Форма зворотного зв\'язку',
@@ -48,10 +52,10 @@ module.exports = buildLocale({
     },
     home: {
       badgeLabel: 'працівників на рік',
-      heroTitle1: 'Розвиток починається з',
-      heroTitle2: 'правильних людей.',
+      heroTitle1: 'Одна група.',
+      heroTitle2: 'Багато компетенцій.',
       heroSubtitle:
-        'Workify постачає кваліфікований персонал на склади, заводи, будівництво та дорожні роботи — у Польщі та Німеччині. Швидко, легально, без компромісів.',
+        'Workify — група компаній у Польщі та Німеччині: кадри, рекрутинг, аутсорсинг, фасади та оптова торгівля матеріалами. Один партнер для вашого бізнесу.',
       industryLabel: 'Перевірте персонал для',
       industryLabelStrong: 'вашої галузі',
       industryPlaceholder: 'Оберіть свою галузь',
@@ -77,21 +81,25 @@ module.exports = buildLocale({
       industriesLabel: 'Галузі',
       industriesTitle: 'Де ми постачаємо персонал',
       forBusiness: 'Для бізнесу',
-      whyWorkify: 'Чому Workify?',
+      whyWorkify: 'Чому група Workify?',
       whyDesc:
-        'B2B-партнер — рекрутинг, договори та введення в посаду. Ви зосереджуєтесь на виробництві.',
+        'Об\'єднуємо компетенції кількох компаній під одним брендом — від персоналу до фасадів і матеріалів. Працюємо по всій Польщі та в Німеччині.',
+      divisionsLabel: 'Група Workify',
+      divisionsTitle: 'Наші напрямки діяльності',
+      divisionsDesc:
+        'П\'ять стовпів групи — кожен з власною командою експертів та пропозицією для B2B.',
     },
     about: {
       breadcrumb: 'Про нас',
       pageLabel: 'Про нас',
       pageTitle: 'Партнер, на якого можна покластися',
       pageDesc:
-        'Workify — агентство тимчасового працевлаштування для компаній, яким потрібен надійний персонал — швидко, легально та без зайвої бюрократії.',
+        'Workify — група компаній у Польщі та Німеччині: об\'єднуємо кадри, аутсорсинг, фасади та оптову торгівлю матеріалами під одним брендом.',
       whoTitle: 'Хто ми',
       whoP1:
-        'Багато років підтримуємо підприємства в Польщі та Німеччині у залученні кваліфікованих працівників. Спеціалізуємося на галузях, де важливі терміни, якість та безпека праці.',
+        'Workify — парасолька для кількох компаній, які разом обслуговують підприємства в Польщі та Німеччині. Ми не одне агентство — ми група компетенцій: від тимчасової роботи до фасадів і поставок матеріалів.',
       whoP2:
-        'Ми не портал вакансій — ми кадровий партнер, який бере на себе рекрутинг, документообіг та адміністрування працевлаштування.',
+        'Для клієнта це одна точка контакту, єдині стандарти та доступ до багатьох послуг без пошуку численних підрядників.',
       valuesLabel: 'Наші цінності',
       valuesTitle: 'Що нас відрізняє',
       value1Title: 'Галузевий досвід',
@@ -186,7 +194,9 @@ module.exports = buildLocale({
       company: 'Компанія *',
       email: 'E-mail *',
       phone: 'Телефон',
-      service: 'Цікавить послуга',
+      service: 'Напрямок запиту',
+      division: 'Напрямок групи Workify',
+      divisionPlaceholder: '— Оберіть напрямок —',
       message: 'Повідомлення *',
       servicePlaceholder: '— Оберіть —',
       namePlaceholder: 'Іван Іванов',
@@ -205,9 +215,71 @@ module.exports = buildLocale({
       homeBtn: 'Головна',
     },
     cta: {
-      title: 'Чому варто обрати Workify?',
+      title: 'Чому варто обрати групу Workify?',
       desc: 'Опишіть вашу потребу — підготуємо пропозицію протягом 24 годин.',
       btn: 'Запросити розрахунок',
+    },
+    facades: {
+      breadcrumb: 'Фасади',
+      pageLabel: 'Фасади',
+      pageTitle: 'Комплексні фасадні рішення',
+      pageDesc:
+        'Проєктуємо, виконуємо та обслуговуємо фасади всіх типів — для девелоперів, підрядників та управляючих нерухомістю в Польщі та Німеччині.',
+      clientsTitle: 'Для кого ми працюємо',
+      seeDetails: 'Детальніше →',
+      detailRoles: 'Обсяг робіт',
+      askQuote: 'Запитати фасад',
+    },
+    wholesale: {
+      breadcrumb: 'Оптовий склад',
+      pageLabel: 'Оптовий склад',
+      pageTitle: 'Будівельні та фасадні матеріали',
+      pageDesc:
+        'Оптовий склад групи Workify — поставки матеріалів різних типів по всій Польщі та в окремих регіонах Німеччини.',
+      categoriesTitle: 'Категорії матеріалів',
+      clientsTitle: 'Для кого',
+      askQuote: 'Запитати матеріали',
+    },
+    cooperation: {
+      breadcrumb: 'Співпраця',
+      pageLabel: 'Співпраця',
+      pageTitle: 'Моделі співпраці та аутсорсинг процесів',
+      pageDesc:
+        'Гнучкі форми B2B-співпраці — під масштаб вашої компанії та характер проєкту.',
+      modelsTitle: 'Види співпраці',
+      clientsTitle: 'Для кого',
+      askQuote: 'Обговорити модель співпраці',
+    },
+    crm: {
+      dashboard: 'CRM',
+      leads: 'Ліди',
+      logout: 'Вийти',
+      search: 'Пошук лідів...',
+      filterDivision: 'Усі напрямки',
+      filterStatus: 'Усі статуси',
+      statusNew: 'Новий',
+      statusContacted: 'Контакт',
+      statusQualified: 'Кваліфікація',
+      statusOffer: 'Пропозиція',
+      statusWon: 'Виграний',
+      statusLost: 'Втрачений',
+      addNote: 'Додати нотатку',
+      save: 'Зберегти',
+      delete: 'Видалити лід',
+      back: 'Назад до CRM',
+      notes: 'Нотатки',
+      history: 'Історія',
+      noLeads: 'Немає лідів у цій колонці',
+      statsTotal: 'Усього',
+      statsNew: 'Нові',
+      statsActive: 'В роботі',
+      statsWon: 'Виграні',
+      divisionKadry: 'Кадри',
+      divisionRekrutacja: 'Рекрутинг',
+      divisionOutsourcing: 'Аутсорсинг',
+      divisionFasady: 'Фасади',
+      divisionHurtownia: 'Опт',
+      divisionInne: 'Інше',
     },
   },
 
@@ -251,6 +323,21 @@ module.exports = buildLocale({
       description:
         'Зв\'яжіться з Workify — підготуємо пропозицію, адаптовану до ваших кадрових потреб.',
     },
+    facades: {
+      title: 'Фасади — Workify',
+      description:
+        'Комплексні фасадні рішення групи Workify — проєкт, виконання та сервіс у Польщі та Німеччині.',
+    },
+    wholesale: {
+      title: 'Оптовий склад — Workify',
+      description:
+        'Оптова торгівля будівельними та фасадними матеріалами Workify — поставки в Польщі та Німеччині.',
+    },
+    cooperation: {
+      title: 'Співпраця — Workify',
+      description:
+        'Моделі B2B-співпраці та аутсорсинг процесів у групі Workify.',
+    },
     notFound: {
       title: 'Не знайдено — Workify',
       description: 'Запитувану сторінку не знайдено.',
@@ -258,12 +345,15 @@ module.exports = buildLocale({
   },
 
   site: {
-    tagline: 'Агентство тимчасового працевлаштування для компаній',
+    tagline: 'Група компаній — кадри, фасади та матеріали для бізнесу',
     description:
-      'Workify постачає кваліфікований персонал на склади, заводи, будівництво та дорожні роботи в Польщі та Німеччині.',
+      'Workify — група компаній у Польщі та Німеччині: агентство праці, рекрутинг, аутсорсинг, фасади та оптова торгівля матеріалами.',
     nav: [
       { label: 'Про нас', href: '/o-nas', id: 'about' },
       { label: 'Послуги', href: '/uslugi', id: 'services' },
+      { label: 'Фасади', href: '/fasady', id: 'facades' },
+      { label: 'Оптовий склад', href: '/hurtownia', id: 'wholesale' },
+      { label: 'Співпраця', href: '/wspolpraca', id: 'cooperation' },
       { label: 'Галузі', href: '/branze', id: 'industries' },
       { label: 'Локації', href: '/lokalizacje', id: 'locations' },
     ],
@@ -486,4 +576,9 @@ module.exports = buildLocale({
       address: 'Musterstraße 8, 10115 Berlin',
     },
   },
+
+  divisions: group.divisions,
+  facades: group.facades,
+  wholesale: group.wholesale,
+  cooperation: group.cooperation,
 });

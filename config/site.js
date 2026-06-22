@@ -1,8 +1,8 @@
 module.exports = {
   name: 'Workify',
-  tagline: 'Agencja pracy tymczasowej dla firm',
+  tagline: 'Grupa spółek — kadry, fasady i materiały dla firm',
   description:
-    'Workify dostarcza wykwalifikowany personel na magazyny, fabryki, budowy i roboty drogowe w Polsce i Niemczech.',
+    'Workify to grupa spółek działająca w Polsce i Niemczech: agencja pracy, rekrutacja, outsourcing, fasady i hurtownia materiałów.',
   url: process.env.SITE_URL || 'http://localhost:3000',
   contact: {
     email: 'kontakt@workify.pl',
@@ -17,6 +17,9 @@ module.exports = {
   nav: [
     { label: 'O nas', href: '/o-nas', id: 'about' },
     { label: 'Usługi', href: '/uslugi', id: 'services' },
+    { label: 'Fasady', href: '/fasady', id: 'facades' },
+    { label: 'Hurtownia', href: '/hurtownia', id: 'wholesale' },
+    { label: 'Współpraca', href: '/wspolpraca', id: 'cooperation' },
     { label: 'Branże', href: '/branze', id: 'industries' },
     { label: 'Lokalizacje', href: '/lokalizacje', id: 'locations' },
   ],

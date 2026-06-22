@@ -4,7 +4,7 @@ const { body, validationResult } = require('express-validator');
 const clients = require('../data/clients');
 const { codes } = require('../locales');
 const { setLangCookie } = require('../middleware/locale');
-const { addLead } = require('../lib/leadsStore');
+const { addLead, DIVISIONS } = require('../lib/crmStore');
 
 const router = express.Router();
 
@@ -27,6 +27,7 @@ function contactValidation(loc) {
     body('phone').optional({ checkFalsy: true }).trim().isLength({ max: 30 }),
     body('message').trim().notEmpty().withMessage(loc.validation.message).isLength({ max: 2000 }),
     body('service').optional({ checkFalsy: true }).trim().isLength({ max: 100 }),
+    body('division').optional({ checkFalsy: true }).trim().isIn(DIVISIONS),
   ];
 }
 
@@ -52,6 +53,7 @@ router.get('/', (req, res) => {
     industries: loc.industries.slice(0, 4),
     clients,
     stats: res.locals.site.stats,
+    divisions: loc.divisions,
   });
 });
 
@@ -63,6 +65,7 @@ router.get('/o-nas', (req, res) => {
     metaDescription: loc.meta.about.description,
     stats: res.locals.site.stats,
     clients,
+    divisions: loc.divisions,
   });
 });
 
@@ -127,6 +130,58 @@ router.get('/branze/:slug', (req, res) => {
     metaDescription: industry.shortDesc,
     industry,
     related: loc.industries.filter((i) => i.slug !== industry.slug).slice(0, 3),
+  });
+});
+
+router.get('/fasady', (req, res) => {
+  const loc = req.loc;
+  renderPage(req, res, 'facades', {
+    title: loc.meta.facades.title,
+    pageId: 'facades',
+    metaDescription: loc.meta.facades.description,
+    facades: loc.facades,
+  });
+});
+
+router.get('/fasady/:slug', (req, res) => {
+  const loc = req.loc;
+  const facade = findBySlug(loc.facades, req.params.slug);
+
+  if (!facade) {
+    return res.status(404).render('layouts/main', {
+      bodyPartial: '404',
+      title: loc.meta.notFound.title,
+      pageId: '404',
+      metaDescription: loc.meta.notFound.description,
+    });
+  }
+
+  renderPage(req, res, 'facade-detail', {
+    title: `${facade.title} — Workify`,
+    pageId: 'facades',
+    metaDescription: facade.shortDesc,
+    facade,
+    related: loc.facades.filter((f) => f.slug !== facade.slug).slice(0, 3),
+  });
+});
+
+router.get('/hurtownia', (req, res) => {
+  const loc = req.loc;
+  renderPage(req, res, 'wholesale', {
+    title: loc.meta.wholesale.title,
+    pageId: 'wholesale',
+    metaDescription: loc.meta.wholesale.description,
+    wholesale: loc.wholesale,
+  });
+});
+
+router.get('/wspolpraca', (req, res) => {
+  const loc = req.loc;
+  renderPage(req, res, 'cooperation', {
+    title: loc.meta.cooperation.title,
+    pageId: 'cooperation',
+    metaDescription: loc.meta.cooperation.description,
+    cooperation: loc.cooperation,
   });
 });
 
@@ -202,6 +257,7 @@ router.post('/kontakt', (req, res, next) => {
       company: req.body.company,
       email: req.body.email,
       phone: req.body.phone,
+      division: req.body.division,
       service: req.body.service,
       message: req.body.message,
       lang: req.lang,

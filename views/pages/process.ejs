@@ -1,36 +1,72 @@
-<%-
-  include('../partials/page-hero', {
-    breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.process.breadcrumb }],
-    pageLabel: ui.process.pageLabel,
-    pageTitle: ui.process.pageTitle,
-    pageDesc: ui.process.pageDesc
-  })
-%>
-
-<section class="section">
-  <div class="section__inner">
-    <div class="timeline">
-      <% steps.forEach(function(step) { %>
-        <div class="timeline__item">
-          <span class="timeline__step"><%= step.step %></span>
-          <div class="timeline__content">
-            <h3><%= step.title %></h3>
-            <p><%= step.desc %></p>
-          </div>
-        </div>
-      <% }) %>
-    </div>
-  </div>
-</section>
-
-<section class="section section--alt">
-  <div class="section__inner">
-    <div class="info-block">
-      <h2><%= ui.process.readyTitle %></h2>
-      <p><%= ui.process.readyDesc %></p>
-      <a href="/kontakt" class="btn btn--primary"><%= ui.process.readyBtn %></a>
-    </div>
-  </div>
-</section>
-
-<%- include('../partials/cta-banner') %>
+<%-
+
+  include('../partials/page-hero', {
+
+    breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.process.breadcrumb }],
+
+    pageLabel: ui.process.pageLabel,
+
+    pageTitle: ui.process.pageTitle,
+
+    pageDesc: ui.process.pageDesc
+
+  })
+
+%>
+
+
+
+<section class="section">
+
+  <div class="section__inner">
+
+    <div class="timeline">
+
+      <% steps.forEach(function(step) { %>
+
+        <div class="timeline__item">
+
+          <span class="timeline__step"><%= step.step %></span>
+
+          <div class="timeline__content">
+
+            <h3><%= step.title %></h3>
+
+            <p><%= step.desc %></p>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<section class="section section--alt">
+
+  <div class="section__inner">
+
+    <div class="info-block">
+
+      <h2><%= ui.process.readyTitle %></h2>
+
+      <p><%= ui.process.readyDesc %></p>
+
+      <a href="/kontakt" class="btn btn--primary"><%= ui.process.readyBtn %></a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<%- include('../partials/cta-banner') %>
+

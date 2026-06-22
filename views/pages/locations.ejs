@@ -1,88 +1,176 @@
-<%-
-  include('../partials/page-hero', {
-    breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.locations.breadcrumb }],
-    pageLabel: ui.locations.pageLabel,
-    pageTitle: ui.locations.pageTitle,
-    pageDesc: ui.locations.pageDesc
-  })
-%>
-
-<section class="section">
-  <div class="section__inner">
-    <div class="locations">
-      <div class="locations__content">
-        <ul class="locations__list">
-          <li class="locations__card" data-map-target="pl" role="button" tabindex="0" aria-label="<%= locations.pl.city %> <%= ui.locations.mapShow %>">
-            <span class="locations__flag"><%= locations.pl.flag %></span>
-            <div>
-              <strong><%= locations.pl.name %></strong>
-              <span><%= locations.pl.desc %></span>
-              <span class="locations__address"><%= locations.pl.address %></span>
-            </div>
-          </li>
-          <li class="locations__card" data-map-target="de" role="button" tabindex="0" aria-label="<%= locations.de.city %> <%= ui.locations.mapShow %>">
-            <span class="locations__flag"><%= locations.de.flag %></span>
-            <div>
-              <strong><%= locations.de.name %></strong>
-              <span><%= locations.de.desc %></span>
-              <span class="locations__address"><%= locations.de.address %></span>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div
-        id="locations-map"
-        class="locations__map"
-        aria-label="<%= ui.locations.mapAria %>"
-      ></div>
-    </div>
-  </div>
-</section>
-
-<script type="application/json" id="locations-map-data"><%- JSON.stringify([
-  {
-    id: 'pl',
-    code: 'PL',
-    flag: locations.pl.flag,
-    name: locations.pl.name,
-    city: locations.pl.city,
-    address: locations.pl.address,
-    lat: locations.pl.lat,
-    lng: locations.pl.lng,
-  },
-  {
-    id: 'de',
-    code: 'DE',
-    flag: locations.de.flag,
-    name: locations.de.name,
-    city: locations.de.city,
-    address: locations.de.address,
-    lat: locations.de.lat,
-    lng: locations.de.lng,
-  },
-]) %></script>
-
-<section class="section section--alt">
-  <div class="section__inner">
-    <div class="cities-grid">
-      <div class="cities-block">
-        <h3><%= locations.pl.flag %> <%= ui.locations.citiesPl %></h3>
-        <div class="tags">
-          <% locations.pl.cities.forEach(function(city) { %>
-            <span class="tag"><%= city %></span>
-          <% }) %>
-        </div>
-      </div>
-      <div class="cities-block">
-        <h3><%= locations.de.flag %> <%= ui.locations.citiesDe %></h3>
-        <div class="tags">
-          <% locations.de.cities.forEach(function(city) { %>
-            <span class="tag"><%= city %></span>
-          <% }) %>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<%- include('../partials/cta-banner') %>
+<%-
+
+  include('../partials/page-hero', {
+
+    breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.locations.breadcrumb }],
+
+    pageLabel: ui.locations.pageLabel,
+
+    pageTitle: ui.locations.pageTitle,
+
+    pageDesc: ui.locations.pageDesc
+
+  })
+
+%>
+
+
+
+<section class="section">
+
+  <div class="section__inner">
+
+    <div class="locations">
+
+      <div class="locations__content">
+
+        <ul class="locations__list">
+
+          <li class="locations__card" data-map-target="pl" role="button" tabindex="0" aria-label="<%= locations.pl.city %> <%= ui.locations.mapShow %>">
+
+            <span class="locations__flag"><%= locations.pl.flag %></span>
+
+            <div>
+
+              <strong><%= locations.pl.name %></strong>
+
+              <span><%= locations.pl.desc %></span>
+
+              <span class="locations__address"><%= locations.pl.address %></span>
+
+            </div>
+
+          </li>
+
+          <li class="locations__card" data-map-target="de" role="button" tabindex="0" aria-label="<%= locations.de.city %> <%= ui.locations.mapShow %>">
+
+            <span class="locations__flag"><%= locations.de.flag %></span>
+
+            <div>
+
+              <strong><%= locations.de.name %></strong>
+
+              <span><%= locations.de.desc %></span>
+
+              <span class="locations__address"><%= locations.de.address %></span>
+
+            </div>
+
+          </li>
+
+        </ul>
+
+      </div>
+
+      <div
+
+        id="locations-map"
+
+        class="locations__map"
+
+        aria-label="<%= ui.locations.mapAria %>"
+
+      ></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<script type="application/json" id="locations-map-data"><%- JSON.stringify([
+
+  {
+
+    id: 'pl',
+
+    code: 'PL',
+
+    flag: locations.pl.flag,
+
+    name: locations.pl.name,
+
+    city: locations.pl.city,
+
+    address: locations.pl.address,
+
+    lat: locations.pl.lat,
+
+    lng: locations.pl.lng,
+
+  },
+
+  {
+
+    id: 'de',
+
+    code: 'DE',
+
+    flag: locations.de.flag,
+
+    name: locations.de.name,
+
+    city: locations.de.city,
+
+    address: locations.de.address,
+
+    lat: locations.de.lat,
+
+    lng: locations.de.lng,
+
+  },
+
+]) %></script>
+
+
+
+<section class="section section--alt">
+
+  <div class="section__inner">
+
+    <div class="cities-grid">
+
+      <div class="cities-block">
+
+        <h3><%= locations.pl.flag %> <%= ui.locations.citiesPl %></h3>
+
+        <div class="tags">
+
+          <% locations.pl.cities.forEach(function(city) { %>
+
+            <span class="tag"><%= city %></span>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
+      <div class="cities-block">
+
+        <h3><%= locations.de.flag %> <%= ui.locations.citiesDe %></h3>
+
+        <div class="tags">
+
+          <% locations.de.cities.forEach(function(city) { %>
+
+            <span class="tag"><%= city %></span>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<%- include('../partials/cta-banner') %>
+

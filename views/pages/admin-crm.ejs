@@ -1,0 +1,130 @@
+<div class="crm-shell">
+  <aside class="crm-sidebar">
+    <a href="/" class="crm-sidebar__logo">
+      <img src="/images/logo.png" alt="Workify" width="96" height="32">
+    </a>
+    <nav class="crm-sidebar__nav">
+      <a href="/admin" class="crm-sidebar__link crm-sidebar__link--active">
+        <span class="crm-sidebar__icon" aria-hidden="true">◫</span>
+        <%= crm.dashboard %>
+      </a>
+      <a href="/kontakt" class="crm-sidebar__link" target="_blank" rel="noopener">
+        <span class="crm-sidebar__icon" aria-hidden="true">✉</span>
+        Formularz
+      </a>
+    </nav>
+    <form method="POST" action="/admin/logout" class="crm-sidebar__logout">
+      <button type="submit" class="btn btn--ghost btn--sm btn--full"><%= crm.logout %></button>
+    </form>
+  </aside>
+
+  <div class="crm-main">
+    <header class="crm-topbar">
+      <div>
+        <h1 class="crm-topbar__title"><%= crm.dashboard %> Workify</h1>
+        <p class="crm-topbar__sub"><%= stats.total %> <%= crm.leads %></p>
+      </div>
+    </header>
+
+    <% if (saved) { %>
+      <div class="admin-alert admin-alert--success" role="status">Zapisano zmiany.</div>
+    <% } %>
+    <% if (deleted) { %>
+      <div class="admin-alert admin-alert--success" role="status">Lead został usunięty.</div>
+    <% } %>
+
+    <div class="crm-stats">
+      <div class="crm-stat">
+        <span class="crm-stat__value"><%= stats.total %></span>
+        <span class="crm-stat__label"><%= crm.statsTotal %></span>
+      </div>
+      <div class="crm-stat crm-stat--new">
+        <span class="crm-stat__value"><%= stats.new %></span>
+        <span class="crm-stat__label"><%= crm.statsNew %></span>
+      </div>
+      <div class="crm-stat crm-stat--active">
+        <span class="crm-stat__value"><%= stats.active %></span>
+        <span class="crm-stat__label"><%= crm.statsActive %></span>
+      </div>
+      <div class="crm-stat crm-stat--won">
+        <span class="crm-stat__value"><%= stats.won %></span>
+        <span class="crm-stat__label"><%= crm.statsWon %></span>
+      </div>
+    </div>
+
+    <form class="crm-filters" method="GET" action="/admin">
+      <input
+        type="search"
+        name="q"
+        value="<%= filters.q %>"
+        placeholder="<%= crm.search %>"
+        class="crm-filters__search"
+      >
+      <select name="division" class="crm-filters__select">
+        <option value=""><%= crm.filterDivision %></option>
+        <% divisions.forEach(function(d) { %>
+          <option value="<%= d %>" <%= filters.division === d ? 'selected' : '' %>><%= divisionLabels[d] %></option>
+        <% }) %>
+      </select>
+      <select name="status" class="crm-filters__select">
+        <option value=""><%= crm.filterStatus %></option>
+        <% statuses.forEach(function(s) { %>
+          <option value="<%= s %>" <%= filters.status === s ? 'selected' : '' %>><%= statusLabels[s] %></option>
+        <% }) %>
+      </select>
+      <button type="submit" class="btn btn--primary btn--sm">Filtruj</button>
+      <% if (filters.q || filters.division || filters.status) { %>
+        <a href="/admin" class="btn btn--ghost btn--sm">Wyczyść</a>
+      <% } %>
+    </form>
+
+    <% if (!leads.length) { %>
+      <div class="admin-empty">
+        <div class="admin-empty__icon" aria-hidden="true">📭</div>
+        <h2>Brak leadów</h2>
+        <p>Gdy ktoś wyśle formularz kontaktowy, pojawi się tutaj automatycznie.</p>
+        <a href="/kontakt" class="btn btn--primary">Otwórz formularz</a>
+      </div>
+    <% } else if (filters.q || filters.division || filters.status) { %>
+      <div class="crm-list">
+        <% leads.forEach(function(lead) { %>
+          <a href="/admin/leads/<%= lead.id %>" class="crm-card">
+            <div class="crm-card__head">
+              <strong><%= lead.name %></strong>
+              <span class="crm-badge crm-badge--<%= lead.status %>"><%= statusLabels[lead.status] %></span>
+            </div>
+            <p class="crm-card__company"><%= lead.company %></p>
+            <p class="crm-card__meta"><%= divisionLabels[lead.division] %> · <%= new Date(lead.createdAt).toLocaleString('pl-PL') %></p>
+          </a>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="crm-kanban">
+        <% statuses.forEach(function(status) { %>
+          <div class="crm-column">
+            <header class="crm-column__head">
+              <h2><%= statusLabels[status] %></h2>
+              <span class="crm-column__count"><%= kanban[status].length %></span>
+            </header>
+            <div class="crm-column__body">
+              <% if (!kanban[status].length) { %>
+                <p class="crm-column__empty"><%= crm.noLeads %></p>
+              <% } %>
+              <% kanban[status].forEach(function(lead) { %>
+                <a href="/admin/leads/<%= lead.id %>" class="crm-card">
+                  <div class="crm-card__head">
+                    <strong><%= lead.name %></strong>
+                    <span class="crm-card__lang"><%= lead.lang.toUpperCase() %></span>
+                  </div>
+                  <p class="crm-card__company"><%= lead.company %></p>
+                  <p class="crm-card__meta"><%= divisionLabels[lead.division] %></p>
+                  <time class="crm-card__time" datetime="<%= lead.createdAt %>"><%= new Date(lead.createdAt).toLocaleDateString('pl-PL') %></time>
+                </a>
+              <% }) %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</div>

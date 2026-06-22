@@ -1,4 +1,5 @@
 const buildLocale = require('./merge');
+const group = require('./content/group-de');
 
 module.exports = buildLocale({
   code: 'de',
@@ -36,6 +37,9 @@ module.exports = buildLocale({
       process: 'So arbeiten wir',
       faq: 'FAQ',
       services: 'Leistungen',
+      facades: 'Fassaden',
+      wholesale: 'Großhandel',
+      cooperation: 'Zusammenarbeit',
       industries: 'Branchen',
       locations: 'Standorte',
       contactForm: 'Kontaktformular',
@@ -48,10 +52,10 @@ module.exports = buildLocale({
     },
     home: {
       badgeLabel: 'Mitarbeiter pro Jahr',
-      heroTitle1: 'Wachstum beginnt mit',
-      heroTitle2: 'den richtigen Menschen.',
+      heroTitle1: 'Eine Gruppe.',
+      heroTitle2: 'Viele Kompetenzen.',
       heroSubtitle:
-        'Workify stellt qualifiziertes Personal für Lager, Fabriken, Baustellen und Straßenbau — in Polen und Deutschland. Schnell, legal, ohne Kompromisse.',
+        'Workify ist eine Unternehmensgruppe in Polen und Deutschland — Personal, Rekrutierung, Outsourcing, Fassaden und Materialgroßhandel. Ein Partner für Ihr Unternehmen.',
       industryLabel: 'Personal prüfen für',
       industryLabelStrong: 'Ihre Branche',
       industryPlaceholder: 'Wählen Sie Ihre Branche',
@@ -77,21 +81,25 @@ module.exports = buildLocale({
       industriesLabel: 'Branchen',
       industriesTitle: 'Wo wir Personal liefern',
       forBusiness: 'Für Unternehmen',
-      whyWorkify: 'Warum Workify?',
+      whyWorkify: 'Warum die Workify-Gruppe?',
       whyDesc:
-        'B2B-Partner — Rekrutierung, Verträge und Einarbeitung. Sie konzentrieren sich auf die Produktion.',
+        'Wir vereinen die Kompetenzen mehrerer Gesellschaften unter einer Marke — vom Personal über Fassaden bis zu Materialien. Tätig in ganz Polen und Deutschland.',
+      divisionsLabel: 'Workify-Gruppe',
+      divisionsTitle: 'Unsere Geschäftsbereiche',
+      divisionsDesc:
+        'Fünf Säulen der Gruppe — jede mit eigenem Expertenteam und dediziertem B2B-Angebot.',
     },
     about: {
       breadcrumb: 'Über uns',
       pageLabel: 'Über uns',
       pageTitle: 'Ein Partner, auf den Sie sich verlassen können',
       pageDesc:
-        'Workify ist eine Zeitarbeitsagentur für Unternehmen, die zuverlässiges Personal benötigen — schnell, legal und ohne unnötige Bürokratie.',
+        'Workify ist eine Unternehmensgruppe in Polen und Deutschland — wir vereinen Personal, Outsourcing, Fassaden und Materialgroßhandel unter einer Marke.',
       whoTitle: 'Wer wir sind',
       whoP1:
-        'Seit Jahren unterstützen wir Unternehmen in Polen und Deutschland bei der Gewinnung qualifizierter Mitarbeiter. Wir sind auf Branchen spezialisiert, in denen Pünktlichkeit, Qualität und Arbeitssicherheit zählen.',
+        'Workify ist der Dachverbund mehrerer Gesellschaften, die gemeinsam Unternehmen in Polen und Deutschland betreuen. Wir sind keine einzelne Agentur — wir sind eine Kompetenzgruppe: von Zeitarbeit über Fassaden bis zu Materiallieferungen.',
       whoP2:
-        'Wir sind kein Stellenportal — wir sind Ihr Personaldienstleister und übernehmen Rekrutierung, Dokumentation und die Verwaltung der Beschäftigung.',
+        'Für den Kunden bedeutet das ein Ansprechpartner, einheitliche Standards und Zugang zu vielen Leistungen ohne mehrere Anbieter suchen zu müssen.',
       valuesLabel: 'Unsere Werte',
       valuesTitle: 'Was uns auszeichnet',
       value1Title: 'Branchenerfahrung',
@@ -186,7 +194,9 @@ module.exports = buildLocale({
       company: 'Unternehmen *',
       email: 'E-Mail *',
       phone: 'Telefon',
-      service: 'Interessierende Leistung',
+      service: 'Anfragerichtung',
+      division: 'Bereich der Workify-Gruppe',
+      divisionPlaceholder: '— Bereich wählen —',
       message: 'Nachricht *',
       servicePlaceholder: '— Auswählen —',
       namePlaceholder: 'Max Mustermann',
@@ -205,9 +215,71 @@ module.exports = buildLocale({
       homeBtn: 'Startseite',
     },
     cta: {
-      title: 'Warum Workify wählen?',
+      title: 'Warum die Workify-Gruppe wählen?',
       desc: 'Beschreiben Sie Ihren Bedarf — wir erstellen innerhalb von 24 Stunden ein Angebot.',
       btn: 'Angebot anfordern',
+    },
+    facades: {
+      breadcrumb: 'Fassaden',
+      pageLabel: 'Fassaden',
+      pageTitle: 'Umfassende Fassadenlösungen',
+      pageDesc:
+        'Wir planen, realisieren und warten Fassaden aller Art — für Bauträger, Ausführende und Immobilienverwalter in Polen und Deutschland.',
+      clientsTitle: 'Für wen wir arbeiten',
+      seeDetails: 'Details ansehen →',
+      detailRoles: 'Leistungsumfang',
+      askQuote: 'Fassade anfragen',
+    },
+    wholesale: {
+      breadcrumb: 'Großhandel',
+      pageLabel: 'Großhandel',
+      pageTitle: 'Baumaterialien und Fassadenprodukte',
+      pageDesc:
+        'Großhandel der Workify-Gruppe — Lieferung verschiedener Materialtypen in ganz Polen und ausgewählten Regionen Deutschlands.',
+      categoriesTitle: 'Materialkategorien',
+      clientsTitle: 'Für wen',
+      askQuote: 'Materialien anfragen',
+    },
+    cooperation: {
+      breadcrumb: 'Zusammenarbeit',
+      pageLabel: 'Zusammenarbeit',
+      pageTitle: 'Kooperationsmodelle und Prozess-Outsourcing',
+      pageDesc:
+        'Flexible B2B-Kooperationsformen — angepasst an die Größe Ihres Unternehmens und die Art des Projekts.',
+      modelsTitle: 'Kooperationsarten',
+      clientsTitle: 'Für wen',
+      askQuote: 'Kooperationsmodell besprechen',
+    },
+    crm: {
+      dashboard: 'CRM',
+      leads: 'Leads',
+      logout: 'Abmelden',
+      search: 'Leads suchen...',
+      filterDivision: 'Alle Bereiche',
+      filterStatus: 'Alle Status',
+      statusNew: 'Neu',
+      statusContacted: 'Kontakt',
+      statusQualified: 'Qualifiziert',
+      statusOffer: 'Angebot',
+      statusWon: 'Gewonnen',
+      statusLost: 'Verloren',
+      addNote: 'Notiz hinzufügen',
+      save: 'Speichern',
+      delete: 'Lead löschen',
+      back: 'Zurück zum CRM',
+      notes: 'Notizen',
+      history: 'Verlauf',
+      noLeads: 'Keine Leads in dieser Spalte',
+      statsTotal: 'Gesamt',
+      statsNew: 'Neu',
+      statsActive: 'Aktiv',
+      statsWon: 'Gewonnen',
+      divisionKadry: 'Personal',
+      divisionRekrutacja: 'Rekrutierung',
+      divisionOutsourcing: 'Outsourcing',
+      divisionFasady: 'Fassaden',
+      divisionHurtownia: 'Großhandel',
+      divisionInne: 'Sonstige',
     },
   },
 
@@ -251,6 +323,21 @@ module.exports = buildLocale({
       description:
         'Kontaktieren Sie Workify — wir erstellen ein Angebot, das auf Ihre Personalbedürfnisse zugeschnitten ist.',
     },
+    facades: {
+      title: 'Fassaden — Workify',
+      description:
+        'Umfassende Fassadenlösungen der Workify-Gruppe — Planung, Ausführung und Service in Polen und Deutschland.',
+    },
+    wholesale: {
+      title: 'Großhandel — Workify',
+      description:
+        'Großhandel für Baumaterialien und Fassadenprodukte der Workify-Gruppe — Lieferungen in Polen und Deutschland.',
+    },
+    cooperation: {
+      title: 'Zusammenarbeit — Workify',
+      description:
+        'B2B-Kooperationsmodelle und Prozess-Outsourcing in der Workify-Gruppe.',
+    },
     notFound: {
       title: 'Nicht gefunden — Workify',
       description: 'Die gesuchte Seite wurde nicht gefunden.',
@@ -258,12 +345,15 @@ module.exports = buildLocale({
   },
 
   site: {
-    tagline: 'Zeitarbeitsagentur für Unternehmen',
+    tagline: 'Unternehmensgruppe — Personal, Fassaden und Materialien',
     description:
-      'Workify stellt qualifiziertes Personal für Lager, Fabriken, Baustellen und Straßenbau in Polen und Deutschland.',
+      'Workify ist eine Unternehmensgruppe in Polen und Deutschland: Zeitarbeit, Rekrutierung, Outsourcing, Fassaden und Materialgroßhandel.',
     nav: [
       { label: 'Über uns', href: '/o-nas', id: 'about' },
       { label: 'Leistungen', href: '/uslugi', id: 'services' },
+      { label: 'Fassaden', href: '/fasady', id: 'facades' },
+      { label: 'Großhandel', href: '/hurtownia', id: 'wholesale' },
+      { label: 'Zusammenarbeit', href: '/wspolpraca', id: 'cooperation' },
       { label: 'Branchen', href: '/branze', id: 'industries' },
       { label: 'Standorte', href: '/lokalizacje', id: 'locations' },
     ],
@@ -486,4 +576,9 @@ module.exports = buildLocale({
       address: 'Musterstraße 8, 10115 Berlin',
     },
   },
+
+  divisions: group.divisions,
+  facades: group.facades,
+  wholesale: group.wholesale,
+  cooperation: group.cooperation,
 });

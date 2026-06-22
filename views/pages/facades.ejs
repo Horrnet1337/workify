@@ -1,0 +1,26 @@
+<%- include('../partials/page-hero', {
+  breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.facades.breadcrumb }],
+  pageLabel: ui.facades.pageLabel,
+  pageTitle: ui.facades.pageTitle,
+  pageDesc: ui.facades.pageDesc
+}) %>
+
+<section class="section">
+  <div class="section__inner">
+    <div class="services-grid">
+      <% facades.forEach(function(item) { %>
+        <a href="/fasady/<%= item.slug %>" class="service-card">
+          <div class="service-card__bg" style="background-image: url('<%= item.image %>')"></div>
+          <div class="service-card__content">
+            <span class="service-card__num"><%= item.num %></span>
+            <h3><%= item.title %></h3>
+            <p><%= item.shortDesc %></p>
+            <span class="card-link"><%= ui.facades.seeDetails %></span>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/cta-banner') %>

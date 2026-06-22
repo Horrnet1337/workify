@@ -1,0 +1,37 @@
+<%- include('../partials/page-hero', {
+  breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.wholesale.breadcrumb }],
+  pageLabel: ui.wholesale.pageLabel,
+  pageTitle: ui.wholesale.pageTitle,
+  pageDesc: ui.wholesale.pageDesc
+}) %>
+
+<section class="section">
+  <div class="section__inner">
+    <div class="section__header section__header--center">
+      <span class="section__label"><%= ui.wholesale.categoriesTitle %></span>
+    </div>
+    <div class="catalog-grid">
+      <% wholesale.forEach(function(item, i) { %>
+        <article class="catalog-card">
+          <span class="catalog-card__num"><%= String(i + 1).padStart(2, '0') %></span>
+          <h3><%= item.title %></h3>
+          <p class="catalog-card__lead"><%= item.shortDesc %></p>
+          <p><%= item.desc %></p>
+          <div class="catalog-card__clients">
+            <strong><%= ui.wholesale.clientsTitle %></strong>
+            <ul>
+              <% item.clients.forEach(function(client) { %>
+                <li><%= client %></li>
+              <% }) %>
+            </ul>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+    <div class="section__action">
+      <a href="/kontakt?division=hurtownia" class="btn btn--primary"><%= ui.wholesale.askQuote %></a>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/cta-banner') %>

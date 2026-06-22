@@ -1,0 +1,148 @@
+module.exports = {
+  divisions: [
+    {
+      title: 'Personal & Zeitarbeit',
+      shortDesc: 'Personal für Lager, Fabriken und Baustellen — schnell und legal.',
+      desc: 'Die Zeitarbeitsagentur der Workify-Gruppe liefert geprüftes Zeitarbeitspersonal mit vollständiger Personalabwicklung in Polen und Deutschland.',
+      clients: ['Lager und Logistikzentren', 'Fabriken und Produktionsbetriebe', 'Bauunternehmen'],
+    },
+    {
+      title: 'Rekrutierung',
+      shortDesc: 'Dauerhafte Suche nach Fachkräften für Ihre Positionen.',
+      desc: 'Wir übernehmen den gesamten Rekrutierungsprozess — vom Stellenprofil bis zum Onboarding — für Unternehmen mit dauerhaftem Personalbedarf.',
+      clients: ['HR-Abteilungen großer Firmen', 'Schnell wachsende KMU', 'Produktionsunternehmen'],
+    },
+    {
+      title: 'Prozess-Outsourcing',
+      shortDesc: 'Übernahme von Prozessen und Personaladministration.',
+      desc: 'HR- und Prozess-Outsourcing — Gehaltsabrechnung, Verträge, Arbeitsschutz, Reporting. Sie konzentrieren sich auf Ihr Geschäft.',
+      clients: ['Unternehmen ohne eigene HR', 'Mehrstandort-Investitionen', 'Handelsketten'],
+    },
+    {
+      title: 'Fassaden',
+      shortDesc: 'Fassaden aller Art — Planung und Ausführung.',
+      desc: 'Umfassende Fassadenleistungen: von vorgehängten und traditionellen Fassaden bis Glas, Dämmung und Sanierung.',
+      clients: ['Bauträger', 'Generalunternehmer', 'Immobilienverwalter'],
+    },
+    {
+      title: 'Großhandel',
+      shortDesc: 'Baumaterialien und Fassadenprodukte — im Großhandel.',
+      desc: 'Lieferung verschiedener Materialtypen in ganz Polen und ausgewählten Regionen Deutschlands.',
+      clients: ['Fassadenbauer', 'Baustoffhandel', 'Entwicklungsprojekte'],
+    },
+  ],
+  facades: [
+    {
+      title: 'Vorgehängte Fassaden',
+      shortDesc: 'Moderne ETICS- und vorgehängte Bekleidungssysteme.',
+      desc: 'Wir planen und realisieren vorgehängte Fassaden unter Einhaltung energetischer Normen und architektonischer Ästhetik.',
+      clients: ['Wohnungsentwickler', 'Büro- und Gewerbeobjekte'],
+      roles: ['Fassadenplanung', 'Panelmontage', 'Wärmedämmung', 'Oberflächenfinish'],
+    },
+    {
+      title: 'Traditionelle Fassaden',
+      shortDesc: 'Putze, Strukturen und klassische Oberflächen.',
+      desc: 'Traditionelle mineralische und strukturelle Fassaden — langlebige Lösungen für Wohn- und öffentliche Gebäude.',
+      clients: ['Bauunternehmen', 'Öffentliche Investitionen'],
+      roles: ['Verputzen', 'Strukturschichten', 'Anstrich', 'Sanierung'],
+    },
+    {
+      title: 'Aluminium- und Verbundplatten',
+      shortDesc: 'Leichte Bekleidungen mit hoher Haltbarkeit.',
+      desc: 'Montage von Aluminium-, Verbund- und Kassettenplatten — schnelle Umsetzung und modernes Erscheinungsbild.',
+      clients: ['Bürogebäude', 'Einkaufszentren', 'Industrieobjekte'],
+      roles: ['Tragkonstruktion', 'Plattenmontage', 'Abdichtung', 'Service'],
+    },
+    {
+      title: 'Architekturglas',
+      shortDesc: 'Glasfassaden und Curtain-Wall-Systeme.',
+      desc: 'Glassysteme für moderne Architektur — von der Planung über Montage bis zum Service.',
+      clients: ['Premium-Entwickler', 'Architekten', 'Generalunternehmer'],
+      roles: ['Glasplanung', 'Montage', 'Abdichtung', 'Wartung'],
+    },
+    {
+      title: 'Dämmung & Energetische Sanierung',
+      shortDesc: 'Verbesserung der Energieeffizienz von Gebäuden.',
+      desc: 'Umfassende Dämmung und energetische Sanierung gemäß Förderprogrammen und EU-Normen.',
+      clients: ['Wohnungseigentümergemeinschaften', 'Gebäudeverwalter', 'Kommunen'],
+      roles: ['Energieaudit', 'Dämmung', 'Fassadenfinish', 'Abnahme'],
+    },
+    {
+      title: 'Fassadensanierung',
+      shortDesc: 'Reparatur, Auffrischung und Sanierung bestehender Fassaden.',
+      desc: 'Wir stellen Ästhetik und Funktionalität von Fassaden wieder her — Punktreparaturen, Reinigung, Imprägnierung und Komplettsanierung.',
+      clients: ['Immobilienverwalter', 'WEGs', 'Gewerbeinvestoren'],
+      roles: ['Diagnose', 'Reparaturen', 'Reinigung', 'Schutzbehandlung'],
+    },
+  ],
+  wholesale: [
+    {
+      title: 'Wärme- und Schalldämmung',
+      shortDesc: 'Wolle, Styropor, Schäume — volles Dämmungssortiment.',
+      desc: 'Dämmmaterialien von geprüften Herstellern, Lieferung in ganz Polen.',
+      clients: ['ETICS-Ausführende', 'Baufirmen', 'Fachhandel'],
+    },
+    {
+      title: 'Kleber, Mörtel und Spachtel',
+      shortDesc: 'Bauchemie für Fassaden und Innenräume.',
+      desc: 'Fassadenkleber, Klebemörtel, Spachtel und Finishmörtel.',
+      clients: ['Fassadenteams', 'Innenausbauer', 'Großhandel'],
+    },
+    {
+      title: 'Fassadensysteme',
+      shortDesc: 'Komplettsysteme aus einer Hand.',
+      desc: 'Profile, Dübel, Gewebe, Strukturputze — kompatible Fassadensysteme.',
+      clients: ['Fassadenbauer', 'Entwickler'],
+    },
+    {
+      title: 'Profile und Konstruktionen',
+      shortDesc: 'Aluminium, Stahl, Montageelemente.',
+      desc: 'Konstruktions- und Montageprofile für Fassaden, Konstruktionen und Überdachungen.',
+      clients: ['Montagefirmen', 'Aluminiumwerkstätten'],
+    },
+    {
+      title: 'Werkzeuge und Arbeitsschutz',
+      shortDesc: 'Arbeitsgeräte und Schutzausrüstung.',
+      desc: 'Werkzeuge, Zubehör und Arbeitsschutzartikel für Bau- und Montageteams.',
+      clients: ['Baufirmen', 'Subunternehmer'],
+    },
+    {
+      title: 'Oberflächenmaterialien',
+      shortDesc: 'Farben, Imprägnierungen, Dekorelemente.',
+      desc: 'Fassadenfarben, Imprägnierungen, Leisten und Fassadendekorelemente.',
+      clients: ['Ausführende', 'Architekturbüros'],
+    },
+  ],
+  cooperation: [
+    {
+      title: 'Zeitarbeit',
+      shortDesc: 'Flexible Beschäftigung in Spitzenzeiten.',
+      desc: 'Schnelle Personalbereitstellung mit vollständiger HR-Abwicklung — ideal bei Saisonalität und Projekten.',
+      clients: ['Lager', 'Produktion', 'Bauwesen'],
+    },
+    {
+      title: 'HR-Outsourcing',
+      shortDesc: 'Personaladministration auf unserer Seite.',
+      desc: 'Gehaltsabrechnung, Verträge, Sozialversicherung, Arbeitsschutz — wir übernehmen den gesamten HR-Prozess.',
+      clients: ['Mittel- und Großunternehmen', 'Franchiseketten'],
+    },
+    {
+      title: 'Prozess-Outsourcing',
+      shortDesc: 'Ausgewählte operative Prozesse extern.',
+      desc: 'Übernahme ausgewählter Geschäftsprozesse — interne Logistik, Kommissionierung, Lagerbetrieb.',
+      clients: ['Logistikzentren', 'Produktionswerke'],
+    },
+    {
+      title: 'Projekt- / Saisonkooperation',
+      shortDesc: 'Teams für Investitionen oder Saison.',
+      desc: 'Komplette Teams für Bau, Fassade oder Saison — mit Koordination und Logistik.',
+      clients: ['Generalunternehmer', 'Bauträger', 'Straßenbauinvestitionen'],
+    },
+    {
+      title: 'Langfristige B2B-Kooperation',
+      shortDesc: 'Langfristiger Partner mit SLA.',
+      desc: 'Rahmenvertrag, dedizierter Ansprechpartner, Prioritätsbetreuung und KPI-Reporting.',
+      clients: ['Konzerne', 'Einzelhandelsketten', 'Kapitalgruppen'],
+    },
+  ],
+};
