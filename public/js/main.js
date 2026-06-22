@@ -1,413 +1,196 @@
 (function () {
   'use strict';
 
-  var SLIDE_MS = 260;
-  var SLIDE_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
-  var langCache = window.__workifyLangCache || (window.__workifyLangCache = new Map());
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function slideDistance() {
-    return '100%';
-  }
+  /* ---------------- persistent UI (header, nav, lang) ---------------- */
+  function initHeader() {
+    var header = document.querySelector('[data-header]');
+    var toTop = document.querySelector('[data-to-top]');
+    var progress = document.querySelector('[data-scroll-progress]');
 
-  function runCrossSlide(outgoing, incoming) {
-    var dist = slideDistance();
-    var opts = { duration: SLIDE_MS, easing: SLIDE_EASE, fill: 'forwards' };
-
-    outgoing.style.willChange = 'transform';
-    incoming.style.willChange = 'transform';
-
-    var outAnim = outgoing.animate(
-      [
-        { transform: 'translate3d(0, 0, 0)' },
-        { transform: 'translate3d(-' + dist + ', 0, 0)' },
-      ],
-      opts
-    );
-
-    var inAnim = incoming.animate(
-      [
-        { transform: 'translate3d(' + dist + ', 0, 0)' },
-        { transform: 'translate3d(0, 0, 0)' },
-      ],
-      opts
-    );
-
-    return Promise.all([outAnim.finished, inAnim.finished]).then(function () {
-      outAnim.cancel();
-      inAnim.cancel();
-      outgoing.style.willChange = '';
-      incoming.style.willChange = '';
-      incoming.style.transform = '';
-    });
-  }
-
-  function langCacheKey(code) {
-    return window.location.pathname + '?lang=' + code;
-  }
-
-  function langFetchUrl(code) {
-    var params = new URLSearchParams(window.location.search);
-    params.set('lang', code);
-    return window.location.pathname + '?' + params.toString();
-  }
-
-  function cleanPageUrl() {
-    var url = new URL(window.location.href);
-    url.searchParams.delete('lang');
-    var qs = url.searchParams.toString();
-    return url.pathname + (qs ? '?' + qs : '');
-  }
-
-  function fetchLangPage(code) {
-    var key = langCacheKey(code);
-    if (langCache.has(key)) {
-      return Promise.resolve(langCache.get(key));
-    }
-
-    return fetch(langFetchUrl(code), {
-      credentials: 'same-origin',
-      headers: { Accept: 'text/html' },
-    }).then(function (response) {
-      if (!response.ok) throw new Error('Language fetch failed');
-      return response.text().then(function (html) {
-        var result = {
-          doc: new DOMParser().parseFromString(html, 'text/html'),
-          url: response.url,
-        };
-        langCache.set(key, result);
-        return result;
-      });
-    });
-  }
-
-  function prefetchLangPage(code) {
-    if (!code || langCache.has(langCacheKey(code))) return;
-    fetchLangPage(code).catch(function () { /* ignore */ });
-  }
-
-  function openMobileMenu() {
-    document.body.classList.add('menu-open');
-    var toggle = document.querySelector('.menu-toggle');
-    if (toggle) toggle.setAttribute('aria-expanded', 'true');
-  }
-
-  function closeMobileMenu() {
-    document.body.classList.remove('menu-open');
-    var toggle = document.querySelector('.menu-toggle');
-    if (toggle) toggle.setAttribute('aria-expanded', 'false');
-  }
-
-  function toggleMobileMenu() {
-    if (document.body.classList.contains('menu-open')) {
-      closeMobileMenu();
-    } else {
-      closeLangSwitchers();
-      openMobileMenu();
-    }
-  }
-
-  function initIndustryPicker() {
-    const pickerForm = document.getElementById('industry-picker');
-    const dropdown = document.querySelector('[data-industry-dropdown]');
-
-    if (!pickerForm || !dropdown || dropdown.dataset.bound === '1') return;
-
-    dropdown.dataset.bound = '1';
-
-    const trigger = dropdown.querySelector('.industry-picker__trigger');
-    const valueEl = dropdown.querySelector('.industry-picker__value');
-    const hiddenInput = dropdown.querySelector('input[name="industry"]');
-    const menu = dropdown.querySelector('.industry-picker__menu');
-    const options = Array.from(dropdown.querySelectorAll('.industry-picker__option'));
-    let focusedIndex = -1;
-
-    function setOpen(open) {
-      dropdown.classList.toggle('is-open', open);
-      trigger.setAttribute('aria-expanded', String(open));
-      menu.hidden = !open;
-
-      if (!open) {
-        focusedIndex = -1;
-        options.forEach(function (opt) {
-          opt.classList.remove('is-focused');
-        });
+    function onScroll() {
+      var y = window.scrollY || 0;
+      if (header) header.classList.toggle('is-scrolled', y > 12);
+      if (toTop) toTop.classList.toggle('is-visible', y > 600);
+      if (progress) {
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        progress.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
       }
     }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-    function selectOption(option) {
-      const value = option.dataset.value;
-      const label = option.textContent.trim();
-
-      hiddenInput.value = value;
-      valueEl.textContent = label;
-      valueEl.classList.toggle('is-placeholder', !value);
-
-      options.forEach(function (opt) {
-        const selected = opt === option;
-        opt.classList.toggle('is-selected', selected);
-        opt.setAttribute('aria-selected', String(selected));
+    if (toTop) {
+      toTop.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
       });
-
-      setOpen(false);
-      trigger.focus();
     }
+  }
 
-    function moveFocus(direction) {
-      if (!dropdown.classList.contains('is-open')) return;
+  function initNav() {
+    var toggle = document.querySelector('[data-nav-toggle]');
+    var nav = document.getElementById('site-nav');
+    if (!toggle || !nav) return;
 
-      const start = focusedIndex < 0 ? (direction > 0 ? 0 : options.length - 1) : focusedIndex;
-      focusedIndex = Math.max(0, Math.min(options.length - 1, start + direction));
-
-      options.forEach(function (opt) {
-        opt.classList.remove('is-focused');
-      });
-
-      const target = options[focusedIndex];
-      target.classList.add('is-focused');
-      target.scrollIntoView({ block: 'nearest' });
+    function open() {
+      document.body.classList.add('nav-open');
+      toggle.setAttribute('aria-expanded', 'true');
     }
-
-    trigger.addEventListener('click', function () {
-      setOpen(!dropdown.classList.contains('is-open'));
+    function close() {
+      document.body.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    toggle.addEventListener('click', function () {
+      document.body.classList.contains('nav-open') ? close() : open();
     });
-
-    options.forEach(function (option, index) {
-      option.addEventListener('click', function () {
-        selectOption(option);
-      });
-
-      option.addEventListener('mouseenter', function () {
-        focusedIndex = index;
-        options.forEach(function (opt) {
-          opt.classList.remove('is-focused');
-        });
-        option.classList.add('is-focused');
-      });
+    document.querySelectorAll('[data-nav-close]').forEach(function (el) {
+      el.addEventListener('click', close);
     });
-
-    trigger.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        if (!dropdown.classList.contains('is-open')) {
-          setOpen(true);
-          moveFocus(1);
-        } else if (e.key === 'ArrowDown') {
-          moveFocus(1);
-        }
-      } else if (e.key === 'ArrowUp' && dropdown.classList.contains('is-open')) {
-        e.preventDefault();
-        moveFocus(-1);
-      } else if (e.key === 'Escape') {
-        setOpen(false);
-      }
+    nav.addEventListener('click', function (e) {
+      if (e.target.closest('a')) close();
     });
-
-    menu.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        moveFocus(1);
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        moveFocus(-1);
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        const focused = options.find(function (opt) {
-          return opt.classList.contains('is-focused');
-        });
-        if (focused) selectOption(focused);
-      } else if (e.key === 'Escape') {
-        setOpen(false);
-        trigger.focus();
-      }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
     });
+    window.__adtCloseNav = close;
+  }
 
+  function initLang() {
     document.addEventListener('click', function (e) {
-      if (!dropdown.contains(e.target)) {
-        setOpen(false);
-      }
-    });
+      var trigger = e.target.closest('.lang__trigger');
+      var openSwitchers = document.querySelectorAll('.lang.is-open');
 
-    pickerForm.addEventListener('submit', function (e) {
-      const val = hiddenInput.value;
-      if (val) {
-        e.preventDefault();
-        window.location.href = '/branze/' + val;
-      }
-    });
-  }
-
-  function closeLangSwitchers() {
-    document.querySelectorAll('[data-lang-switcher].is-open').forEach(function (switcher) {
-      switcher.classList.remove('is-open');
-      const trigger = switcher.querySelector('.lang-switcher__trigger');
-      const menu = switcher.querySelector('.lang-switcher__menu');
-      if (trigger) trigger.setAttribute('aria-expanded', 'false');
-      if (menu) menu.hidden = true;
-    });
-  }
-
-  function prefetchAllLangs(switcher) {
-    switcher.querySelectorAll('[data-lang-link]').forEach(function (link) {
-      prefetchLangPage(link.dataset.lang);
-    });
-  }
-
-  function syncHeaderFromDoc(doc) {
-    var currentHeader = document.querySelector('header.header');
-    var newHeader = doc.querySelector('header.header');
-    if (!currentHeader || !newHeader) return;
-    currentHeader.innerHTML = newHeader.innerHTML;
-  }
-
-  async function switchLanguage(link) {
-    if (window.__workifyLangBusy) return;
-
-    const code = link.dataset.lang;
-    const href = link.href;
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (!code || reducedMotion) {
-      window.location.href = href;
-      return;
-    }
-
-    const stage = document.querySelector('[data-lang-stage]');
-    const outgoing = stage && stage.querySelector('[data-lang-panel]');
-
-    if (!stage || !outgoing) {
-      window.location.href = href;
-      return;
-    }
-
-    closeMobileMenu();
-    closeLangSwitchers();
-    window.__workifyLangBusy = true;
-    document.body.classList.add('lang-switching');
-
-    let payload;
-
-    try {
-      payload = await fetchLangPage(code);
-    } catch (err) {
-      window.__workifyLangBusy = false;
-      document.body.classList.remove('lang-switching');
-      window.location.href = href;
-      return;
-    }
-
-    const incomingRoot = payload.doc.querySelector('[data-lang-panel]') || payload.doc.querySelector('.page-slide');
-    if (!incomingRoot) {
-      window.__workifyLangBusy = false;
-      document.body.classList.remove('lang-switching');
-      window.location.href = href;
-      return;
-    }
-
-    const incoming = incomingRoot.cloneNode(true);
-    incoming.setAttribute('data-lang-panel', '');
-    incoming.classList.add('page-slide--incoming');
-    outgoing.classList.add('page-slide--outgoing');
-
-    stage.appendChild(incoming);
-
-    document.documentElement.lang = payload.doc.documentElement.lang;
-    document.title = payload.doc.title;
-    document.body.className = payload.doc.body.className + ' lang-switching';
-
-    syncHeaderFromDoc(payload.doc);
-
-    void incoming.offsetWidth;
-
-    try {
-      await runCrossSlide(outgoing, incoming);
-    } catch (animErr) {
-      /* continue cleanup */
-    }
-
-    incoming.classList.remove('page-slide--incoming');
-    outgoing.remove();
-
-    document.body.classList.remove('lang-switching');
-
-    window.history.replaceState({ lang: true }, '', cleanPageUrl());
-
-    initIndustryPicker();
-    document.dispatchEvent(new CustomEvent('workify:page-updated'));
-
-    window.__workifyLangBusy = false;
-  }
-
-  function initUiDelegation() {
-    if (window.__workifyUiDelegation) return;
-    window.__workifyUiDelegation = true;
-
-    document.addEventListener('click', function (e) {
-      if (e.target.closest('.menu-toggle')) {
-        e.preventDefault();
-        toggleMobileMenu();
-        return;
-      }
-
-      if (e.target.closest('[data-nav-close]')) {
-        closeMobileMenu();
-        return;
-      }
-
-      if (e.target.closest('.nav__link')) {
-        closeMobileMenu();
-      }
-
-      const trigger = e.target.closest('.lang-switcher__trigger');
       if (trigger) {
-        e.preventDefault();
-        const switcher = trigger.closest('[data-lang-switcher]');
-        if (!switcher) return;
-
-        const isOpen = switcher.classList.contains('is-open');
-        closeLangSwitchers();
-
+        var wrap = trigger.closest('[data-lang-switcher]');
+        var isOpen = wrap.classList.contains('is-open');
+        openSwitchers.forEach(function (s) { s.classList.remove('is-open'); s.querySelector('.lang__trigger').setAttribute('aria-expanded', 'false'); });
         if (!isOpen) {
-          switcher.classList.add('is-open');
+          wrap.classList.add('is-open');
           trigger.setAttribute('aria-expanded', 'true');
-          const menu = switcher.querySelector('.lang-switcher__menu');
-          if (menu) menu.hidden = false;
-          prefetchAllLangs(switcher);
         }
         return;
       }
-
-      if (!e.target.closest('[data-lang-switcher]')) {
-        closeLangSwitchers();
-      }
-
-      const link = e.target.closest('[data-lang-link]');
-      if (!link) return;
-
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      switchLanguage(link);
+      openSwitchers.forEach(function (s) { s.classList.remove('is-open'); s.querySelector('.lang__trigger').setAttribute('aria-expanded', 'false'); });
     });
-
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        closeLangSwitchers();
-        closeMobileMenu();
+        document.querySelectorAll('.lang.is-open').forEach(function (s) { s.classList.remove('is-open'); });
       }
     });
-
-    document.addEventListener('mouseover', function (e) {
-      const link = e.target.closest('[data-lang-link]');
-      if (!link) return;
-      prefetchLangPage(link.dataset.lang);
-    });
-
-    document.addEventListener('touchstart', function (e) {
-      const link = e.target.closest('[data-lang-link]');
-      if (!link) return;
-      prefetchLangPage(link.dataset.lang);
-    }, { passive: true });
   }
 
-  initIndustryPicker();
-  initUiDelegation();
+  /* ---------------- page content (re-run after navigation) --------- */
+  function initReveal() {
+    var items = document.querySelectorAll('[data-reveal], [data-reveal-children]');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        if (el.hasAttribute('data-reveal-children')) {
+          var step = parseFloat(el.getAttribute('data-stagger')) || 90;
+          Array.prototype.forEach.call(el.children, function (child, i) {
+            child.style.transitionDelay = (i * step) + 'ms';
+          });
+        }
+        el.classList.add('is-visible');
+        io.unobserve(el);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    items.forEach(function (el) { io.observe(el); });
+  }
+
+  function animateCount(el) {
+    var target = parseFloat(el.getAttribute('data-count'));
+    if (isNaN(target)) return;
+    if (reduceMotion) { el.textContent = target; return; }
+    var dur = 1600, start = null;
+    function tick(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased);
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function initCounters() {
+    var counters = document.querySelectorAll('[data-count]');
+    if (!counters.length) return;
+    if (!('IntersectionObserver' in window)) {
+      counters.forEach(animateCount);
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { animateCount(entry.target); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(function (el) { io.observe(el); });
+  }
+
+  function initCardGlow() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    document.querySelectorAll('.card').forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  }
+
+  function initMarquee() {
+    document.querySelectorAll('[data-marquee] .marquee__track').forEach(function (track) {
+      if (track.dataset.cloned) return;
+      track.dataset.cloned = '1';
+      track.innerHTML += track.innerHTML;
+    });
+  }
+
+  function initParallax() {
+    if (reduceMotion) return;
+    var els = document.querySelectorAll('[data-parallax]');
+    if (!els.length) return;
+    function onScroll() {
+      var vh = window.innerHeight;
+      els.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        var speed = parseFloat(el.getAttribute('data-parallax')) || 0.1;
+        var offset = (r.top + r.height / 2 - vh / 2) * speed;
+        el.style.transform = 'translateY(' + (-offset) + 'px)';
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  function initPage() {
+    initReveal();
+    initCounters();
+    initCardGlow();
+    initMarquee();
+    initParallax();
+  }
+
+  function initGlobal() {
+    initHeader();
+    initNav();
+    initLang();
+  }
+
+  window.ADT = { initPage: initPage };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { initGlobal(); initPage(); });
+  } else {
+    initGlobal();
+    initPage();
+  }
 })();

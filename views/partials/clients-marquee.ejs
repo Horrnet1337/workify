@@ -1,0 +1,12 @@
+<section class="clients" data-reveal>
+  <div class="container">
+    <p class="clients__label"><%= loc.clientsSection.eyebrow %></p>
+  </div>
+  <div class="marquee" data-marquee>
+    <div class="marquee__track">
+      <% loc.clients.forEach(function(c) { %>
+        <span class="marquee__item"><img src="/images/clients/<%= c %>.png" alt="<%= c %>" loading="lazy" decoding="async"></span>
+      <% }) %>
+    </div>
+  </div>
+</section>

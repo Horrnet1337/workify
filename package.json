@@ -1,7 +1,7 @@
 {
-  "name": "workify",
-  "version": "1.0.0",
-  "description": "Workify — agencja pracy tymczasowej. Strona dla klientów B2B.",
+  "name": "adt-group",
+  "version": "2.0.0",
+  "description": "ADT GROUP — a group of companies for business. Multilingual dark-themed business-card site.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -14,7 +14,6 @@
     "compression": "^1.8.0",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
-    "express-validator": "^7.2.1",
     "helmet": "^8.0.0"
   }
 }

@@ -1,37 +1,20 @@
-<%- include('../partials/page-hero', {
-  breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.cooperation.breadcrumb }],
-  pageLabel: ui.cooperation.pageLabel,
-  pageTitle: ui.cooperation.pageTitle,
-  pageDesc: ui.cooperation.pageDesc
+<%- include('../partials/inner-hero', {
+  heroEyebrow: loc.cooperationPage.eyebrow,
+  heroTitle: loc.cooperationPage.title,
+  heroSub: loc.cooperationPage.subtitle
 }) %>
 
-<section class="section">
-  <div class="section__inner">
-    <div class="section__header section__header--center">
-      <span class="section__label"><%= ui.cooperation.modelsTitle %></span>
-    </div>
-    <div class="catalog-grid">
-      <% cooperation.forEach(function(item, i) { %>
-        <article class="catalog-card catalog-card--coop">
-          <span class="catalog-card__num"><%= String(i + 1).padStart(2, '0') %></span>
-          <h3><%= item.title %></h3>
-          <p class="catalog-card__lead"><%= item.shortDesc %></p>
-          <p><%= item.desc %></p>
-          <div class="catalog-card__clients">
-            <strong><%= ui.cooperation.clientsTitle %></strong>
-            <ul>
-              <% item.clients.forEach(function(client) { %>
-                <li><%= client %></li>
-              <% }) %>
-            </ul>
-          </div>
-        </article>
+<section class="section section--tight">
+  <div class="container">
+    <div class="card-grid card-grid--3" data-reveal-children data-stagger="80">
+      <% loc.cooperation.forEach(function(c, i) { %>
+        <div class="card">
+          <span class="card__index"><%= String(i + 1).padStart(2, '0') %></span>
+          <span class="card__icon"><%- include('../partials/icon', { name: c.icon }) %></span>
+          <h3 class="card__title"><%= c.title %></h3>
+          <p class="card__desc"><%= c.desc %></p>
+        </div>
       <% }) %>
-    </div>
-    <div class="section__action">
-      <a href="/kontakt?division=outsourcing" class="btn btn--primary"><%= ui.cooperation.askQuote %></a>
     </div>
   </div>
 </section>
-
-<%- include('../partials/cta-banner') %>

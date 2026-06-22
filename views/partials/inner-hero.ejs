@@ -1,0 +1,12 @@
+<section class="page-hero">
+  <div class="page-hero__orb" data-parallax="0.05"></div>
+  <div class="container page-hero__inner">
+    <p class="breadcrumb" data-reveal>
+      <a href="/"><%= nav[0].label %></a>
+      <%- include('./icon', { name: 'arrow' }) %>
+      <span><%= heroEyebrow %></span>
+    </p>
+    <h1 class="page-hero__title" data-reveal style="--reveal-delay: 0.08s"><%= heroTitle %></h1>
+    <p class="page-hero__sub" data-reveal style="--reveal-delay: 0.16s"><%= heroSub %></p>
+  </div>
+</section>

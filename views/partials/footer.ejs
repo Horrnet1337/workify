@@ -1,41 +1,51 @@
 <footer class="footer" style="view-transition-name: site-footer">
-  <div class="footer__inner">
+  <div class="footer__cta" data-reveal>
+    <p class="eyebrow"><%= loc.cta.eyebrow %></p>
+    <h2 class="footer__cta-title"><%= loc.cta.title %></h2>
+    <p class="footer__cta-sub"><%= loc.cta.subtitle %></p>
+    <div class="footer__cta-contacts">
+      <a class="footer__contact-pill" href="mailto:<%= site.email %>">
+        <%- include('./icon', { name: 'arrow', iconClass: '' }) %>
+        <span><%= site.email %></span>
+      </a>
+      <a class="footer__contact-pill" href="tel:<%= site.phoneHref %>">
+        <%- include('./icon', { name: 'arrow', iconClass: '' }) %>
+        <span><%= site.phone %></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer__main">
     <div class="footer__brand">
-      <a href="/" class="logo logo--footer">
+      <a href="/" class="logo logo--footer" aria-label="<%= site.name %>">
         <%- include('./logo') %>
       </a>
-      <p class="footer__desc"><%= site.tagline %><%= ui.footer.taglineSuffix %></p>
+      <p class="footer__tagline"><%= ui.footer.tagline %></p>
+      <span class="footer__group-badge"><%= ui.footer.group %></span>
     </div>
 
-    <div class="footer__columns">
-      <div class="footer__col">
-        <strong><%= ui.footer.company %></strong>
-        <a href="/o-nas"><%= ui.footer.about %></a>
-        <a href="/jak-dzialamy"><%= ui.footer.process %></a>
-        <a href="/faq"><%= ui.footer.faq %></a>
-      </div>
-      <div class="footer__col">
-        <strong><%= ui.footer.offer %></strong>
-        <a href="/uslugi"><%= ui.footer.services %></a>
-        <a href="/fasady"><%= ui.footer.facades %></a>
-        <a href="/hurtownia"><%= ui.footer.wholesale %></a>
-        <a href="/wspolpraca"><%= ui.footer.cooperation %></a>
-        <a href="/branze"><%= ui.footer.industries %></a>
-        <a href="/lokalizacje"><%= ui.footer.locations %></a>
-      </div>
-      <div class="footer__col">
-        <strong><%= ui.footer.contact %></strong>
-        <a href="mailto:<%= site.contact.email %>"><%= site.contact.email %></a>
-        <a href="tel:<%= site.contact.phone.replace(/\s/g, '') %>"><%= site.contact.phoneDisplay %></a>
-        <a href="/kontakt"><%= ui.footer.contactForm %></a>
+    <nav class="footer__nav" aria-label="<%= ui.footer.navTitle %>">
+      <p class="footer__col-title"><%= ui.footer.navTitle %></p>
+      <ul>
+        <% nav.forEach(function(item) { %>
+          <li><a href="<%= item.href %>"><%= item.label %></a></li>
+        <% }) %>
+      </ul>
+    </nav>
+
+    <div class="footer__contact">
+      <p class="footer__col-title"><%= ui.footer.contactTitle %></p>
+      <a href="mailto:<%= site.email %>"><%= site.email %></a>
+      <a href="tel:<%= site.phoneHref %>"><%= site.phone %></a>
+      <div class="footer__social" aria-label="<%= ui.footer.followTitle %>">
+        <a href="<%= site.social.linkedin %>" class="footer__social-link" aria-label="LinkedIn"><%- include('./icon', { name: 'linkedin', iconClass: '' }) %></a>
+        <a href="<%= site.social.instagram %>" class="footer__social-link" aria-label="Instagram"><%- include('./icon', { name: 'instagram', iconClass: '' }) %></a>
+        <a href="<%= site.social.facebook %>" class="footer__social-link" aria-label="Facebook"><%- include('./icon', { name: 'facebook', iconClass: '' }) %></a>
       </div>
     </div>
   </div>
+
   <div class="footer__bottom">
-    <p>&copy; <%= year %> <%= site.name %>. <%= ui.footer.rights %></p>
-    <div class="footer__bottom-extra">
-      <a href="/admin/login" class="footer__admin">Panel</a>
-      <%- include('./powered-by') %>
-    </div>
+    <p>© <%= year %> <%= site.name %>. <%= ui.footer.rights %></p>
   </div>
 </footer>

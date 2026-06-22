@@ -4,8 +4,3 @@ node_modules/
 git.env
 *.log
 .DS_Store
-workify-deploy.zip
-workify.zip
-data/leads.json
-data/crm.json
-cookies.txt

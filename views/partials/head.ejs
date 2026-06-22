@@ -1,26 +1,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="view-transition" content="same-origin">
-<meta name="description" content="<%= metaDescription || site.description %>">
+<meta name="theme-color" content="#0c0c0e">
+<meta name="description" content="<%= metaDescription || site.name %>">
 <title><%= title || site.name %></title>
-<link rel="icon" href="/images/favicon.png?v=2" type="image/png">
+<link rel="icon" href="/favicon.png?v=3" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/main.css?v=14">
-<link rel="stylesheet" href="/css/pages.css?v=8">
-<link rel="stylesheet" href="/css/transitions.css?v=8">
-<style id="lang-switch-critical">
-  [data-lang-stage] { overflow-x: clip; }
-</style>
-<script>
-  (function () {
-    try {
-      if (sessionStorage.getItem('workify_lang_switch')) {
-        sessionStorage.removeItem('workify_lang_switch');
-      }
-    } catch (e) { /* ignore */ }
-  })();
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css?v=20">
+<link rel="stylesheet" href="/css/transitions.css?v=20">
 <% if (typeof extraStyles !== 'undefined') { extraStyles.forEach(function(href) { %>
 <link rel="stylesheet" href="<%= href %>">
 <% }) } %>

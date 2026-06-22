@@ -1,129 +1,252 @@
-const buildLocale = require('./merge');
-const ui = require('./pl-ui');
-const group = require('./content/group-pl');
-const services = require('../data/services');
-const industries = require('../data/industries');
-const faq = require('../data/faq');
-const process = require('../data/process');
-const locations = require('../data/locations');
-
-const pick = (arr, keys) =>
-  arr.map((item) =>
-    keys.reduce((o, k) => {
-      o[k] = item[k];
-      return o;
-    }, {})
-  );
-
-module.exports = buildLocale({
+module.exports = {
   code: 'pl',
   label: 'PL',
   name: 'Polski',
-  flag: '🇵🇱',
-  ui,
+
   meta: {
     home: {
-      title: 'Workify — Agencja Pracy dla Firm',
+      title: 'ADT GROUP — grupa spółek dla biznesu',
       description:
-        'Workify dostarcza wykwalifikowany personel na magazyny, fabryki, budowy i roboty drogowe w Polsce i Niemczech.',
-    },
-    about: {
-      title: 'O nas — Workify',
-      description:
-        'Poznaj Workify — agencję pracy tymczasowej specjalizującą się w dostarczaniu personelu dla firm w Polsce i Niemczech.',
+        'ADT GROUP to grupa spółek: agencja pracy, praca tymczasowa, rekrutacja, outsourcing procesów, fasady i hurtownia materiałów budowlanych. Działamy w całej Polsce.',
     },
     services: {
-      title: 'Usługi — Workify',
+      title: 'Usługi — ADT GROUP',
       description:
-        'Leasing pracowniczy, rekrutacja stała, outsourcing kadrowy i personel projektowy — kompleksowe rozwiązania kadrowe Workify.',
-    },
-    industries: {
-      title: 'Branże — Workify',
-      description:
-        'Personel dla magazynów, fabryk, budownictwa, robót drogowych i wielu innych branż w Polsce i Niemczech.',
-    },
-    locations: {
-      title: 'Lokalizacje — Workify',
-      description:
-        'Workify działa w Polsce i Niemczech — Warszawa, Berlin, Monachium i inne kluczowe regiony przemysłowe.',
-    },
-    process: {
-      title: 'Jak działamy — Workify',
-      description:
-        'Proces współpracy z Workify — od analizy potrzeb po wdrożenie personelu w 5 prostych krokach.',
-    },
-    faq: {
-      title: 'FAQ — Workify',
-      description: 'Najczęściej zadawane pytania o współpracę z agencją pracy Workify.',
-    },
-    contact: {
-      title: 'Kontakt — Workify',
-      description:
-        'Skontaktuj się z Workify — przygotujemy ofertę dopasowaną do Twoich potrzeb kadrowych.',
+        'Agencja pracy, praca tymczasowa, rekrutacja i outsourcing procesów — kompleksowe rozwiązania kadrowe dla firm w całej Polsce.',
     },
     facades: {
-      title: 'Fasady — Workify',
+      title: 'Fasady — ADT GROUP',
       description:
-        'Kompleksowe rozwiązania elewacyjne grupy Workify — projekt, wykonanie i serwis fasad w Polsce i Niemczech.',
+        'Wszystkie rodzaje fasad: wentylowane, tynkowane (ETICS), klinkierowe, szklane, kompozytowe, drewniane, kamienne i metalowe kasetony.',
     },
     wholesale: {
-      title: 'Hurtownia — Workify',
+      title: 'Hurtownia — ADT GROUP',
       description:
-        'Hurtownia materiałów budowlanych i elewacyjnych Workify — dostawy w Polsce i Niemczech.',
+        'Hurtowa dostawa materiałów elewacyjnych i budowlanych: izolacja, systemy mocowań, płyty kompozytowe, profile i chemia budowlana.',
     },
     cooperation: {
-      title: 'Współpraca — Workify',
+      title: 'Współpraca — ADT GROUP',
       description:
-        'Modele współpracy B2B i outsourcing procesów w grupie Workify.',
+        'Elastyczne modele współpracy — outsourcing procesów, leasing pracowniczy, outsourcing projektowy i zespoły zarządzane.',
+    },
+    partners: {
+      title: 'Partnerzy — ADT GROUP',
+      description: 'Z kim współpracujemy w każdej niszy — logistyka, produkcja, budownictwo, handel i e-commerce.',
     },
     notFound: {
-      title: 'Nie znaleziono — Workify',
+      title: 'Nie znaleziono strony — ADT GROUP',
       description: 'Strona, której szukasz, nie istnieje.',
     },
   },
-  site: {
-    tagline: 'Grupa spółek — kadry, fasady i materiały dla firm',
-    description:
-      'Workify to grupa spółek działająca w Polsce i Niemczech: agencja pracy, rekrutacja, outsourcing, fasady i hurtownia materiałów.',
-    nav: [
-      { label: 'O nas', href: '/o-nas', id: 'about' },
-      { label: 'Usługi', href: '/uslugi', id: 'services' },
-      { label: 'Fasady', href: '/fasady', id: 'facades' },
-      { label: 'Hurtownia', href: '/hurtownia', id: 'wholesale' },
-      { label: 'Współpraca', href: '/wspolpraca', id: 'cooperation' },
-      { label: 'Branże', href: '/branze', id: 'industries' },
-      { label: 'Lokalizacje', href: '/lokalizacje', id: 'locations' },
-    ],
-    stats: [
-      { value: '500+', label: 'Zatrudnionych pracowników rocznie' },
-      { value: '120+', label: 'Firm partnerskich' },
-      { value: '2', label: 'Kraje — Polska i Niemcy' },
-      { value: '48h', label: 'Średni czas dostarczenia personelu' },
-    ],
-    contact: {
-      hours: 'Pon–Pt, 8:00–17:00',
-      address: {
-        pl: 'ul. Przykładowa 12, 00-001 Warszawa, Polska',
-        de: 'Musterstraße 8, 10115 Berlin, Niemcy',
-      },
+
+  navLabels: {
+    home: 'Start',
+    services: 'Usługi',
+    facades: 'Fasady',
+    wholesale: 'Hurtownia',
+    cooperation: 'Współpraca',
+    partners: 'Partnerzy',
+  },
+
+  ui: {
+    skip: 'Przejdź do treści',
+    menu: 'Menu',
+    close: 'Zamknij',
+    langLabel: 'Język',
+    backTop: 'Do góry',
+    cta: {
+      explore: 'Więcej',
+      viewAll: 'Zobacz wszystkie',
+      learnMore: 'Dowiedz się więcej',
+      allServices: 'Wszystkie usługi',
+    },
+    footer: {
+      tagline: 'Jeden partner dla firm — kadry, outsourcing, fasady i materiały.',
+      navTitle: 'Nawigacja',
+      contactTitle: 'Kontakt',
+      followTitle: 'Obserwuj nas',
+      rights: 'Wszelkie prawa zastrzeżone.',
+      group: 'Grupa spółek',
+    },
+    notFound: {
+      title: 'Nie znaleziono strony',
+      text: 'Strona, której szukasz, została przeniesiona lub nie istnieje.',
+      back: 'Wróć na stronę główną',
     },
   },
-  validation: {
-    name: 'Podaj imię i nazwisko.',
-    company: 'Podaj nazwę firmy.',
-    email: 'Podaj prawidłowy adres e-mail.',
-    message: 'Napisz wiadomość.',
+
+  hero: {
+    eyebrow: 'Grupa spółek',
+    title: 'Jeden partner.',
+    accent: 'Każde rozwiązanie.',
+    subtitle:
+      'ADT GROUP łączy agencję pracy, pracę tymczasową, rekrutację, outsourcing procesów, fasady i hurtownię materiałów — działa w całej Polsce.',
+    primaryCta: 'Poznaj grupę',
+    secondaryCta: 'Nasze usługi',
+    scroll: 'W dół',
+    stats: [
+      { value: '10', suffix: '+', label: 'lat doświadczenia' },
+      { value: '500', suffix: '+', label: 'pracowników rocznie' },
+      { value: '120', suffix: '+', label: 'firm partnerskich' },
+      { value: '16', suffix: '', label: 'województw — cała Polska' },
+    ],
   },
-  services: pick(services, ['title', 'shortDesc', 'desc', 'benefits']),
-  industries: pick(industries, ['title', 'shortDesc', 'desc', 'roles']),
-  faq: pick(faq, ['q', 'a']),
-  process: pick(process, ['title', 'desc']),
-  locations: {
-    pl: pick([locations.pl], ['name', 'desc', 'address'])[0],
-    de: pick([locations.de], ['name', 'desc', 'address'])[0],
+
+  about: {
+    eyebrow: 'O grupie',
+    title: 'Grupa spółek pod jedną marką',
+    lead:
+      'ADT GROUP łączy kilka wyspecjalizowanych spółek pod jedną nazwą — aby firma miała jednego pewnego partnera zamiast kilkunastu podwykonawców.',
+    paragraphs: [
+      'Łączymy rozwiązania kadrowe — agencję pracy, pracę tymczasową i rekrutację — z outsourcingiem procesów, wykonawstwem fasad i hurtową sprzedażą materiałów budowlanych.',
+      'Niezależnie od skali zadania współpracujesz z jednym zespołem, jednym standardem jakości i jednym punktem odpowiedzialności.',
+    ],
+    points: [
+      'Agencja pracy i praca tymczasowa',
+      'Rekrutacja i outsourcing procesów',
+      'Fasady wszystkich typów',
+      'Hurtowa sprzedaż materiałów',
+    ],
   },
-  divisions: group.divisions,
-  facades: group.facades,
-  wholesale: group.wholesale,
-  cooperation: group.cooperation,
-});
+
+  divisionsSection: {
+    eyebrow: 'Czym się zajmujemy',
+    title: 'Obszary działania grupy',
+    subtitle: 'Pięć obszarów biznesu, jeden standard realizacji.',
+  },
+
+  divisions: {
+    agency: {
+      title: 'Agencja pracy',
+      desc: 'Wykwalifikowany personel do magazynów, fabryk i budów — wyselekcjonowany, oddokumentowany i gotowy do pracy.',
+      points: ['Pracownicy i specjaliści', 'Pełna dokumentacja', 'Szybkie wdrożenie'],
+    },
+    temporary: {
+      title: 'Praca tymczasowa',
+      desc: 'Elastyczne zespoły tymczasowe, które skalują się pod szczyty sezonowe i potrzeby projektowe.',
+      points: ['Szczyty sezonowe', 'Skalowanie na żądanie', 'Kadry i płace po naszej stronie'],
+    },
+    recruitment: {
+      title: 'Rekrutacja',
+      desc: 'Stała rekrutacja specjalistów i menedżerów — od poszukiwania po wdrożenie.',
+      points: ['Specjaliści i menedżerowie', 'Zweryfikowani kandydaci', 'Wsparcie onboardingu'],
+    },
+    outsourcing: {
+      title: 'Outsourcing procesów',
+      desc: 'Przejmujemy całe procesy i odpowiadamy za efekt — różne modele współpracy dopasowane do firmy.',
+      points: ['Proces pod klucz', 'Elastyczne modele', 'Mierzalne KPI'],
+    },
+    facades: {
+      title: 'Fasady',
+      desc: 'Projekt, dostawa i montaż wszystkich głównych typów fasad dla budynków mieszkalnych i komercyjnych.',
+      points: ['Wszystkie typy fasad', 'Własne ekipy', 'Realizacja pod klucz'],
+    },
+    wholesale: {
+      title: 'Hurtownia',
+      desc: 'Hurtowa dostawa materiałów elewacyjnych i budowlanych wszystkich typów z dostawą w całej Polsce.',
+      points: ['Materiały elewacyjne i budowlane', 'Stabilne dostawy', 'Dostawa w całym kraju'],
+    },
+  },
+
+  geography: {
+    eyebrow: 'Zasięg',
+    title: 'Działamy w całej Polsce',
+    subtitle: 'Od wybrzeża po góry — kadry, materiały i ekipy tam, gdzie są Twoje projekty.',
+    note: 'Obecność w całym kraju',
+  },
+
+  cities: {
+    warszawa: 'Warszawa',
+    krakow: 'Kraków',
+    wroclaw: 'Wrocław',
+    poznan: 'Poznań',
+    gdansk: 'Gdańsk',
+    lodz: 'Łódź',
+    katowice: 'Katowice',
+    szczecin: 'Szczecin',
+  },
+
+  clientsSection: {
+    eyebrow: 'Zaufali nam',
+    title: 'Firmy, które na nas polegają',
+    subtitle: 'Reprezentatywne marki z branż, które obsługujemy.',
+  },
+
+  servicesPage: {
+    eyebrow: 'Usługi',
+    title: 'Rozwiązania kadrowe i outsourcing',
+    subtitle:
+      'Grupa spółek obejmująca dobór personelu, rekrutację i outsourcing procesów — jeden partner do każdego zadania kadrowego.',
+  },
+
+  facadesPage: {
+    eyebrow: 'Fasady',
+    title: 'Każdy rodzaj fasady',
+    subtitle: 'Projektujemy, dostarczamy i montujemy wszystkie główne systemy fasadowe — w najwyższym standardzie technicznym.',
+  },
+
+  facades: {
+    ventilated: { title: 'Fasady wentylowane', desc: 'Systemy z pustką powietrzną — efektywność energetyczna i trwałość.' },
+    etics: { title: 'Tynkowane (ETICS)', desc: 'Systemy ociepleń z wyprawą tynkarską.' },
+    clinker: { title: 'Klinkierowe', desc: 'Klasyczne fasady klinkierowe — trwałe i bezobsługowe.' },
+    glass: { title: 'Szklane / kurtynowe', desc: 'Szklenie strukturalne i aluminiowe ściany kurtynowe.' },
+    composite: { title: 'Płyty kompozytowe', desc: 'Okładziny HPL i ACP dla nowoczesnej architektury.' },
+    wood: { title: 'Drewniane', desc: 'Drewno naturalne i modyfikowane o ciepłym charakterze.' },
+    stone: { title: 'Kamienne', desc: 'Kamień naturalny i kompozytowy — prestiżowe i trwałe wykończenie.' },
+    metal: { title: 'Kasetony metalowe', desc: 'Systemy kasetonowe i z blachy dla obiektów przemysłowych i komercyjnych.' },
+  },
+
+  wholesalePage: {
+    eyebrow: 'Hurtownia',
+    title: 'Materiały każdego typu',
+    subtitle: 'Dostarczamy materiały elewacyjne i budowlane wszystkich rodzajów — stabilny magazyn i dostawa w całej Polsce.',
+  },
+
+  materials: {
+    facade: { title: 'Materiały elewacyjne', desc: 'Okładziny, tynki, płyty i systemy wykończeniowe pod każdą fasadę.' },
+    insulation: { title: 'Izolacja termiczna', desc: 'Wełna mineralna, EPS i XPS dla energooszczędnych przegród.' },
+    fixings: { title: 'Systemy mocowań', desc: 'Kotwy, konsole i łączniki do podkonstrukcji fasad.' },
+    composite: { title: 'Płyty kompozytowe', desc: 'Płyty HPL i ACP w szerokiej gamie wykończeń.' },
+    profiles: { title: 'Profile i podkonstrukcje', desc: 'Profile aluminiowe i stalowe do rusztów fasad wentylowanych.' },
+    chemistry: { title: 'Chemia budowlana', desc: 'Kleje, grunty, uszczelniacze i powłoki ochronne.' },
+  },
+
+  cooperationPage: {
+    eyebrow: 'Współpraca',
+    title: 'Outsourcing po Twojemu',
+    subtitle: 'Różne modele współpracy, aby forma dopasowała się do Twojego biznesu, a nie odwrotnie.',
+  },
+
+  cooperation: {
+    process: { title: 'Outsourcing procesów', desc: 'Przejmujemy cały proces i odpowiadamy za uzgodniony efekt i KPI.' },
+    temporary: { title: 'Praca tymczasowa', desc: 'Elastyczne zespoły tymczasowe do obciążeń sezonowych i projektowych.' },
+    leasing: { title: 'Leasing pracowniczy', desc: 'Nasi pracownicy działają pod Twoim nadzorem — kadry i płace po naszej stronie.' },
+    project: { title: 'Outsourcing projektowy', desc: 'Dedykowany zespół do określonego projektu, zakresu i terminu.' },
+    permanent: { title: 'Rekrutacja stała', desc: 'Znajdujemy i wdrażamy stałych specjalistów do Twojego zespołu.' },
+    managed: { title: 'Zespoły zarządzane', desc: 'W pełni zarządzany zespół z koordynatorem odpowiedzialnym za wynik.' },
+  },
+
+  partnersPage: {
+    eyebrow: 'Partnerzy',
+    title: 'Z kim współpracujemy',
+    subtitle: 'Wspieramy firmy w każdej niszy — od logistyki i produkcji po handel i e-commerce.',
+    companiesLabel: 'Reprezentatywne marki',
+    allPolandTitle: 'W całej Polsce',
+    allPolandText: 'Niezależnie od regionu zapewniamy kadry, ekipy i materiały tam, gdzie działasz.',
+  },
+
+  niches: {
+    logistics: { title: 'Logistyka i magazyny', desc: 'Kompletujący, operatorzy wózków i zespoły magazynowe dla obiektów o dużej przepustowości.' },
+    manufacturing: { title: 'Produkcja i przemysł', desc: 'Operatorzy linii, technicy i personel pomocniczy.' },
+    construction: { title: 'Budownictwo', desc: 'Pracownicy ogólnobudowlani i wykwalifikowani oraz ekipy fasadowe.' },
+    retail: { title: 'Handel detaliczny', desc: 'Personel sklepów, centrów dystrybucyjnych i merchandisingu.' },
+    ecommerce: { title: 'E-commerce i fulfillment', desc: 'Zespoły fulfillmentu, pakowania i zwrotów skalujące się na żądanie.' },
+    facade: { title: 'Wykonawcy fasad', desc: 'Wykwalifikowani monterzy fasad i realizacja fasad pod klucz.' },
+  },
+
+  cta: {
+    eyebrow: 'ADT GROUP',
+    title: 'Jeden partner dla Twojej firmy',
+    subtitle: 'Kadry, outsourcing, fasady i materiały — pod jedną, pewną marką.',
+  },
+};

@@ -6,7 +6,6 @@ const helmet = require('helmet');
 const localsMiddleware = require('./middleware/locals');
 const errorHandler = require('./middleware/errorHandler');
 const pagesRouter = require('./routes/pages');
-const adminRouter = require('./routes/admin');
 const site = require('./config/site');
 
 const app = express();
@@ -24,23 +23,14 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
       fontSrc: ["'self'", 'https://fonts.gstatic.com'],
       scriptSrc: ["'self'"],
-      imgSrc: [
-        "'self'",
-        'data:',
-        'https://images.unsplash.com',
-        'https://a.tile.openstreetmap.org',
-        'https://b.tile.openstreetmap.org',
-        'https://c.tile.openstreetmap.org',
-      ],
+      imgSrc: ["'self'", 'data:'],
     },
   },
 }));
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.urlencoded({ extended: true }));
 app.use(localsMiddleware);
 app.use(require('./middleware/locale'));
-app.use(adminRouter);
 app.use(pagesRouter);
 app.use(errorHandler);
 

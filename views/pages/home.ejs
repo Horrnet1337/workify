@@ -1,175 +1,114 @@
+<% var hero = loc.hero; %>
 <section class="hero">
-  <div class="hero__bg" aria-hidden="true"></div>
-  <div class="hero__overlay" aria-hidden="true">
-    <div class="hero__ellipse hero__ellipse--left"></div>
-    <div class="hero__ellipse hero__ellipse--right"></div>
-  </div>
+  <div class="hero__orb hero__orb--1" data-parallax="0.06"></div>
+  <div class="hero__orb hero__orb--2" data-parallax="0.04"></div>
+  <div class="container hero__inner">
+    <p class="hero__badge" data-reveal>
+      <span class="dot"></span><%= hero.eyebrow %>
+    </p>
 
-  <div class="hero__container">
-    <div class="hero__content">
-      <div class="hero__badge">
-        <div class="hero__avatars" aria-hidden="true">
-          <img class="hero__avatar" src="/images/avatars/avatar-1.jpg" alt="" width="28" height="28" loading="eager" decoding="async">
-          <img class="hero__avatar" src="/images/avatars/avatar-2.jpg" alt="" width="28" height="28" loading="eager" decoding="async">
-          <img class="hero__avatar" src="/images/avatars/avatar-3.jpg" alt="" width="28" height="28" loading="eager" decoding="async">
-          <img class="hero__avatar" src="/images/avatars/avatar-4.jpg" alt="" width="28" height="28" loading="eager" decoding="async">
+    <h1 class="hero__title">
+      <span class="hero__line" data-reveal><span><%= hero.title %></span></span>
+      <span class="hero__line accent" data-reveal style="--reveal-delay: 0.12s"><span><%= hero.accent %></span></span>
+    </h1>
+
+    <p class="hero__sub" data-reveal style="--reveal-delay: 0.24s"><%= hero.subtitle %></p>
+
+    <div class="hero__actions" data-reveal style="--reveal-delay: 0.34s">
+      <a href="/uslugi" class="btn btn--primary">
+        <%= hero.primaryCta %>
+        <%- include('../partials/icon', { name: 'arrow' }) %>
+      </a>
+      <a href="/fasady" class="btn btn--ghost"><%= hero.secondaryCta %></a>
+    </div>
+
+    <div class="hero__stats" data-reveal-children data-stagger="110" style="margin-top: clamp(48px, 7vw, 80px)">
+      <% hero.stats.forEach(function(s) { %>
+        <div class="hero__stat">
+          <div class="hero__stat-value"><span data-count="<%= s.value %>">0</span><span class="suffix"><%= s.suffix %></span></div>
+          <div class="hero__stat-label"><%= s.label %></div>
         </div>
-        <div class="hero__badge-stat">
-          <span class="hero__badge-num">500+</span>
-          <span class="hero__badge-label"><%= ui.home.badgeLabel %></span>
-        </div>
-      </div>
+      <% }) %>
+    </div>
 
-      <h1 class="hero__title">
-        <%= ui.home.heroTitle1 %>&nbsp;<strong><%= ui.home.heroTitle2 %></strong>
-      </h1>
-
-      <p class="hero__subtitle">
-        <%= ui.home.heroSubtitle %>
-      </p>
-
-      <div class="hero__actions">
-        <a href="/kontakt" class="btn btn--primary"><%= ui.common.requestQuote %></a>
-        <a href="/uslugi" class="btn btn--outline-white"><%= ui.common.ourServices %></a>
-      </div>
-
-      <div class="hero__industries">
-        <p class="hero__industries-label"><%= ui.home.industryLabel %> <strong><%= ui.home.industryLabelStrong %></strong></p>
-        <form class="industry-picker" action="/branze" method="get" id="industry-picker">
-          <div class="industry-picker__field">
-            <div class="industry-picker__dropdown" data-industry-dropdown>
-              <button
-                type="button"
-                class="industry-picker__trigger"
-                aria-haspopup="listbox"
-                aria-expanded="false"
-                aria-label="<%= ui.home.industryPickAria %>"
-                id="industry-picker-trigger"
-              >
-                <span class="industry-picker__value is-placeholder"><%= ui.home.industryPlaceholder %></span>
-                <span class="industry-picker__chevron" aria-hidden="true">
-                  <svg width="12" height="7" viewBox="0 0 12 7" fill="none">
-                    <path d="M0.877 0.5c0.1 0 0.178.03 0.256.108L5.436 4.936l0.354 0.355 4.682-4.638c0.078-0.078 0.144-0.1 0.225-0.097 0.094 0.003 0.176 0.036 0.262 0.122 0.078 0.078 0.108 0.155 0.108 0.256 0 0.1-0.03 0.177-0.108 0.255L6.039 6.063c-0.054 0.055-0.097 0.08-0.125 0.092-0.036 0.015-0.075 0.023-0.124 0.024-0.024 0-0.047-0.003-0.067-0.007l-0.058-0.017-0.053-0.03c-0.02-0.015-0.044-0.035-0.071-0.062L0.597 1.12C0.523 1.046 0.497 0.977 0.5 0.882 0.504 0.775 0.54 0.691 0.622 0.609 0.7 0.531 0.776 0.5 0.877 0.5Z" fill="currentColor"/>
-                  </svg>
-                </span>
-              </button>
-              <input type="hidden" name="industry" value="">
-              <ul class="industry-picker__menu" role="listbox" aria-labelledby="industry-picker-trigger" hidden>
-                <li class="industry-picker__option is-placeholder" role="option" data-value="" aria-selected="true"><%= ui.home.industryPlaceholder %></li>
-                <% industries.forEach(function(industry) { %>
-                  <li class="industry-picker__option" role="option" data-value="<%= industry.slug %>"><%= industry.title %></li>
-                <% }) %>
-              </ul>
-            </div>
-          </div>
-          <button type="submit" class="btn btn--primary industry-picker__submit"><%= ui.home.industryCheck %></button>
-        </form>
-      </div>
+    <div class="hero__scroll" data-reveal>
+      <span class="hero__scroll-track"></span><%= hero.scroll %>
     </div>
   </div>
 </section>
 
-<section class="partners" aria-label="<%= ui.home.partnersAria %>">
-  <div class="partners__track">
-    <% ui.home.partners.forEach(function(partner) { %>
-      <span class="partners__item"><%= partner %></span>
-    <% }) %>
-  </div>
-</section>
+<%- include('../partials/clients-marquee') %>
 
-<%- include('../partials/clients-strip') %>
-
-<section class="section section--alt">
-  <div class="section__inner">
-    <div class="section__header section__header--center">
-      <span class="section__label"><%= ui.home.divisionsLabel %></span>
-      <h2 class="section__title"><%= ui.home.divisionsTitle %></h2>
-      <p class="section__desc"><%= ui.home.divisionsDesc %></p>
-    </div>
-    <%- include('../partials/divisions-grid') %>
-  </div>
-</section>
-
+<!-- ABOUT -->
 <section class="section">
-  <div class="section__inner">
-    <div class="section__header section__header--center">
-      <span class="section__label"><%= ui.home.statsLabel %></span>
-      <h2 class="section__title"><%= ui.home.statsTitle %></h2>
+  <div class="container about__grid">
+    <div data-reveal>
+      <p class="eyebrow"><%= loc.about.eyebrow %></p>
+      <h2 class="section-title"><%= loc.about.title %></h2>
+      <p class="about__lead"><%= loc.about.lead %></p>
+      <div class="about__text">
+        <% loc.about.paragraphs.forEach(function(p) { %><p><%= p %></p><% }) %>
+      </div>
     </div>
-    <div class="stats-grid">
-      <% stats.forEach(function(stat) { %>
-        <div class="stat-card">
-          <span class="stat-card__value"><%= stat.value %></span>
-          <span class="stat-card__label"><%= stat.label %></span>
+    <div class="about__points" data-reveal-children data-stagger="100">
+      <% loc.about.points.forEach(function(point) { %>
+        <div class="about__point">
+          <span class="about__point-check"><%- include('../partials/icon', { name: 'check' }) %></span>
+          <span><%= point %></span>
         </div>
       <% }) %>
     </div>
   </div>
 </section>
 
-<section class="section section--alt">
-  <div class="section__inner">
-    <div class="section__header section__header--center">
-      <span class="section__label"><%= ui.home.servicesLabel %></span>
-      <h2 class="section__title"><%= ui.home.servicesTitle %></h2>
-      <p class="section__desc"><%= ui.home.servicesDesc %></p>
+<!-- DIVISIONS -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="section-head section-head--center" data-reveal>
+      <p class="eyebrow"><%= loc.divisionsSection.eyebrow %></p>
+      <h2 class="section-title"><%= loc.divisionsSection.title %></h2>
+      <p class="section-sub"><%= loc.divisionsSection.subtitle %></p>
     </div>
-    <div class="services-grid">
-      <% services.forEach(function(service, i) { %>
-        <a href="/uslugi/<%= service.slug %>" class="service-card">
-          <div class="service-card__bg" style="background-image: url('<%= service.image %>')"></div>
-          <div class="service-card__content">
-            <span class="service-card__num"><%= service.num %></span>
-            <h3><%= service.title %></h3>
-            <p><%= service.shortDesc %></p>
-            <span class="card-link"><%= ui.common.learnMore %></span>
-          </div>
+    <div class="card-grid" data-reveal-children data-stagger="90">
+      <% loc.divisions.forEach(function(d, i) { %>
+        <a href="<%= d.href %>" class="card">
+          <span class="card__index"><%= String(i + 1).padStart(2, '0') %></span>
+          <span class="card__icon"><%- include('../partials/icon', { name: d.icon }) %></span>
+          <h3 class="card__title"><%= d.title %></h3>
+          <p class="card__desc"><%= d.desc %></p>
+          <ul class="card__points">
+            <% d.points.forEach(function(p) { %>
+              <li><%- include('../partials/icon', { name: 'check' }) %><%= p %></li>
+            <% }) %>
+          </ul>
         </a>
       <% }) %>
     </div>
-    <div class="section__action">
-      <a href="/uslugi" class="btn btn--ghost"><%= ui.common.seeAllServices %></a>
-    </div>
   </div>
 </section>
 
+<!-- GEOGRAPHY -->
 <section class="section">
-  <div class="section__inner">
-    <div class="section__header section__header--center">
-      <span class="section__label"><%= ui.home.industriesLabel %></span>
-      <h2 class="section__title"><%= ui.home.industriesTitle %></h2>
+  <div class="container geo__grid">
+    <div data-reveal>
+      <p class="eyebrow"><%= loc.geography.eyebrow %></p>
+      <h2 class="section-title"><%= loc.geography.title %></h2>
+      <p class="section-sub"><%= loc.geography.subtitle %></p>
+      <div class="geo__cities">
+        <% loc.cities.forEach(function(city) { %>
+          <span class="geo__city"><%- include('../partials/icon', { name: 'pin' }) %><%= city.name %></span>
+        <% }) %>
+      </div>
+      <p class="geo__note"><%- include('../partials/icon', { name: 'globe' }) %><%= loc.geography.note %></p>
     </div>
-    <div class="industries-grid">
-      <% industries.forEach(function(industry) { %>
-        <a href="/branze/<%= industry.slug %>" class="industry-card">
-          <div class="industry-card__visual" style="background-image: url('<%= industry.image %>')"></div>
-          <div class="industry-card__content">
-            <h3><%= industry.title %></h3>
-            <p><%= industry.shortDesc %></p>
-          </div>
-        </a>
-      <% }) %>
-    </div>
-    <div class="section__action">
-      <a href="/branze" class="btn btn--ghost"><%= ui.common.seeAllIndustries %></a>
+    <div class="geo__map" data-reveal style="--reveal-delay: 0.15s">
+      <svg class="geo__map-svg" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+        <path class="geo__map-shape" d="M40 58 L70 40 L96 36 L120 24 L150 40 L168 70 L160 104 L172 132 L150 168 L112 176 L78 166 L52 176 L34 150 L44 120 L28 96 L40 58 Z"/>
+        <% [['96','70'],['120','96'],['70','110'],['140','130'],['96','150'],['56','86'],['150','96'],['100','110']].forEach(function(p, i){ %>
+          <circle class="geo__map-dot" cx="<%= p[0] %>" cy="<%= p[1] %>" r="3"/>
+          <circle class="geo__map-ping" cx="<%= p[0] %>" cy="<%= p[1] %>" r="3" style="animation-delay: <%= i * 0.3 %>s"/>
+        <% }) %>
+      </svg>
     </div>
   </div>
 </section>
-
-<section class="section section--alt">
-  <div class="section__inner">
-    <div class="home-cta">
-      <div>
-        <span class="section__label"><%= ui.home.forBusiness %></span>
-        <h2 class="section__title"><%= ui.home.whyWorkify %></h2>
-        <p class="section__desc"><%= ui.home.whyDesc %></p>
-      </div>
-      <div class="home-cta__actions">
-        <a href="/jak-dzialamy" class="btn btn--ghost"><%= ui.common.howWeWork %></a>
-        <a href="/kontakt" class="btn btn--primary"><%= ui.common.contactUs %></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<%- include('../partials/cta-banner') %>

@@ -1,76 +1,31 @@
-<%-
+<%- include('../partials/inner-hero', {
+  heroEyebrow: loc.servicesPage.eyebrow,
+  heroTitle: loc.servicesPage.title,
+  heroSub: loc.servicesPage.subtitle
+}) %>
 
-  include('../partials/page-hero', {
-
-    breadcrumbs: [{ label: ui.common.home, href: '/' }, { label: ui.services.breadcrumb }],
-
-    pageLabel: ui.services.pageLabel,
-
-    pageTitle: ui.services.pageTitle,
-
-    pageDesc: ui.services.pageDesc
-
-  })
-
-%>
-
-
-
-<section class="section">
-
-  <div class="section__inner">
-
-    <div class="services-grid">
-
-      <% services.forEach(function(service, i) { %>
-
-        <a href="/uslugi/<%= service.slug %>" class="service-card">
-
-          <div class="service-card__bg" style="background-image: url('<%= service.image %>')"></div>
-
-          <div class="service-card__content">
-
-            <span class="service-card__num"><%= service.num %></span>
-
-            <h3><%= service.title %></h3>
-
-            <p><%= service.shortDesc %></p>
-
-            <span class="card-link"><%= ui.services.detailsLink %></span>
-
+<section class="section section--tight">
+  <div class="container">
+    <% var staffing = loc.divisions.filter(function(d){ return ['agency','temporary','recruitment','outsourcing'].indexOf(d.id) > -1; }); %>
+    <div class="card-grid card-grid--2" data-reveal-children data-stagger="90">
+      <% staffing.forEach(function(d, i) { %>
+        <div class="card card--tall">
+          <span class="card__index"><%= String(i + 1).padStart(2, '0') %></span>
+          <span class="card__icon"><%- include('../partials/icon', { name: d.icon }) %></span>
+          <h3 class="card__title"><%= d.title %></h3>
+          <p class="card__desc"><%= d.desc %></p>
+          <ul class="card__points">
+            <% d.points.forEach(function(p) { %>
+              <li><%- include('../partials/icon', { name: 'check' }) %><%= p %></li>
+            <% }) %>
+          </ul>
+          <div class="card__foot">
+            <a href="/wspolpraca" class="link-arrow"><%= ui.cta.learnMore %><%- include('../partials/icon', { name: 'arrow' }) %></a>
           </div>
-
-        </a>
-
+        </div>
       <% }) %>
-
     </div>
-
   </div>
-
 </section>
 
-
-
-<section class="section section--alt">
-
-  <div class="section__inner">
-
-    <div class="info-block">
-
-      <h2><%= ui.services.consultTitle %></h2>
-
-      <p><%= ui.services.consultDesc %></p>
-
-      <a href="/kontakt" class="btn btn--primary"><%= ui.services.consultBtn %></a>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<%- include('../partials/cta-banner') %>
-
+<%- include('../partials/clients-marquee') %>

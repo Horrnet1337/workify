@@ -1,4 +1,4 @@
-const baseSite = require('../config/site');
+const site = require('../config/site');
 const { detectLocale, getLocale, i18n } = require('../locales');
 
 function setLangCookie(res, lang) {
@@ -6,23 +6,6 @@ function setLangCookie(res, lang) {
     'Set-Cookie',
     `${i18n.cookieName}=${encodeURIComponent(lang)}; Path=/; Max-Age=31536000; SameSite=Lax`
   );
-}
-
-function buildSite(loc) {
-  return {
-    name: baseSite.name,
-    url: baseSite.url,
-    credit: baseSite.credit,
-    tagline: loc.site.tagline,
-    description: loc.site.description,
-    nav: loc.site.nav,
-    stats: loc.site.stats,
-    contact: {
-      ...baseSite.contact,
-      hours: loc.site.contact.hours,
-      address: loc.site.contact.address,
-    },
-  };
 }
 
 module.exports = function localeMiddleware(req, res, next) {
@@ -39,7 +22,8 @@ module.exports = function localeMiddleware(req, res, next) {
   res.locals.lang = lang;
   res.locals.loc = loc;
   res.locals.ui = loc.ui;
-  res.locals.site = buildSite(loc);
+  res.locals.nav = loc.nav;
+  res.locals.site = site;
   res.locals.langs = i18n.supported;
   res.locals.currentLang = i18n.supported.find((l) => l.code === lang) || i18n.supported[0];
   res.locals.langSwitch = (code) => `/lang/${code}?r=${encodeURIComponent(req.originalUrl.split('?')[0])}`;
