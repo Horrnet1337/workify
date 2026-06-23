@@ -167,9 +167,9 @@ module.exports = {
   },
 
   clientsSection: {
-    eyebrow: 'Vertraut von',
-    title: 'Unternehmen, die auf uns setzen',
-    subtitle: 'Repräsentative Marken aus den Branchen, die wir bedienen.',
+    eyebrow: 'Branchen, die wir bedienen',
+    title: 'Expertise in zentralen Branchen',
+    subtitle: 'Wir besetzen Stellen und übernehmen Prozesse in den Sektoren mit der höchsten Last.',
   },
 
   servicesPage: {
@@ -230,7 +230,6 @@ module.exports = {
     eyebrow: 'Partner',
     title: 'Mit wem wir arbeiten',
     subtitle: 'Wir unterstützen Unternehmen in jeder Branche — von Logistik und Produktion bis Handel und E-Commerce.',
-    companiesLabel: 'Repräsentative Marken',
     allPolandTitle: 'In ganz Polen',
     allPolandText: 'Unabhängig von der Region liefern wir Personal, Teams und Material dort, wo Sie tätig sind.',
   },

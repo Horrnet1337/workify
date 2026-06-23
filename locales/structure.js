@@ -1,4 +1,4 @@
-// Language-neutral structure: ids, icons, images, hrefs.
+// Language-neutral structure: ids, icons and hrefs.
 // Localized text lives in locales/{ru,en,de,pl}.js and is merged by id.
 
 module.exports = {
@@ -50,18 +50,12 @@ module.exports = {
   ],
 
   niches: [
-    { id: 'logistics', icon: 'truck', companies: ['dhl', 'dpd', 'inpost'] },
-    { id: 'manufacturing', icon: 'factory', companies: ['orlen', 'amazon'] },
-    { id: 'construction', icon: 'building', companies: [] },
-    { id: 'retail', icon: 'store', companies: ['biedronka', 'lidl', 'kaufland', 'zabka'] },
-    { id: 'ecommerce', icon: 'cart', companies: ['allegro', 'amazon'] },
-    { id: 'facade', icon: 'layers', companies: [] },
-  ],
-
-  // Templated, well-known brands (logos in /public/images/clients).
-  clients: [
-    'allegro', 'amazon', 'biedronka', 'dhl', 'dpd',
-    'inpost', 'kaufland', 'lidl', 'orlen', 'zabka',
+    { id: 'logistics', icon: 'truck' },
+    { id: 'manufacturing', icon: 'factory' },
+    { id: 'construction', icon: 'building' },
+    { id: 'retail', icon: 'store' },
+    { id: 'ecommerce', icon: 'cart' },
+    { id: 'facade', icon: 'layers' },
   ],
 
   cities: ['warszawa', 'krakow', 'wroclaw', 'poznan', 'gdansk', 'lodz', 'katowice', 'szczecin'],

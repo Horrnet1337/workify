@@ -167,9 +167,9 @@ module.exports = {
   },
 
   clientsSection: {
-    eyebrow: 'Zaufali nam',
-    title: 'Firmy, które na nas polegają',
-    subtitle: 'Reprezentatywne marki z branż, które obsługujemy.',
+    eyebrow: 'Branże, które obsługujemy',
+    title: 'Wiedza w kluczowych branżach',
+    subtitle: 'Zapewniamy kadry i obsługujemy procesy w sektorach o największym obciążeniu.',
   },
 
   servicesPage: {
@@ -230,7 +230,6 @@ module.exports = {
     eyebrow: 'Partnerzy',
     title: 'Z kim współpracujemy',
     subtitle: 'Wspieramy firmy w każdej niszy — od logistyki i produkcji po handel i e-commerce.',
-    companiesLabel: 'Reprezentatywne marki',
     allPolandTitle: 'W całej Polsce',
     allPolandText: 'Niezależnie od regionu zapewniamy kadry, ekipy i materiały tam, gdzie działasz.',
   },
