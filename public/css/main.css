@@ -384,11 +384,10 @@ h1, h2, h3, h4 {
 .nav-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.66);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.4s, visibility 0.4s;
+  transition: opacity 0.35s var(--ease), visibility 0.35s;
   z-index: 55;
 }
 
@@ -1257,6 +1256,7 @@ h1, h2, h3, h4 {
 @media (max-width: 860px) {
   .menu-toggle { display: flex; }
   .header__lang { display: none; }
+  .header__actions { margin-left: auto; }
   .nav {
     position: fixed;
     top: 0; right: 0;
@@ -1265,13 +1265,14 @@ h1, h2, h3, h4 {
     margin: 0;
     padding: 92px 28px max(32px, env(safe-area-inset-bottom));
     padding-right: max(28px, env(safe-area-inset-right));
-    background: rgba(14, 14, 17, 0.98);
-    backdrop-filter: blur(22px);
+    background: #0e0e11;
     border-left: 1px solid var(--line);
     display: flex;
     flex-direction: column;
     transform: translateX(105%);
-    transition: transform 0.5s var(--ease);
+    transition: transform 0.42s var(--ease);
+    will-change: transform;
+    backface-visibility: hidden;
     z-index: 58;
     overflow-y: auto;
   }
