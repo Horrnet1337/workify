@@ -8,10 +8,12 @@
         <%- include('./icon', { name: 'arrow', iconClass: '' }) %>
         <span><%= site.email %></span>
       </a>
+      <% if (site.phone) { %>
       <a class="footer__contact-pill" href="tel:<%= site.phoneHref %>">
         <%- include('./icon', { name: 'arrow', iconClass: '' }) %>
         <span><%= site.phone %></span>
       </a>
+      <% } %>
     </div>
   </div>
 
@@ -36,12 +38,15 @@
     <div class="footer__contact">
       <p class="footer__col-title"><%= ui.footer.contactTitle %></p>
       <a href="mailto:<%= site.email %>"><%= site.email %></a>
-      <a href="tel:<%= site.phoneHref %>"><%= site.phone %></a>
+      <% if (site.phone) { %><a href="tel:<%= site.phoneHref %>"><%= site.phone %></a><% } %>
+      <% var socials = [['linkedin', site.social.linkedin, 'LinkedIn'], ['instagram', site.social.instagram, 'Instagram'], ['facebook', site.social.facebook, 'Facebook']].filter(function(s){ return s[1]; }); %>
+      <% if (socials.length) { %>
       <div class="footer__social" aria-label="<%= ui.footer.followTitle %>">
-        <a href="<%= site.social.linkedin %>" class="footer__social-link" aria-label="LinkedIn"><%- include('./icon', { name: 'linkedin', iconClass: '' }) %></a>
-        <a href="<%= site.social.instagram %>" class="footer__social-link" aria-label="Instagram"><%- include('./icon', { name: 'instagram', iconClass: '' }) %></a>
-        <a href="<%= site.social.facebook %>" class="footer__social-link" aria-label="Facebook"><%- include('./icon', { name: 'facebook', iconClass: '' }) %></a>
+        <% socials.forEach(function(s) { %>
+        <a href="<%= s[1] %>" class="footer__social-link" aria-label="<%= s[2] %>" target="_blank" rel="noopener"><%- include('./icon', { name: s[0], iconClass: '' }) %></a>
+        <% }) %>
       </div>
+      <% } %>
     </div>
   </div>
 

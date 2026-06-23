@@ -15,13 +15,6 @@
           <span class="card__icon"><%- include('../partials/icon', { name: n.icon }) %></span>
           <h3 class="card__title"><%= n.title %></h3>
           <p class="card__desc"><%= n.desc %></p>
-          <% if (n.companies && n.companies.length) { %>
-            <div class="card__companies">
-              <% n.companies.forEach(function(c) { %>
-                <span class="card__company"><img src="/images/clients/<%= c %>.png" alt="<%= c %>" loading="lazy" decoding="async"></span>
-              <% }) %>
-            </div>
-          <% } %>
         </div>
       <% }) %>
     </div>

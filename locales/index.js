@@ -21,7 +21,6 @@ function buildLocale(text) {
     materials: mergeById(structure.materials, text.materials),
     cooperation: mergeById(structure.cooperation, text.cooperation),
     niches: mergeById(structure.niches, text.niches),
-    clients: structure.clients,
     cities: structure.cities.map((id) => ({ id, name: text.cities[id] })),
   };
 }

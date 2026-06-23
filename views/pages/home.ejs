@@ -106,11 +106,25 @@
       <p class="geo__note"><%- include('../partials/icon', { name: 'globe' }) %><%= loc.geography.note %></p>
     </div>
     <div class="geo__map" data-reveal style="--reveal-delay: 0.15s">
+      <%
+        var mapPoints = [
+          { x: 27, y: 60, id: 'szczecin' },
+          { x: 93, y: 35, id: 'gdansk' },
+          { x: 65, y: 88, id: 'poznan' },
+          { x: 131, y: 92, id: 'warszawa', capital: true },
+          { x: 67, y: 123, id: 'wroclaw' },
+          { x: 106, y: 105, id: 'lodz' },
+          { x: 99, y: 146, id: 'katowice' },
+          { x: 113, y: 151, id: 'krakow' },
+        ];
+        var cityName = {};
+        loc.cities.forEach(function(c) { cityName[c.id] = c.name; });
+      %>
       <svg class="geo__map-svg" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-        <path class="geo__map-shape" d="M40 58 L70 40 L96 36 L120 24 L150 40 L168 70 L160 104 L172 132 L150 168 L112 176 L78 166 L52 176 L34 150 L44 120 L28 96 L40 58 Z"/>
-        <% [['96','70'],['120','96'],['70','110'],['140','130'],['96','150'],['56','86'],['150','96'],['100','110']].forEach(function(p, i){ %>
-          <circle class="geo__map-dot" cx="<%= p[0] %>" cy="<%= p[1] %>" r="3"/>
-          <circle class="geo__map-ping" cx="<%= p[0] %>" cy="<%= p[1] %>" r="3" style="animation-delay: <%= i * 0.3 %>s"/>
+        <path class="geo__map-shape" d="M22 47 L52 33 L92 28 L120 34 L159 35 L172 60 L177 96 L170 120 L158 180 L120 168 L111 175 L90 172 L65 142 L40 120 L30 99 L26 72 Z"/>
+        <% mapPoints.forEach(function(p, i){ %>
+          <circle class="geo__map-ping<%= p.capital ? ' is-capital' : '' %>" cx="<%= p.x %>" cy="<%= p.y %>" r="3" style="animation-delay: <%= i * 0.32 %>s"/>
+          <circle class="geo__map-dot<%= p.capital ? ' is-capital' : '' %>" cx="<%= p.x %>" cy="<%= p.y %>" r="<%= p.capital ? 3.6 : 2.6 %>"><title><%= cityName[p.id] %></title></circle>
         <% }) %>
       </svg>
     </div>
